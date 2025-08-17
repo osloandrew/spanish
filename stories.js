@@ -39,8 +39,8 @@ const genreIcons = {
   travel: '<i class="fas fa-plane"></i>', // Travel genre icon
 };
 
-const STORY_CACHE_KEY = "storyData";
-const STORY_CACHE_TIME_KEY = "storyDataTimestamp";
+const STORY_CACHE_KEY = "storyDataEs";
+const STORY_CACHE_TIME_KEY = "storyDataTimestampEs";
 const CACHE_EXPIRY_HOURS = 1; // Set cache expiry time
 
 async function fetchAndLoadStoryData() {
@@ -63,7 +63,7 @@ async function fetchAndLoadStoryData() {
     }
 
     // Fetch the latest data from the network
-    const response = await fetch("norwegianStories.csv");
+    const response = await fetch("spanishStories.csv");
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
 
     const data = await response.text();
@@ -88,7 +88,7 @@ function parseStoryCSVData(data) {
     chunk: function (results, parser) {
       storyResults.push(
         ...results.data.map((entry) => {
-          entry.titleNorwegian = entry.titleNorwegian.trim();
+          entry.titleSpanish = (entry.titleSpanish || "").trim();
           return entry;
         })
       );
@@ -109,7 +109,7 @@ async function displayStoryList(filteredStories = storyResults) {
   clearContainer(); // Clear previous results
 
   // Reset the page title and URL to the main list view
-  document.title = "Stories - Norwegian Dictionary";
+  document.title = "Stories - Spanish Dictionary";
   history.replaceState(
     {},
     "",
@@ -153,15 +153,15 @@ async function displayStoryList(filteredStories = storyResults) {
 
     htmlString += `
                 <div class="stories-list-item" data-title="${
-                  story.titleNorwegian
-                }" onclick="displayStory('${story.titleNorwegian.replace(
+                  story.titleSpanish
+                }" onclick="displayStory('${story.titleSpanish.replace(
       /'/g,
       "\\'"
     )}')">
                     <div class="stories-content">
-                        <h2>${story.titleNorwegian}</h2>
+                        <h2>${story.titleSpanish}</h2>
                         ${
-                          story.titleNorwegian !== story.titleEnglish
+                          story.titleSpanish !== story.titleEnglish
                             ? `<p class="stories-subtitle">${story.titleEnglish}</p>`
                             : ""
                         }
@@ -181,23 +181,23 @@ async function displayStoryList(filteredStories = storyResults) {
   hideSpinner(); // Hide spinner after story list is rendered
 }
 
-async function displayStory(titleNorwegian) {
+async function displayStory(titleSpanish) {
   showSpinner(); // Show spinner at the start of story loading
   const searchContainer = document.getElementById("search-container");
   const searchContainerInner = document.getElementById(
     "search-container-inner"
   );
   const selectedStory = storyResults.find(
-    (story) => story.titleNorwegian === titleNorwegian
+    (story) => story.titleSpanish === titleSpanish
   );
 
   if (!selectedStory) {
-    console.error(`No story found with the title: ${titleNorwegian}`);
+    console.error(`No story found with the title: ${titleSpanish}`);
     return;
   }
 
-  document.title = selectedStory.titleNorwegian + " - Norwegian Dictionary";
-  updateURL(null, "story", null, titleNorwegian); // Update URL with story parameter
+  document.title = selectedStory.titleSpanish + " - Spanish Dictionary";
+  updateURL(null, "story", null, titleSpanish); // Update URL with story parameter
 
   clearContainer();
 
@@ -211,10 +211,9 @@ async function displayStory(titleNorwegian) {
                     <i class="fas fa-chevron-left" onclick="storiesBackBtn()"></i>
                 </div>
                 <div class="stories-title-container">
-                    <h2>${selectedStory.titleNorwegian}</h2>
+                    <h2>${selectedStory.titleSpanish}</h2>
                     ${
-                      selectedStory.titleNorwegian !==
-                      selectedStory.titleEnglish
+                      selectedStory.titleSpanish !== selectedStory.titleEnglish
                         ? `<p class="stories-subtitle">${selectedStory.titleEnglish}</p>`
                         : ""
                     }
@@ -258,8 +257,8 @@ async function displayStory(titleNorwegian) {
     }
 
     // Loop to create sentence display
-    for (let i = 0; i < norwegianSentences.length; i++) {
-      const norwegianSentence = norwegianSentences[i].trim();
+    for (let i = 0; i < spanishSentences.length; i++) {
+      const spanishSentence = spanishSentences[i].trim();
       const englishSentence = englishSentences[i]
         ? englishSentences[i].trim()
         : "";
@@ -268,7 +267,7 @@ async function displayStory(titleNorwegian) {
                 <div class="sentence-container">
                     <div class="stories-sentence-box-norwegian">
                         <div class="sentence-content">
-                            <p class="sentence">${norwegianSentence}</p>
+                            <p class="sentence">${spanishSentence}</p>
                         </div>
                     </div>
                     <div class="stories-sentence-box-english">
@@ -283,7 +282,7 @@ async function displayStory(titleNorwegian) {
     contentHTML += `</div>`;
 
     // Append the rating div for this story
-    contentHTML += createRatingDiv(selectedStory.titleNorwegian);
+    contentHTML += createRatingDiv(selectedStory.titleSpanish);
 
     document.getElementById("results-container").innerHTML = contentHTML;
     hideSpinner(); // Hide spinner after story content is displayed
@@ -300,12 +299,12 @@ async function displayStory(titleNorwegian) {
   };
 
   // Process story text into sentences
-  const standardizedNorwegian = selectedStory.norwegian.replace(/[“”«»]/g, '"');
+  const standardizedSpanish = selectedStory.spanish.replace(/[“”«»]/g, '"');
   const standardizedEnglish = selectedStory.english.replace(/[“”«»]/g, '"');
   const sentenceRegex = /(?:(["]?.+?[.!?…]["]?)(?=\s|$)|(?:\.\.\."))/g;
 
-  let norwegianSentences = standardizedNorwegian.match(sentenceRegex) || [
-    standardizedNorwegian,
+  let spanishSentences = standardizedSpanish.match(sentenceRegex) || [
+    standardizedSpanish,
   ];
   let englishSentences = standardizedEnglish.match(sentenceRegex) || [
     standardizedEnglish,
@@ -333,16 +332,16 @@ async function displayStory(titleNorwegian) {
     }, []);
   };
 
-  norwegianSentences = combineSentences(norwegianSentences);
+  spanishSentences = combineSentences(spanishSentences);
   englishSentences = combineSentences(englishSentences, /\basked\b/i);
 }
 
-// Function to toggle the visibility of English sentences and update Norwegian box styles
+// Function to toggle the visibility of English sentences and update Spanish box styles
 function toggleEnglishSentences() {
   const englishSentenceDivs = document.querySelectorAll(
     ".stories-sentence-box-english"
   );
-  const norwegianSentenceDivs = document.querySelectorAll(
+  const spanishSentenceDivs = document.querySelectorAll(
     ".stories-sentence-box-norwegian"
   );
   const englishBtn = document.querySelector(".stories-english-btn");
@@ -353,13 +352,13 @@ function toggleEnglishSentences() {
   englishSentenceDivs.forEach((div, index) => {
     if (isCurrentlyHidden) {
       div.style.display = "block"; // Show the English div
-      norwegianSentenceDivs[index].style.borderRadius = ""; // Revert to default border-radius from CSS
-      norwegianSentenceDivs[index].style.boxShadow = ""; // Revert box-shadow to default
+      spanishSentenceDivs[index].style.borderRadius = ""; // Revert to default border-radius from CSS
+      spanishSentenceDivs[index].style.boxShadow = ""; // Revert box-shadow to default
     } else {
       div.style.display = "none"; // Hide the English div
-      norwegianSentenceDivs[index].style.borderRadius = "12px"; // Add border-radius to Norwegian div
-      norwegianSentenceDivs[index].style.boxShadow =
-        "0 4px 10px rgba(0, 0, 0, 0.1)"; // Add shadow to Norwegian div
+      spanishSentenceDivs[index].style.borderRadius = "12px"; // Add border-radius to Spanish div
+      spanishSentenceDivs[index].style.boxShadow =
+        "0 4px 10px rgba(0, 0, 0, 0.1)"; // Add shadow to Spanish div
     }
   });
 
