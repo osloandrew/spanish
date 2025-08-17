@@ -258,7 +258,7 @@ function parseCSVData(data) {
 function flagMissingWordEntry(word) {
   // URL of your Google Form
   const formUrl =
-    "https://docs.google.com/forms/d/e/1FAIpQLSdMpnbI2DyUo6SWBRR53ZnYucDPdAYXK9rksP3AhMrC7b91Dw/formResponse";
+    "https://docs.google.com/forms/d/e/1FAIpQLScX1h9Y3OeM6blemwJdtXxnaNKkyXv4V5S-LLEJStOV4KVJzA/formResponse";
 
   // Prepare the data to be sent
   const formData = new FormData();
