@@ -114,7 +114,7 @@ function filterResultsByPOS(results, selectedPOS) {
     if (selectedPOS === "noun") {
       return (
         r.gender &&
-        ["en", "et", "ei", "en-et", "en-ei-et"].some((genderVal) =>
+        ["masculine", "feminine"].some((genderVal) =>
           r.gender.toLowerCase().includes(genderVal)
         )
       );
@@ -647,7 +647,7 @@ async function search(queryOverride = null) {
         matchesQuery &&
         (!selectedPOS ||
           (selectedPOS === "noun" &&
-            ["en", "et", "ei", "en-et", "en-ei-et"].some((gender) =>
+            ["masculine", "feminine"].some((gender) =>
               r.gender.toLowerCase().includes(gender)
             )) ||
           r.gender.toLowerCase().includes(selectedPOS)) &&
@@ -694,7 +694,7 @@ async function search(queryOverride = null) {
           matchesInexact &&
           (!selectedPOS ||
             (selectedPOS === "noun" &&
-              ["en", "et", "ei", "en-et", "en-ei-et"].some((gender) =>
+              ["masculine", "feminine"].some((gender) =>
                 r.gender.toLowerCase().includes(gender)
               )) ||
             r.gender.toLowerCase().includes(selectedPOS)) &&
@@ -922,7 +922,7 @@ function checkForSentences(word, pos) {
       // Handle POS matching for nouns and other parts of speech
       const posMatch =
         (pos === "noun" &&
-          ["en", "et", "ei", "en-et", "en-ei-et"].some((gender) =>
+          ["masculine", "feminine"].some((gender) =>
             result.gender.toLowerCase().includes(gender)
           )) ||
         result.gender.toLowerCase().includes(pos.toLowerCase());
@@ -1889,7 +1889,7 @@ function highlightQuery(sentence, query) {
     result.ord.toLowerCase().includes(query)
   );
   const pos = matchingWordEntry
-    ? ["en", "et", "ei", "en-et", "en-ei-et"].some((gender) =>
+    ? ["masculine", "feminine"].some((gender) =>
         matchingWordEntry.gender.toLowerCase().includes(gender)
       )
       ? "noun"
@@ -2022,7 +2022,7 @@ function renderWordDefinition(word, selectedPOS = "") {
     // Check for noun gender match when selectedPOS is 'noun'
     const posMatch =
       selectedPOS === "noun"
-        ? ["en", "et", "ei", "en-et", "en-ei-et"].some((gender) =>
+        ? ["masculine", "feminine"].some((gender) =>
             r.gender.toLowerCase().includes(gender)
           )
         : selectedPOS
