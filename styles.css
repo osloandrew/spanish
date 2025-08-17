@@ -70,7 +70,7 @@ button:disabled i {
 }
 
 .button-container i {
-  color: #7a1e1e;
+  color: #735e5e;
   margin-bottom: 10px;
 }
 
@@ -173,7 +173,7 @@ button:disabled i {
 
 .definition-content i {
   margin-right: 8px;
-  color: #7a1e1e; /* Dark red color */
+  color: #735e5e; /* Dark red color */
   font-size: 18px; /* Slightly larger than the text */
   width: 24px; /* Fixed width for uniformity */
   text-align: center; /* Centers the icons within their block */
@@ -182,14 +182,14 @@ button:disabled i {
 }
 
 .definition-content p {
-  color: #7a1e1e; /* Ensure text is also dark red */
+  color: #735e5e; /* Ensure text is also dark red */
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
 .definition-label {
-  color: #7a1e1e;
+  color: #735e5e;
   font-family: "Noto Sans", sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -229,12 +229,12 @@ li {
 
 /* Specific styling for the error message */
 .error-message h2 {
-  color: #7a1e1e; /* Error title in a distinct color */
+  color: #735e5e; /* Error title in a distinct color */
   font-size: 24px;
 }
 
 .error-message {
-  color: #7a1e1e; /* Error type in a similar error color */
+  color: #735e5e; /* Error type in a similar error color */
   font-size: 16px;
   font-weight: 600;
 }
@@ -252,7 +252,7 @@ li {
 footer {
   background-color: #eadfcf;
   bottom: 0;
-  color: #7a1e1e;
+  color: #735e5e;
   font-family: "Noto Sans", sans-serif;
   padding: 20px 0;
   position: relative;
@@ -272,7 +272,7 @@ footer p a {
 }
 
 footer p a:hover {
-  color: #7a1e1e;
+  color: #735e5e;
   text-decoration: underline;
 }
 
@@ -600,14 +600,14 @@ footer .copyright {
 }
 
 h1 {
-  color: #7a1e1e;
+  color: #735e5e;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 h2 {
-  color: #7a1e1e;
+  color: #735e5e;
   font-size: 30px;
   font-weight: bold;
   margin: -5px 0 -5px 0;
@@ -625,7 +625,7 @@ h4 {
 
 header {
   background-color: #eadfcf;
-  color: #7a1e1e;
+  color: #735e5e;
   font-family: "Noto Sans", sans-serif;
   letter-spacing: 0.05rem;
   padding: 20px;
@@ -669,7 +669,7 @@ input[type="text"] {
 
 input[type="text"]:focus + label,
 input[type="text"]:not(:placeholder-shown) + label {
-  color: #7a1e1e;
+  color: #735e5e;
   font-size: 12px;
   top: -10px;
 }
@@ -697,7 +697,7 @@ label {
 
 /* Adjust the heading size and color to match the word titles in definition cards */
 #landing-card h2 {
-  color: #7a1e1e; /* Matches the heading color of definition cards */
+  color: #735e5e; /* Matches the heading color of definition cards */
   font-family: "Grenze Gotisch", serif;
   font-size: 38px !important; /* Matches the font size of definition card headings */
   margin-bottom: 10px;
@@ -782,7 +782,7 @@ label {
 }
 
 li {
-  color: #7a1e1e;
+  color: #735e5e;
 }
 
 .links {
@@ -941,7 +941,7 @@ ul {
 
 .random-btn {
   align-items: center;
-  background-color: #7a1e1e;
+  background-color: #735e5e;
   border: none;
   border-radius: 15px;
   color: white;
@@ -990,7 +990,7 @@ ul {
 
 .result-header h2 {
   margin: 0; /* Reset margin for the title */
-  color: #7a1e1e;
+  color: #735e5e;
   font-family: "Noto Sans", sans-serif;
   font-size: 1.3em;
   font-weight: 400;
@@ -1000,7 +1000,7 @@ ul {
 }
 
 .result-header i {
-  color: #7a1e1e;
+  color: #735e5e;
   position: absolute;
   left: 15px; /* Position the icon on the far left */
   cursor: pointer;
@@ -1033,7 +1033,7 @@ ul {
 .genre-filter,
 .game-english-filter {
   align-items: center;
-  background-color: #7a1e1e;
+  background-color: #735e5e;
   border-radius: 15px;
   box-sizing: border-box;
   display: flex;
@@ -1057,7 +1057,7 @@ ul {
 
 .search-btn {
   align-items: center;
-  background-color: #7a1e1e;
+  background-color: #735e5e;
   border: none;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 15px;
@@ -1251,7 +1251,7 @@ ul {
 }
 
 #site-title {
-  color: #7a1e1e;
+  color: #735e5e;
   cursor: pointer;
   margin: -5px 0px 10px 0px;
   transition: color 0.2s ease, text-shadow 0.2s ease;
@@ -1277,7 +1277,7 @@ ul {
 }
 
 .stories-back-btn {
-  color: #7a1e1e;
+  color: #735e5e;
   margin-left: 20px;
   margin-right: 190px;
   font-size: 1.5em;
@@ -1390,7 +1390,7 @@ ul {
 }
 
 .stories-list-item h2 {
-  color: #7a1e1e !important;
+  color: #735e5e !important;
   font-family: "Noto Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 400;
@@ -1447,7 +1447,7 @@ ul {
 
 .stories-result-header h2 {
   margin: 0; /* Reset margin for the title */
-  color: #7a1e1e;
+  color: #735e5e;
   font-family: "Noto Sans", sans-serif;
   font-size: 1.3em;
   font-weight: 400;
@@ -1457,7 +1457,7 @@ ul {
 }
 
 .stories-result-header i {
-  color: #7a1e1e;
+  color: #735e5e;
   position: absolute;
   left: 15px; /* Position the icon on the far left */
   cursor: pointer;
@@ -1517,7 +1517,7 @@ ul {
 
 .stories-story-header h2 {
   margin: 0; /* Reset margin for the title */
-  color: #7a1e1e;
+  color: #735e5e;
   font-family: "Noto Sans", sans-serif;
   font-size: 1.3em;
   font-weight: 400;
@@ -1536,7 +1536,7 @@ ul {
 }
 
 .spinner {
-  color: #7a1e1e;
+  color: #735e5e;
   display: none;
   font-size: 20px;
   margin: 20px;
@@ -1547,7 +1547,7 @@ ul {
   animation: spin 0.8s linear infinite;
   border: 3px solid rgba(0, 0, 0, 0.3);
   border-radius: 50%;
-  border-top-color: #7a1e1e;
+  border-top-color: #735e5e;
   content: "";
   display: inline-block;
   height: 40px;
@@ -1604,7 +1604,7 @@ ul {
 }
 
 .word-gender .gender {
-  color: #7a1e1e;
+  color: #735e5e;
   font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
@@ -2037,7 +2037,7 @@ ul {
   .genre-filter,
   .game-english-filter {
     box-sizing: border-box !important;
-    background-color: #7a1e1e; /* Consistent background for all filters */
+    background-color: #735e5e; /* Consistent background for all filters */
     border-radius: 15px;
     padding: 5px 5px 5px 5px;
     min-width: 0px;
