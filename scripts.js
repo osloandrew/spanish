@@ -3,6 +3,22 @@ let results = [];
 let isEnglishVisible = true;
 let latestMultipleResults = null;
 const resultsContainer = document.getElementById("results-container");
+// Language + schema for Spanish
+const APP_LANG = "es";
+
+// Map incoming CSV headers to the app’s canonical keys
+const SCHEMA_MAP = {
+  ord: "palabra",
+  engelsk: "inglés",
+  CEFR: "CEFR",
+  gender: "artículo",
+  uttale: null, // not in Spanish CSV
+  etymologi: null, // not in Spanish CSV
+  definisjon: "definición",
+  eksempel: "ejemplo",
+  sentenceTranslation: "traducción",
+  region: "región", // optional extra; stored for future use
+};
 
 // Function to show or hide the landing card
 function showLandingCard(show) {
@@ -120,11 +136,39 @@ function filterResultsByCEFR(results, selectedCEFR) {
 }
 
 // Helper function to format 'gender' (grammatical gender) based on its value
+// Helper to format/display 'gender' and flag nouns consistently
 function formatGender(gender) {
-  return gender &&
-    ["en", "et", "ei"].includes(gender.substring(0, 2).toLowerCase())
-    ? "noun - " + gender
-    : gender;
+  if (!gender) return "";
+  const g = gender.toLowerCase().trim();
+
+  const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
+  const esNounMarkers = ["masculine", "feminine", "m", "f", "m/f"];
+
+  if (norNounMarkers.some((m) => g.startsWith(m))) {
+    return "noun - " + gender;
+  }
+  if (esNounMarkers.some((m) => g === m)) {
+    // Spanish CSV uses masculine/feminine for nouns
+    return "noun - " + gender;
+  }
+  return gender;
+}
+// Helper to format/display 'gender' and flag nouns consistently
+function formatGender(gender) {
+  if (!gender) return "";
+  const g = gender.toLowerCase().trim();
+
+  const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
+  const esNounMarkers = ["masculine", "feminine", "m", "f", "m/f"];
+
+  if (norNounMarkers.some((m) => g.startsWith(m))) {
+    return "noun - " + gender;
+  }
+  if (esNounMarkers.some((m) => g === m)) {
+    // Spanish CSV uses masculine/feminine for nouns
+    return "noun - " + gender;
+  }
+  return gender;
 }
 
 // Clear the search input field
@@ -136,7 +180,7 @@ function clearInput() {
 async function fetchAndLoadDictionaryData() {
   try {
     console.log("Attempting to load data from local CSV file...");
-    const localResponse = await fetch("norwegianWords.csv");
+    const localResponse = await fetch("spanishWords.csv");
     if (!localResponse.ok)
       throw new Error(`HTTP error! Status: ${localResponse.status}`);
     const localData = await localResponse.text();
@@ -168,16 +212,42 @@ async function fetchAndLoadDictionaryData() {
 }
 
 // Parse the CSV data using PapaParse
+// Parse the CSV data using PapaParse and normalize to canonical keys
 function parseCSVData(data) {
   Papa.parse(data, {
     header: true,
     skipEmptyLines: true,
     complete: function (resultsFromParse) {
-      results = resultsFromParse.data.map((entry) => {
-        entry.ord = entry.ord.trim(); // Ensure the word is trimmed
+      const rows = resultsFromParse.data || [];
+
+      results = rows.map((raw) => {
+        const get = (canon) => {
+          const key = SCHEMA_MAP[canon];
+          if (!key) return "";
+          return (raw[key] ?? "").toString().trim();
+        };
+
+        // Base object in canonical shape the rest of the app expects
+        const entry = {
+          ord: get("ord"),
+          engelsk: get("engelsk"),
+          CEFR: get("CEFR").toUpperCase(),
+          gender: get("gender"), // will be formatted later
+          uttale: get("uttale"), // empty for ES
+          etymologi: get("etymologi"), // empty for ES
+          definisjon: get("definisjon"),
+          eksempel: get("eksempel"),
+          sentenceTranslation: get("sentenceTranslation"),
+          region: get("region"),
+        };
+
+        // Defensive trims
+        entry.ord = entry.ord.trim();
+
         return entry;
       });
-      console.log("Parsed and cleaned data:", results);
+
+      console.log("Parsed and normalized data:", results);
     },
     error: function (error) {
       console.error("Error parsing CSV:", error);
@@ -1245,12 +1315,25 @@ function displaySearchResults(results, query = "") {
   // Limit to a maximum of 10 results
   results.slice(0, 10).forEach((result) => {
     result.gender = formatGender(result.gender);
-    // Directly handle the POS based on the gender field
-    result.pos = ["en", "et", "ei", "en-et", "en-ei-et"].some((gender) =>
-      result.gender.toLowerCase().includes(gender)
-    )
-      ? "noun"
-      : result.gender.toLowerCase();
+
+    const g = (result.gender || "").toLowerCase();
+    const NOUN_MARKERS = [
+      "en",
+      "et",
+      "ei",
+      "en-et",
+      "en-ei-et",
+      "masculine",
+      "feminine",
+      "m",
+      "f",
+      "m/f",
+      "noun - masculine",
+      "noun - feminine",
+    ];
+
+    const isNoun = NOUN_MARKERS.some((m) => g.includes(m));
+    result.pos = isNoun ? "noun" : g;
 
     // Convert the word to lowercase and trim spaces when generating the ID
     const normalizedWord = result.ord.toLowerCase().trim();
@@ -1777,11 +1860,8 @@ function highlightQuery(sentence, query) {
   );
 
   // Define a regex pattern that includes Norwegian characters and dynamically inserts the query
-  const norwegianLetters = "[\\wåæøÅÆØ]"; // Include Norwegian letters in the pattern
-  const regex = new RegExp(
-    `(${norwegianLetters}*${query}${norwegianLetters}*)`,
-    "gi"
-  );
+  const letters = "[\\wåæøÅÆØáéíóúÁÉÍÓÚñÑüÜ]"; // Include Norwegian letters in the pattern
+  const regex = new RegExp(`(${letters}*${query}${letters}*)`, "gi");
 
   // Highlight all occurrences of the query in the sentence
   cleanSentence = cleanSentence.replace(
