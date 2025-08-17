@@ -319,7 +319,7 @@ async function randomWord() {
   }
 
   if (type === "sentences") {
-    // Split the Norwegian and English sentences
+    // Split the Spanish and English sentences
     const sentences = randomResult.eksempel.split(/(?<=[.!?])\s+/); // Split by sentence delimiters
     const translations = randomResult.sentenceTranslation
       ? randomResult.sentenceTranslation.split(/(?<=[.!?])\s+/)
@@ -590,7 +590,7 @@ async function search(queryOverride = null) {
     if (matchingResults.length === 1) {
       // Update URL and title for a single result
       const singleResult = matchingResults[0];
-      updateURL(null, type, selectedPOS, null, singleResult.ord); // Set word parameter with the result's Norwegian term
+      updateURL(null, type, selectedPOS, null, singleResult.ord); // Set word parameter with the result's Spanish term
       // Display this single result directly
       displaySearchResults([singleResult]); // Display only this single result
       hideSpinner(); // Hide the spinner
@@ -715,7 +715,7 @@ async function search(queryOverride = null) {
     matchingResults = matchingResults.sort((a, b) => {
       const queryLower = query.toLowerCase();
 
-      // 1. Prioritize exact match in the Norwegian or English term
+      // 1. Prioritize exact match in the Spanish or English term
       const isExactMatchA =
         a.ord
           .toLowerCase()
