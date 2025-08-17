@@ -2406,7 +2406,7 @@ function updateURL(query, type, selectedPOS, story = null, word = null) {
   // Set the word parameter if a specific word entry is clicked
   if (word) {
     url.searchParams.set("word", word);
-    document.title = `${word} - Norwegian Dictionary`; // Set title to the word
+    document.title = `${word} - Spanish Dictionary`; // Set title to the word
     // Update the URL without reloading the page
     window.history.pushState({}, "", url);
     return; // Stop further execution to keep this title
@@ -2414,15 +2414,15 @@ function updateURL(query, type, selectedPOS, story = null, word = null) {
 
   // Update the page title based on the context, if no specific word is provided
   if (story) {
-    document.title = `${decodeURIComponent(story)} - Norwegian Story`;
+    document.title = `${decodeURIComponent(story)} - Spanish Story`;
   } else if (query) {
     document.title = `${query} - ${capitalizeType(
       type
-    )} Search - Norwegian Dictionary`;
+    )} Search - Spanish Dictionary`;
   } else if (type) {
-    document.title = `${capitalizeType(type)} - Norwegian Dictionary`;
+    document.title = `${capitalizeType(type)} - Spanish Dictionary`;
   } else {
-    document.title = "Norwegian Dictionary";
+    document.title = "Spanish Dictionary";
   }
 
   // Update the URL without reloading the page
@@ -2467,7 +2467,7 @@ function loadStateFromURL() {
       // Check if dictionary data is loaded
       if (word) {
         // Set title to the word
-        document.title = `${word} - Norwegian Dictionary`;
+        document.title = `${word} - Spanish Dictionary`;
         showLandingCard(false);
         resultsContainer.innerHTML = "";
 
@@ -2495,8 +2495,7 @@ function loadStateFromURL() {
       if (query) {
         search();
       } else if (type === "words") {
-        document.title =
-          "Norwegian Dictionary | Search in Norwegian or English";
+        document.title = "Spanish Dictionary | Search in Spanish or English";
         clearContainer();
         showLandingCard(true);
       }
