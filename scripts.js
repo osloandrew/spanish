@@ -550,15 +550,15 @@ async function search(queryOverride = null) {
     if (!query) {
       matchingResults = storyResults;
     } else {
-      // Filter stories based on the query in both 'titleNorwegian' and 'titleEnglish'
+      // Filter stories based on the query in both 'titleSpanish' and 'titleEnglish'
       matchingResults = storyResults.filter((story) => {
-        const norwegianTitleMatch = story.titleNorwegian
+        const spanishTitleMatch = story.titleSpanish
           .toLowerCase()
           .includes(query);
         const englishTitleMatch = story.titleEnglish
           .toLowerCase()
           .includes(query);
-        return norwegianTitleMatch || englishTitleMatch;
+        return spanishTitleMatch || englishTitleMatch;
       });
     }
 
@@ -582,12 +582,12 @@ async function search(queryOverride = null) {
     // If searching sentences, look for matches in both 'eksempel' and 'sentenceTranslation' fields
     matchingResults = cleanResults.filter((r) => {
       return normalizedQueries.some((normQuery) => {
-        const norwegianSentenceMatch =
+        const spanishSentenceMatch =
           r.eksempel && r.eksempel.toLowerCase().includes(normQuery); // Match in 'eksempel'
         const englishTranslationMatch =
           r.sentenceTranslation &&
           r.sentenceTranslation.toLowerCase().includes(normQuery); // Match in 'sentenceTranslation'
-        return norwegianSentenceMatch || englishTranslationMatch;
+        return spanishSentenceMatch || englishTranslationMatch;
       });
     });
 
@@ -811,7 +811,7 @@ async function search(queryOverride = null) {
         return 1;
       }
 
-      // 2. Prioritize by CEFR level if both English translations or Norwegian words are identical
+      // 2. Prioritize by CEFR level if both English translations or Spanish words are identical
       const cefrOrder = { A1: 1, A2: 2, B1: 3, B2: 4, C: 5 };
       const aCEFRValue = cefrOrder[a.CEFR] || 99; // Use high default if CEFR is missing
       const bCEFRValue = cefrOrder[b.CEFR] || 99;
@@ -839,7 +839,7 @@ async function search(queryOverride = null) {
         }
       }
 
-      // Check for identical Norwegian words
+      // Check for identical Spanish words
       if (a.ord.toLowerCase() === b.ord.toLowerCase()) {
         if (aCEFRValue !== bCEFRValue) {
           return aCEFRValue - bCEFRValue; // Lower CEFR value appears first
@@ -1491,7 +1491,7 @@ function displaySearchResults(results, query = "") {
   }
 }
 
-// Function to toggle the visibility of English sentences and update Norwegian box styles
+// Function to toggle the visibility of English sentences and update Spanish box styles
 function toggleEnglishTranslations(wordId = null) {
   // Determine if wordId is a button element
   const isButton = wordId instanceof HTMLElement;
@@ -1756,7 +1756,7 @@ function renderSentences(sentenceResults, word) {
         // Only add unique sentences
         uniqueSentences.add(trimmedSentence);
 
-        // Check for exact match (whole word match) in both the Norwegian sentence and English translation
+        // Check for exact match (whole word match) in both the Spanish sentence and English translation
         if (
           regexExactMatch.test(sentence.toLowerCase()) ||
           regexExactMatch.test(translation.toLowerCase())
@@ -1767,7 +1767,7 @@ function renderSentences(sentenceResults, word) {
             translation: highlightQuery(translation, query),
           });
         }
-        // Check for partial match in both Norwegian sentence and English translation
+        // Check for partial match in both Spanish sentence and English translation
         else if (
           sentence.toLowerCase().includes(query) ||
           translation.toLowerCase().includes(query)
@@ -1849,7 +1849,7 @@ function renderSentences(sentenceResults, word) {
   document.getElementById("results-container").innerHTML = htmlString;
 }
 
-// Highlight search query in text, accounting for Norwegian characters (å, æ, ø) and verb variations
+// Highlight search query in text, accounting for Spanish characters (å, æ, ø) and verb variations
 function highlightQuery(sentence, query) {
   if (!query) return sentence; // If no query, return sentence as is.
 
@@ -1859,8 +1859,8 @@ function highlightQuery(sentence, query) {
     "$1"
   );
 
-  // Define a regex pattern that includes Norwegian characters and dynamically inserts the query
-  const letters = "[\\wåæøÅÆØáéíóúÁÉÍÓÚñÑüÜ]"; // Include Norwegian letters in the pattern
+  // Define a regex pattern that includes Spanish characters and dynamically inserts the query
+  const letters = "[\\wåæøÅÆØáéíóúÁÉÍÓÚñÑüÜ]"; // Include Spanish letters in the pattern
   const regex = new RegExp(`(${letters}*${query}${letters}*)`, "gi");
 
   // Highlight all occurrences of the query in the sentence
@@ -1874,7 +1874,7 @@ function highlightQuery(sentence, query) {
 
   // Highlight each query variation in the sentence
   queries.forEach((q) => {
-    // Define a regex pattern that includes Norwegian characters and dynamically inserts the query
+    // Define a regex pattern that includes Spanish characters and dynamically inserts the query
     const regex = new RegExp(`(\\b${q}\\b|\\b${q}(?![\\wåæøÅÆØ]))`, "gi");
 
     // Highlight all occurrences of the query variation in the sentence
@@ -1901,8 +1901,8 @@ function highlightQuery(sentence, query) {
 
   // Apply highlighting for all word variations in sequence
   wordVariations.forEach((variation) => {
-    const norwegianWordBoundary = `\\b${variation}\\b`;
-    const regex = new RegExp(norwegianWordBoundary, "gi");
+    const spanishWordBoundary = `\\b${variation}\\b`;
+    const regex = new RegExp(spanishWordBoundary, "gi");
     cleanSentence = cleanSentence.replace(
       regex,
       '<span style="color: #3c88d4;">$&</span>'
@@ -1938,9 +1938,9 @@ function renderSentencesHTML(sentenceResults, wordVariations) {
 
         if (matchedVariation) {
           // Use a regular expression to match the full word containing any of the variations
-          const norwegianPattern = "[\\wåæøÅÆØ]"; // Pattern including Norwegian letters
+          const spanishPattern = "[\\wåæøÅÆØ]"; // Pattern including Spanish letters
           const regex = new RegExp(
-            `(${norwegianPattern}*${matchedVariation}${norwegianPattern}*)`,
+            `(${spanishPattern}*${matchedVariation}${spanishPattern}*)`,
             "gi"
           );
 
@@ -2456,7 +2456,7 @@ function loadStateFromURL() {
 
   // If there's a story in the URL, display that story and exit
   if (storyTitle) {
-    document.title = `${decodeURIComponent(storyTitle)} - Norwegian Story`;
+    document.title = `${decodeURIComponent(storyTitle)} - Spanish Story`;
     displayStory(decodeURIComponent(storyTitle)); // Display the specific story
     return; // Exit function as story is being displayed
   }
