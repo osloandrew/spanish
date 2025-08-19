@@ -1,6 +1,6 @@
-Norwegian Dictionary App
+Spanish Dictionary App
 
-A streamlined, interactive dictionary application designed to facilitate Norwegian language learning through word definitions, example sentences, and a vocabulary game.
+A streamlined, interactive dictionary application designed to facilitate Spanish language learning through word definitions, example sentences, and a vocabulary game.
 
 Features
 
@@ -20,7 +20,7 @@ bash
 
 Copy code
 
-git clone https://github.com/osloandrew/norwegian.git
+git clone https://github.com/osloandrew/spanish.git
 
 Navigate to the project directory:
 
@@ -28,12 +28,12 @@ bash
 
 Copy code
 
-cd norwegian
+cd spanish
 
 Open index.html in a web browser.
 
 Usage
 
-Search: Enter Norwegian words to view definitions, part of speech, and example sentences.
+Search: Enter Spanish words to view definitions, part of speech, and example sentences.
 
 Word Game: Select the 'Word Game' mode to begin vocabulary exercises filtered by CEFR and part of speech.
