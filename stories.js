@@ -207,9 +207,9 @@ async function displayStory(titleSpanish) {
     const cefrClass = getCefrClass(selectedStory.CEFR);
     const headerHTML = `
             <div class="stories-story-header">
-                <div class="stories-back-btn">
-                    <i class="fas fa-chevron-left" onclick="storiesBackBtn()"></i>
-                </div>
+              <button id="back-button" class="back-button" onclick="storiesBackBtn()">
+                <i class="fas fa-chevron-left"></i> Back
+              </button>
                 <div class="stories-title-container">
                     <h2>${selectedStory.titleSpanish}</h2>
                     ${

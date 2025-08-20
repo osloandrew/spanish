@@ -14,6 +14,30 @@ a {
   display: none !important; /* Always hidden */
 }
 
+#back-button,
+#toggle-english-btn,
+.toggle-kanji-btn {
+  background-color: #f4f4f4; /* Neutral light gray */
+  border: #bbb 1px solid;
+  border-radius: 5px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.1);
+  color: #2a3a2f;
+  cursor: pointer;
+  font-family: "Noto Sans", sans-serif;
+  font-weight: 500;
+  min-width: 115px;
+  padding: 0.5em 1em;
+  position: relative;
+  transition: background-color 0.3s ease;
+  z-index: 1;
+}
+
+#back-button:hover,
+#toggle-english-btn:hover,
+.toggle-kanji-btn:hover {
+  background-color: gainsboro; /* Slightly darker purple on hover */
+}
+
 .back-navigation {
   display: block; /* Block-level element to allow centering */
   line-height: 30px; /* Matches height for vertical centering */
@@ -1624,6 +1648,14 @@ ul {
 }
 
 @media (max-width: 1024px) {
+  #back-button,
+  #toggle-english-btn,
+  .toggle-kanji-btn {
+    font-size: 10px;
+    min-width: 80px;
+    padding: 0.5em;
+  }
+
   .definition {
     margin-bottom: 10px;
     padding: 20px;
