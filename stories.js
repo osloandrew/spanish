@@ -210,20 +210,10 @@ async function displayStory(titleSpanish) {
               <button id="back-button" class="back-button" onclick="storiesBackBtn()">
                 <i class="fas fa-chevron-left"></i> Back
               </button>
-                <div class="stories-title-container">
-                    <h2>${selectedStory.titleSpanish}</h2>
-                    ${
-                      selectedStory.titleSpanish !== selectedStory.titleEnglish
-                        ? `<p class="stories-subtitle">${selectedStory.titleEnglish}</p>`
-                        : ""
-                    }
-                </div>
                 <div class="stories-rightward-div">
                     <div class="stories-detail-container" style="margin-left: 0px; margin-top: 5px;">
                             <div class="stories-genre">${genreIcon}</div>  <!-- Genre icon -->
-                            <div class="game-cefr-label ${cefrClass}">${
-      selectedStory.CEFR
-    }</div>  <!-- CEFR label -->
+                            <div class="game-cefr-label ${cefrClass}">${selectedStory.CEFR}</div>  <!-- CEFR label -->
                     </div>
                     <div class="stories-english-btn" onclick="toggleEnglishSentences()">
                         <span class="desktop-text">Hide English</span>
@@ -247,8 +237,19 @@ async function displayStory(titleSpanish) {
     : "";
   const audio = new Audio(audioFileURL);
 
+  const titleHTML = `
+  <div class="stories-title-container">
+    <h2>${selectedStory.titleSpanish}</h2>
+    ${
+      selectedStory.titleSpanish !== selectedStory.titleEnglish
+        ? `<p class="stories-subtitle">${selectedStory.titleEnglish}</p>`
+        : ""
+    }
+  </div>
+`;
   // Generate content with sentences and optionally include the audio player
   let contentHTML = `<div class="stories-sentences-container">`;
+  contentHTML = titleHTML + contentHTML;
 
   // Function to finalize and display the story content, with or without audio
   const finalizeContent = (includeAudio = false) => {
@@ -294,8 +295,24 @@ async function displayStory(titleSpanish) {
     finalizeContent(false); // Display without audio
   };
   audio.onloadedmetadata = () => {
-    console.log(`Audio file found: ${audioFileURL}`);
-    finalizeContent(true); // Display with audio
+    // Put the audio in the middle of the header:
+    // directly before the right-hand cluster (.stories-rightward-div)
+    const headerEl = document.querySelector(".stories-story-header");
+    if (headerEl && audioHTML) {
+      // Prevent duplicates on refresh by removing any existing player first
+      const existing = headerEl.querySelector(".stories-audio-player");
+      if (existing) existing.remove();
+
+      const rightDiv = headerEl.querySelector(".stories-rightward-div");
+      if (rightDiv) {
+        rightDiv.insertAdjacentHTML("beforebegin", audioHTML); // center position
+      } else {
+        headerEl.insertAdjacentHTML("beforeend", audioHTML); // fallback
+      }
+    }
+
+    // Render content WITHOUT duplicating the audio at the top of the body
+    finalizeContent(false);
   };
 
   // Process story text into sentences

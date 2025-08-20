@@ -10,8 +10,10 @@ a {
   opacity: 0.75; /* Very subtle */
 }
 
-#audio-player {
-  display: none !important; /* Always hidden */
+audio {
+  display: block;
+  margin: 0 auto;
+  width: 100%;
 }
 
 #back-button,
@@ -94,7 +96,7 @@ button:disabled i {
 }
 
 .button-container i {
-  color: #735e5e;
+  color: #2e2e2e;
   margin-bottom: 10px;
 }
 
@@ -197,7 +199,7 @@ button:disabled i {
 
 .definition-content i {
   margin-right: 8px;
-  color: #735e5e; /* Dark red color */
+  color: #2e2e2e; /* Dark red color */
   font-size: 18px; /* Slightly larger than the text */
   width: 24px; /* Fixed width for uniformity */
   text-align: center; /* Centers the icons within their block */
@@ -206,14 +208,14 @@ button:disabled i {
 }
 
 .definition-content p {
-  color: #735e5e; /* Ensure text is also dark red */
+  color: #2e2e2e; /* Ensure text is also dark red */
   display: flex;
   align-items: center;
   gap: 5px;
 }
 
 .definition-label {
-  color: #735e5e;
+  color: #2e2e2e;
   font-family: "Noto Sans", sans-serif;
   font-size: 12px;
   font-weight: 500;
@@ -253,12 +255,12 @@ li {
 
 /* Specific styling for the error message */
 .error-message h2 {
-  color: #735e5e; /* Error title in a distinct color */
+  color: #2e2e2e; /* Error title in a distinct color */
   font-size: 24px;
 }
 
 .error-message {
-  color: #735e5e; /* Error type in a similar error color */
+  color: #2e2e2e; /* Error type in a similar error color */
   font-size: 16px;
   font-weight: 600;
 }
@@ -274,9 +276,9 @@ li {
 }
 
 footer {
-  background-color: #eadfcf;
+  background-color: #dbe3c9;
   bottom: 0;
-  color: #735e5e;
+  color: #2e2e2e;
   font-family: "Noto Sans", sans-serif;
   padding: 20px 0;
   position: relative;
@@ -296,7 +298,7 @@ footer p a {
 }
 
 footer p a:hover {
-  color: #735e5e;
+  color: #2e2e2e;
   text-decoration: underline;
 }
 
@@ -624,14 +626,14 @@ footer .copyright {
 }
 
 h1 {
-  color: #735e5e;
+  color: #2e2e2e;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
 }
 
 h2 {
-  color: #735e5e;
+  color: #2e2e2e;
   font-size: 30px;
   font-weight: bold;
   margin: -5px 0 -5px 0;
@@ -648,8 +650,8 @@ h4 {
 }
 
 header {
-  background-color: #eadfcf;
-  color: #735e5e;
+  background-color: #dbe3c9;
+  color: #2e2e2e;
   font-family: "Noto Sans", sans-serif;
   letter-spacing: 0.05rem;
   padding: 20px;
@@ -693,7 +695,7 @@ input[type="text"] {
 
 input[type="text"]:focus + label,
 input[type="text"]:not(:placeholder-shown) + label {
-  color: #735e5e;
+  color: #2e2e2e;
   font-size: 12px;
   top: -10px;
 }
@@ -721,7 +723,7 @@ label {
 
 /* Adjust the heading size and color to match the word titles in definition cards */
 #landing-card h2 {
-  color: #735e5e; /* Matches the heading color of definition cards */
+  color: #2e2e2e; /* Matches the heading color of definition cards */
   font-family: "Grenze Gotisch", serif;
   font-size: 38px !important; /* Matches the font size of definition card headings */
   margin-bottom: 10px;
@@ -806,7 +808,7 @@ label {
 }
 
 li {
-  color: #735e5e;
+  color: #2e2e2e;
 }
 
 .links {
@@ -965,7 +967,7 @@ ul {
 
 .random-btn {
   align-items: center;
-  background-color: #735e5e;
+  background-color: #2e2e2e;
   border: none;
   border-radius: 15px;
   color: white;
@@ -1014,7 +1016,7 @@ ul {
 
 .result-header h2 {
   margin: 0; /* Reset margin for the title */
-  color: #735e5e;
+  color: #2e2e2e;
   font-family: "Noto Sans", sans-serif;
   font-size: 1.3em;
   font-weight: 400;
@@ -1024,7 +1026,7 @@ ul {
 }
 
 .result-header i {
-  color: #735e5e;
+  color: #2e2e2e;
   position: absolute;
   left: 15px; /* Position the icon on the far left */
   cursor: pointer;
@@ -1057,7 +1059,7 @@ ul {
 .genre-filter,
 .game-english-filter {
   align-items: center;
-  background-color: #735e5e;
+  background-color: #2e2e2e;
   border-radius: 15px;
   box-sizing: border-box;
   display: flex;
@@ -1081,7 +1083,7 @@ ul {
 
 .search-btn {
   align-items: center;
-  background-color: #735e5e;
+  background-color: #2e2e2e;
   border: none;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 15px;
@@ -1275,7 +1277,7 @@ ul {
 }
 
 #site-title {
-  color: #735e5e;
+  color: #2e2e2e;
   cursor: pointer;
   margin: -5px 0px 10px 0px;
   transition: color 0.2s ease, text-shadow 0.2s ease;
@@ -1289,19 +1291,8 @@ ul {
   margin: 0px;
 }
 
-.stories-audio-player {
-  display: block; /* Ensure the audio player takes up space */
-  margin: 20px auto; /* Center it and add margin for spacing */
-  width: 100%; /* Set a responsive width */
-  padding: 0; /* Remove padding to avoid the darker background effect */
-  border-radius: 8px; /* Rounded corners */
-  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Add a subtle shadow for depth */
-  background-color: transparent; /* Make it match the inner color */
-  border: 1px solid #ddd; /* Border for definition */
-}
-
 .stories-back-btn {
-  color: #735e5e;
+  color: #2e2e2e;
   margin-left: 20px;
   margin-right: 190px;
   font-size: 1.5em;
@@ -1414,7 +1405,7 @@ ul {
 }
 
 .stories-list-item h2 {
-  color: #735e5e !important;
+  color: #2e2e2e !important;
   font-family: "Noto Sans", sans-serif !important;
   font-size: 16px;
   font-weight: 400;
@@ -1471,7 +1462,7 @@ ul {
 
 .stories-result-header h2 {
   margin: 0; /* Reset margin for the title */
-  color: #735e5e;
+  color: #2e2e2e;
   font-family: "Noto Sans", sans-serif;
   font-size: 1.3em;
   font-weight: 400;
@@ -1481,7 +1472,7 @@ ul {
 }
 
 .stories-result-header i {
-  color: #735e5e;
+  color: #2e2e2e;
   position: absolute;
   left: 15px; /* Position the icon on the far left */
   cursor: pointer;
@@ -1541,7 +1532,7 @@ ul {
 
 .stories-story-header h2 {
   margin: 0; /* Reset margin for the title */
-  color: #735e5e;
+  color: #2e2e2e;
   font-family: "Noto Sans", sans-serif;
   font-size: 1.3em;
   font-weight: 400;
@@ -1560,7 +1551,7 @@ ul {
 }
 
 .spinner {
-  color: #735e5e;
+  color: #2e2e2e;
   display: none;
   font-size: 20px;
   margin: 20px;
@@ -1571,7 +1562,7 @@ ul {
   animation: spin 0.8s linear infinite;
   border: 3px solid rgba(0, 0, 0, 0.3);
   border-radius: 50%;
-  border-top-color: #735e5e;
+  border-top-color: #2e2e2e;
   content: "";
   display: inline-block;
   height: 40px;
@@ -1628,7 +1619,7 @@ ul {
 }
 
 .word-gender .gender {
-  color: #735e5e;
+  color: #2e2e2e;
   font-size: 14px;
   font-weight: 400;
   text-transform: uppercase;
@@ -2069,7 +2060,7 @@ ul {
   .genre-filter,
   .game-english-filter {
     box-sizing: border-box !important;
-    background-color: #735e5e; /* Consistent background for all filters */
+    background-color: #2e2e2e; /* Consistent background for all filters */
     border-radius: 15px;
     padding: 5px 5px 5px 5px;
     min-width: 0px;
