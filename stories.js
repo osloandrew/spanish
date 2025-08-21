@@ -241,11 +241,13 @@ async function displayStory(titleSpanish) {
 
   clearContainer();
 
-  if (!document.querySelector(".stories-story-header")) {
-    // Get genre icon and CEFR label
-    const genreIcon = genreIcons[selectedStory.genre.toLowerCase()] || "";
-    const cefrClass = getCefrClass(selectedStory.CEFR);
-    const headerHTML = `
+  // Get genre icon and CEFR label (mirror JP)
+  const genreIcon = genreIcons[selectedStory.genre.toLowerCase()] || "";
+  const cefrClass = getCefrClass(selectedStory.CEFR);
+
+  const sticky = document.getElementById("sticky-header");
+  sticky.classList.remove("hidden");
+  sticky.innerHTML = `
   <div class="sticky-detail-container">
     <div class="sticky-row">
       <div class="sticky-genre">
@@ -255,20 +257,19 @@ async function displayStory(titleSpanish) {
         ${selectedStory.CEFR || "N/A"}
       </div>
     </div>
-    <button id="back-button" class="back-button" onclick="storiesBackBtn()">
+    <button id="back-button" class="back-button">
       <i class="fas fa-chevron-left"></i> Back
     </button>
   </div>
 `;
 
-    const sticky = document.getElementById("sticky-header");
-    sticky.classList.remove("hidden");
-    sticky.innerHTML = headerHTML;
+  // Hide search UI while reading (mirrors JP’s “filters hidden while reading”)
+  if (searchContainer) searchContainer.style.display = "none";
 
-    // Mirror JP: search UI is hidden while reading
-    if (searchContainer) searchContainer.style.display = "none";
-  }
-
+  // Wire the back button like JP (no inline attribute)
+  document
+    .getElementById("back-button")
+    ?.addEventListener("click", storiesBackBtn);
   // Check for the image (mirror JP: EN title only)
   const imageFileURL = await hasImageByEnglishTitle(selectedStory.titleEnglish);
 
@@ -278,17 +279,6 @@ async function displayStory(titleSpanish) {
     ? `<audio controls src="${audioFileURL}" class="stories-audio-player"></audio>`
     : "";
   const audio = new Audio(audioFileURL);
-
-  const stickyTitleHTML = `
-  <div class="sticky-title-container">
-    <h2 class="sticky-title-japanese">${selectedStory.titleSpanish}</h2>
-    ${
-      selectedStory.titleSpanish !== selectedStory.titleEnglish
-        ? `<p class="sticky-title-english">${selectedStory.titleEnglish}</p>`
-        : ""
-    }
-  </div>
-`;
   const imageHTML = imageFileURL
     ? `<img src="${imageFileURL}" alt="${selectedStory.titleEnglish}" class="story-image">`
     : "";
