@@ -117,6 +117,22 @@ function getCefrClass(cefrLevel) {
   return "cefr-unknown"; // Default
 }
 
+function updateEnglishVisibility() {
+  const englishSentences = document.querySelectorAll(".english-sentence");
+  const toggleEnglishBtn = document.getElementById("toggle-english-btn"); // Dynamically find the button
+  if (isEnglishVisible) {
+    englishSentences.forEach((sentence) => {
+      sentence.style.display = "block";
+    });
+    if (toggleEnglishBtn) toggleEnglishBtn.textContent = "Hide English";
+  } else {
+    englishSentences.forEach((sentence) => {
+      sentence.style.display = "none";
+    });
+    if (toggleEnglishBtn) toggleEnglishBtn.textContent = "Show English";
+  }
+}
+
 async function displayStoryList(filteredStories = storyResults) {
   showSpinner(); // Show spinner before rendering story list
   restoreSearchContainerInner();
@@ -245,11 +261,12 @@ async function displayStory(titleSpanish) {
   </div>
 `;
 
-    searchContainer.style.display = "block";
-    searchContainerInner.style.display = "none";
     const sticky = document.getElementById("sticky-header");
     sticky.classList.remove("hidden");
     sticky.innerHTML = headerHTML;
+
+    // Mirror JP: search UI is hidden while reading
+    if (searchContainer) searchContainer.style.display = "none";
   }
 
   // Check for the image (mirror JP: EN title only)
@@ -320,6 +337,8 @@ async function displayStory(titleSpanish) {
 `;
       storyContent.insertBefore(titleNode, storyContent.firstChild);
     }
+    // JP mirror: enforce current visibility state on first render
+    updateEnglishVisibility();
     if (storyViewer) {
       storyViewer.style.display = "block"; // show the reader pane
     }
@@ -341,6 +360,23 @@ async function displayStory(titleSpanish) {
       const existing = stickyHeaderEl.querySelector(".stories-audio-player");
       if (existing) existing.remove();
       stickyHeaderEl.insertAdjacentHTML("beforeend", audioHTML);
+      // JP mirror: add the English toggle button into the sticky header
+      const toggleButtonsContainer = document.createElement("div");
+      toggleButtonsContainer.classList.add("toggle-buttons-container");
+      toggleButtonsContainer.innerHTML = `
+  <button id="toggle-english-btn" class="toggle-english-btn">
+    ${isEnglishVisible ? "Hide English" : "Show English"}
+  </button>
+`;
+      stickyHeaderEl.appendChild(toggleButtonsContainer);
+
+      // JP mirror: attach the click handler that flips state and refreshes visibility
+      document
+        .getElementById("toggle-english-btn")
+        ?.addEventListener("click", () => {
+          isEnglishVisible = !isEnglishVisible;
+          updateEnglishVisibility();
+        });
     }
 
     // Render content WITHOUT duplicating the audio at the top of the body

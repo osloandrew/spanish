@@ -230,28 +230,27 @@ async function displayStory(titleSpanish) {
     const genreIcon = genreIcons[selectedStory.genre.toLowerCase()] || "";
     const cefrClass = getCefrClass(selectedStory.CEFR);
     const headerHTML = `
-            <div class="stories-story-header">
-              <button id="back-button" class="back-button" onclick="storiesBackBtn()">
-                <i class="fas fa-chevron-left"></i> Back
-              </button>
-                <div class="stories-rightward-div">
-                    <div class="stories-detail-container" style="margin-left: 0px; margin-top: 5px;">
-                            <div class="stories-genre">${genreIcon}</div>  <!-- Genre icon -->
-                            <div class="sticky-cefr-label ${cefrClass}">${selectedStory.CEFR}</div>  <!-- CEFR label -->
-                    </div>
-                    <div class="stories-english-btn" onclick="toggleEnglishSentences()">
-                        <span class="desktop-text">Hide English</span>
-                        <span class="mobile-text">ENG</span>
-                    </div>
-                </div>
-            </div>
-        `;
+  <div class="sticky-detail-container">
+    <div class="sticky-row">
+      <div class="sticky-genre">
+        ${genreIcon}
+      </div>
+      <div class="sticky-cefr-label ${cefrClass}">
+        ${selectedStory.CEFR || "N/A"}
+      </div>
+    </div>
+    <button id="back-button" class="back-button" onclick="storiesBackBtn()">
+      <i class="fas fa-chevron-left"></i> Back
+    </button>
+  </div>
+`;
 
-    searchContainer.style.display = "block";
-    searchContainerInner.style.display = "none";
-    document
-      .getElementById("search-container")
-      .insertAdjacentHTML("beforeend", headerHTML);
+    const sticky = document.getElementById("sticky-header");
+    sticky.classList.remove("hidden");
+    sticky.innerHTML = headerHTML;
+
+    // Mirror JP: search UI is hidden while reading
+    if (searchContainer) searchContainer.style.display = "none";
   }
 
   // Check for the image (mirror JP: EN title only)
@@ -337,20 +336,12 @@ async function displayStory(titleSpanish) {
     finalizeContent(false); // Display without audio
   };
   audio.onloadedmetadata = () => {
-    // Put the audio in the middle of the header:
-    // directly before the right-hand cluster (.stories-rightward-div)
-    const headerEl = document.querySelector(".stories-story-header");
-    if (headerEl && audioHTML) {
-      // Prevent duplicates on refresh by removing any existing player first
-      const existing = headerEl.querySelector(".stories-audio-player");
+    // Mirror JP: append audio to #sticky-header
+    const stickyHeaderEl = document.getElementById("sticky-header");
+    if (stickyHeaderEl && audioHTML) {
+      const existing = stickyHeaderEl.querySelector(".stories-audio-player");
       if (existing) existing.remove();
-
-      const rightDiv = headerEl.querySelector(".stories-rightward-div");
-      if (rightDiv) {
-        rightDiv.insertAdjacentHTML("beforebegin", audioHTML); // center position
-      } else {
-        headerEl.insertAdjacentHTML("beforeend", audioHTML); // fallback
-      }
+      stickyHeaderEl.insertAdjacentHTML("beforeend", audioHTML);
     }
 
     // Render content WITHOUT duplicating the audio at the top of the body
