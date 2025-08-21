@@ -305,9 +305,6 @@ async function displayStory(titleSpanish) {
 
     contentHTML += `</div>`;
 
-    // Append the rating div for this story
-    contentHTML += createRatingDiv(selectedStory.titleSpanish);
-
     const storyViewer = document.getElementById("story-viewer");
     const storyContent = document.getElementById("story-content");
     const listEl = document.getElementById("results-container");
@@ -552,70 +549,6 @@ async function hasImageByEnglishTitle(titleEnglish) {
     }
   }
   return null;
-}
-
-// Generate a rating div for each story
-function createRatingDiv(storyTitle) {
-  const formBaseUrl =
-    "https://docs.google.com/forms/d/e/1FAIpQLSeqBt_8Lli1uab2OrhCd7Lz5bYaSwzLO8CB28wKOxa_e45FmQ/formResponse";
-  const storyNameEntry = "entry.1887828067";
-  const ratingEntry = "entry.1582677227";
-
-  window.submitRating = function (rating, storyTitle) {
-    const formData = new FormData();
-    formData.append(storyNameEntry, storyTitle);
-    formData.append(ratingEntry, rating);
-
-    fetch(formBaseUrl, {
-      method: "POST",
-      mode: "no-cors",
-      body: formData,
-    })
-      .then(() => {
-        alert("Thank you for rating this story!");
-      })
-      .catch((error) => {
-        console.error("Error submitting rating:", error);
-        alert("There was an issue submitting your rating. Please try again.");
-      });
-  };
-
-  const ratingDiv = document.createElement("div");
-  ratingDiv.classList.add("stories-rating");
-  ratingDiv.innerHTML = `
-        <p>Rate this story:</p>
-        <div class="stories-star-rating">
-            ${[1, 2, 3, 4, 5]
-              .map(
-                (rating) => `
-                <span class="star" data-rating="${rating}" onclick="submitRating(${rating}, '${storyTitle}')">&#9733;</span>
-            `
-              )
-              .join("")}
-        </div>
-    `;
-
-  const stars = ratingDiv.querySelectorAll(".star");
-  stars.forEach((star) => {
-    // Hover event to change the color up to the hovered star
-    star.addEventListener("mouseenter", () => {
-      const rating = star.getAttribute("data-rating");
-      stars.forEach((s) => {
-        if (s.getAttribute("data-rating") <= rating) {
-          s.style.color = "gold";
-        } else {
-          s.style.color = "gray";
-        }
-      });
-    });
-
-    // Mouseleave event to reset the color
-    star.addEventListener("mouseleave", () => {
-      stars.forEach((s) => (s.style.color = "gray"));
-    });
-  });
-
-  return ratingDiv.outerHTML;
 }
 
 // Initialization on page load
