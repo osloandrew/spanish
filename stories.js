@@ -237,6 +237,8 @@ async function displayStory(titleSpanish) {
   }
 
   document.title = selectedStory.titleSpanish + " - Spanish Dictionary";
+  document.documentElement.classList.add("reading");
+
   updateURL(null, "story", null, titleSpanish); // Update URL with story parameter
 
   clearContainer();
@@ -406,7 +408,6 @@ async function displayStory(titleSpanish) {
 
   spanishSentences = combineSentences(spanishSentences);
   englishSentences = combineSentences(englishSentences, /\basked\b/i);
-  document.documentElement.classList.add("reading");
 }
 
 // Function to toggle the visibility of English sentences and update Spanish box styles
