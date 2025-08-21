@@ -459,6 +459,23 @@ function handleGenreChange() {
 }
 
 function storiesBackBtn() {
+  // JP parity: stop and remove any playing audio from the sticky header
+  const stickyHeader = document.getElementById("sticky-header");
+  if (stickyHeader) {
+    const players = stickyHeader.querySelectorAll(
+      "audio, .stories-audio-player"
+    );
+    players.forEach((p) => {
+      if (typeof p.pause === "function") p.pause();
+      try {
+        p.currentTime = 0;
+      } catch (_) {}
+      p.remove();
+    });
+    const toggles = stickyHeader.querySelector(".toggle-buttons-container");
+    if (toggles) toggles.remove();
+  }
+
   document.getElementById("type-select").value = "stories";
   handleTypeChange("stories");
   displayStoryList();

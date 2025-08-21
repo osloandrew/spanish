@@ -1031,10 +1031,10 @@ ul {
 
 .random-btn {
   align-items: center;
-  background-color: #2e2e2e;
+  background-color: #dbe3c9;
   border: none;
   border-radius: 15px;
-  color: white;
+  color: #2e2e2e;
   cursor: pointer;
   display: flex;
   font-family: "Noto Sans", sans-serif;
@@ -1046,7 +1046,7 @@ ul {
 }
 
 .random-btn:hover {
-  background-color: #8c3b2e;
+  background-color: #4a99ff;
   box-shadow: 0px 6px 15px rgba(0, 0, 0, 0.15);
 }
 
@@ -1123,7 +1123,7 @@ ul {
 .genre-filter,
 .game-english-filter {
   align-items: center;
-  background-color: #2e2e2e;
+  background-color: #dbe3c9;
   border-radius: 15px;
   box-sizing: border-box;
   display: flex;
@@ -1138,7 +1138,7 @@ ul {
 .cefr-filter i,
 .genre-filter i,
 .game-english-filter i {
-  color: white;
+  color: #2e2e2e;
   font-size: 18px;
   pointer-events: none;
   right: 15px;
@@ -1147,7 +1147,7 @@ ul {
 
 .search-btn {
   align-items: center;
-  background-color: #2e2e2e;
+  background-color: #dbe3c9;
   border: none;
   border-bottom-left-radius: 0;
   border-bottom-right-radius: 15px;
@@ -1167,7 +1167,7 @@ ul {
 }
 
 .search-btn i {
-  color: white;
+  color: #2e2e2e;
   font-size: 16px;
   margin: 0;
 }
@@ -1807,7 +1807,7 @@ ul {
   appearance: none;
   background-color: inherit;
   border: none;
-  color: white;
+  color: #2e2e2e;
   cursor: pointer;
   font-family: "Noto Sans", sans-serif;
   padding-right: 15px; /* Reduce padding to show more text */
@@ -2296,7 +2296,7 @@ ul {
   .genre-filter,
   .game-english-filter {
     box-sizing: border-box !important;
-    background-color: #2e2e2e; /* Consistent background for all filters */
+    background-color: #dbe3c9; /* Consistent background for all filters */
     border-radius: 15px;
     padding: 5px 5px 5px 5px;
     min-width: 0px;
