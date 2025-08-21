@@ -239,6 +239,9 @@ async function displayStory(titleSpanish) {
       .insertAdjacentHTML("beforeend", headerHTML);
   }
 
+  // Check for the image (mirror JP: EN title only)
+  const imageFileURL = await hasImageByEnglishTitle(selectedStory.titleEnglish);
+
   // Check for the audio file
   const audioFileURL = await hasAudio(selectedStory.titleEnglish);
   const audioHTML = audioFileURL
@@ -256,9 +259,10 @@ async function displayStory(titleSpanish) {
     }
   </div>
 `;
-  let contentHTML =
-    stickyTitleHTML + `<div class="stories-sentences-container">`;
-
+  const imageHTML = imageFileURL
+    ? `<img src="${imageFileURL}" alt="${selectedStory.titleEnglish}" class="story-image">`
+    : "";
+  let contentHTML = imageHTML + `<div class="stories-sentences-container">`;
   // Function to finalize and display the story content, with or without audio
   const finalizeContent = (includeAudio = false) => {
     if (includeAudio) {
@@ -290,6 +294,18 @@ async function displayStory(titleSpanish) {
 
     if (storyContent) {
       storyContent.innerHTML = contentHTML; // render story body into the reader pane
+      // Insert the sticky title above the first child (mirror JP order)
+      const titleNode = document.createElement("div");
+      titleNode.className = "sticky-title-container";
+      titleNode.innerHTML = `
+  <h2 class="sticky-title-japanese">${selectedStory.titleSpanish}</h2>
+  ${
+    selectedStory.titleSpanish !== selectedStory.titleEnglish
+      ? `<p class="sticky-title-english">${selectedStory.titleEnglish}</p>`
+      : ""
+  }
+`;
+      storyContent.insertBefore(titleNode, storyContent.firstChild);
     }
     if (storyViewer) {
       storyViewer.style.display = "block"; // show the reader pane
@@ -461,6 +477,33 @@ async function hasAudio(titleEnglish) {
 
   console.log(`No audio found for title: ${titleEnglish}`);
   return null; // Return null if no audio file is found
+}
+
+// Check if an image exists based on the EN title (mirror JP logic)
+async function hasImageByEnglishTitle(titleEnglish) {
+  const sanitized = titleEnglish.endsWith("?")
+    ? titleEnglish.slice(0, -1)
+    : titleEnglish;
+
+  const encodedTitles = [
+    encodeURIComponent(titleEnglish),
+    encodeURIComponent(sanitized),
+  ];
+
+  const imageExtensions = ["webp", "jpg", "jpeg", "avif", "png", "gif"];
+  const imagePaths = encodedTitles.flatMap((encoded) =>
+    imageExtensions.map((ext) => `Resources/Images/${encoded}.${ext}`)
+  );
+
+  for (const path of imagePaths) {
+    try {
+      const res = await fetch(path, { method: "HEAD", cache: "no-cache" });
+      if (res.ok) return path;
+    } catch (e) {
+      console.warn("Error checking image for", path, e);
+    }
+  }
+  return null;
 }
 
 // Generate a rating div for each story
