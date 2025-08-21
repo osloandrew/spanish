@@ -743,6 +743,16 @@ html {
   margin: 0;
 }
 
+/* Default: list/search mode */
+html:not(.reading) {
+  height: 100%;
+}
+
+/* When reading a story, no fixed height (let it expand naturally) */
+html.reading {
+  height: auto;
+}
+
 input[type="text"] {
   border: none;
   flex-grow: 1;

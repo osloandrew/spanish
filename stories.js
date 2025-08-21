@@ -406,6 +406,7 @@ async function displayStory(titleSpanish) {
 
   spanishSentences = combineSentences(spanishSentences);
   englishSentences = combineSentences(englishSentences, /\basked\b/i);
+  document.documentElement.classList.add("reading");
 }
 
 // Function to toggle the visibility of English sentences and update Spanish box styles
@@ -476,6 +477,7 @@ function storiesBackBtn() {
   document.getElementById("type-select").value = "stories";
   handleTypeChange("stories");
   displayStoryList();
+  document.documentElement.classList.remove("reading");
 }
 
 // Helper function to remove the story header
