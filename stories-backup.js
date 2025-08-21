@@ -178,6 +178,15 @@ async function displayStoryList(filteredStories = storyResults) {
 
   // Join the generated HTML for each story and insert into results container
   document.getElementById("results-container").innerHTML = htmlString;
+  const listEl = document.getElementById("results-container");
+  const storyViewer = document.getElementById("story-viewer");
+  const storyContent = document.getElementById("story-content");
+  const stickyHeader = document.getElementById("sticky-header");
+
+  if (listEl) listEl.style.display = "block"; // show the list
+  if (storyViewer) storyViewer.style.display = "none";
+  if (storyContent) storyContent.innerHTML = ""; // clear old story body
+  if (stickyHeader) stickyHeader.classList.add("hidden"); // hide header for now
   hideSpinner(); // Hide spinner after story list is rendered
 }
 
@@ -230,6 +239,9 @@ async function displayStory(titleSpanish) {
       .insertAdjacentHTML("beforeend", headerHTML);
   }
 
+  // Check for the image (mirror JP: EN title only)
+  const imageFileURL = await hasImageByEnglishTitle(selectedStory.titleEnglish);
+
   // Check for the audio file
   const audioFileURL = await hasAudio(selectedStory.titleEnglish);
   const audioHTML = audioFileURL
@@ -237,27 +249,26 @@ async function displayStory(titleSpanish) {
     : "";
   const audio = new Audio(audioFileURL);
 
-  const titleHTML = `
-  <div class="stories-title-container">
-    <h2>${selectedStory.titleSpanish}</h2>
+  const stickyTitleHTML = `
+  <div class="sticky-title-container">
+    <h2 class="sticky-title-japanese">${selectedStory.titleSpanish}</h2>
     ${
       selectedStory.titleSpanish !== selectedStory.titleEnglish
-        ? `<p class="stories-subtitle">${selectedStory.titleEnglish}</p>`
+        ? `<p class="sticky-title-english">${selectedStory.titleEnglish}</p>`
         : ""
     }
   </div>
 `;
-  // Generate content with sentences and optionally include the audio player
-  let contentHTML = `<div class="stories-sentences-container">`;
-  contentHTML = titleHTML + contentHTML;
-
+  const imageHTML = imageFileURL
+    ? `<img src="${imageFileURL}" alt="${selectedStory.titleEnglish}" class="story-image">`
+    : "";
+  let contentHTML = imageHTML + `<div class="stories-sentences-container">`;
   // Function to finalize and display the story content, with or without audio
   const finalizeContent = (includeAudio = false) => {
     if (includeAudio) {
       contentHTML = audioHTML + contentHTML;
     }
 
-    // Loop to create sentence display
     for (let i = 0; i < spanishSentences.length; i++) {
       const spanishSentence = spanishSentences[i].trim();
       const englishSentence = englishSentences[i]
@@ -265,19 +276,11 @@ async function displayStory(titleSpanish) {
         : "";
 
       contentHTML += `
-                <div class="sentence-container">
-                    <div class="stories-sentence-box-norwegian">
-                        <div class="sentence-content">
-                            <p class="sentence">${spanishSentence}</p>
-                        </div>
-                    </div>
-                    <div class="stories-sentence-box-english">
-                        <div class="sentence-content">
-                            <p class="sentence">${englishSentence}</p>
-                        </div>
-                    </div>
-                </div>
-            `;
+    <div class="couplet">
+      <div class="japanese-sentence">${spanishSentence}</div>
+      <div class="english-sentence">${englishSentence}</div>
+    </div>
+  `;
     }
 
     contentHTML += `</div>`;
@@ -285,7 +288,31 @@ async function displayStory(titleSpanish) {
     // Append the rating div for this story
     contentHTML += createRatingDiv(selectedStory.titleSpanish);
 
-    document.getElementById("results-container").innerHTML = contentHTML;
+    const storyViewer = document.getElementById("story-viewer");
+    const storyContent = document.getElementById("story-content");
+    const listEl = document.getElementById("results-container");
+
+    if (storyContent) {
+      storyContent.innerHTML = contentHTML; // render story body into the reader pane
+      // Insert the sticky title above the first child (mirror JP order)
+      const titleNode = document.createElement("div");
+      titleNode.className = "sticky-title-container";
+      titleNode.innerHTML = `
+  <h2 class="sticky-title-japanese">${selectedStory.titleSpanish}</h2>
+  ${
+    selectedStory.titleSpanish !== selectedStory.titleEnglish
+      ? `<p class="sticky-title-english">${selectedStory.titleEnglish}</p>`
+      : ""
+  }
+`;
+      storyContent.insertBefore(titleNode, storyContent.firstChild);
+    }
+    if (storyViewer) {
+      storyViewer.style.display = "block"; // show the reader pane
+    }
+    if (listEl) {
+      listEl.style.display = "none"; // hide the list while reading
+    }
     hideSpinner(); // Hide spinner after story content is displayed
   };
 
@@ -355,38 +382,24 @@ async function displayStory(titleSpanish) {
 
 // Function to toggle the visibility of English sentences and update Spanish box styles
 function toggleEnglishSentences() {
-  const englishSentenceDivs = document.querySelectorAll(
-    ".stories-sentence-box-english"
-  );
-  const spanishSentenceDivs = document.querySelectorAll(
-    ".stories-sentence-box-norwegian"
-  );
+  const englishEls = document.querySelectorAll(".english-sentence");
   const englishBtn = document.querySelector(".stories-english-btn");
+  if (!englishBtn) return;
+
   const desktopText = englishBtn.querySelector(".desktop-text");
   const mobileText = englishBtn.querySelector(".mobile-text");
-  const isCurrentlyHidden = desktopText.textContent === "Show English";
+  const isCurrentlyHidden =
+    desktopText && desktopText.textContent === "Show English";
 
-  englishSentenceDivs.forEach((div, index) => {
-    if (isCurrentlyHidden) {
-      div.style.display = "block"; // Show the English div
-      spanishSentenceDivs[index].style.borderRadius = ""; // Revert to default border-radius from CSS
-      spanishSentenceDivs[index].style.boxShadow = ""; // Revert box-shadow to default
-    } else {
-      div.style.display = "none"; // Hide the English div
-      spanishSentenceDivs[index].style.borderRadius = "12px"; // Add border-radius to Spanish div
-      spanishSentenceDivs[index].style.boxShadow =
-        "0 4px 10px rgba(0, 0, 0, 0.1)"; // Add shadow to Spanish div
-    }
+  englishEls.forEach((el) => {
+    el.style.display = isCurrentlyHidden ? "" : "none";
   });
 
-  // Toggle the button text for both mobile and desktop
-  if (isCurrentlyHidden) {
-    desktopText.textContent = "Hide English";
-    mobileText.textContent = "ENG";
-  } else {
-    desktopText.textContent = "Show English";
-    mobileText.textContent = "ENG";
-  }
+  if (desktopText)
+    desktopText.textContent = isCurrentlyHidden
+      ? "Hide English"
+      : "Show English";
+  if (mobileText) mobileText.textContent = "ENG";
 }
 
 function handleGenreChange() {
@@ -464,6 +477,33 @@ async function hasAudio(titleEnglish) {
 
   console.log(`No audio found for title: ${titleEnglish}`);
   return null; // Return null if no audio file is found
+}
+
+// Check if an image exists based on the EN title (mirror JP logic)
+async function hasImageByEnglishTitle(titleEnglish) {
+  const sanitized = titleEnglish.endsWith("?")
+    ? titleEnglish.slice(0, -1)
+    : titleEnglish;
+
+  const encodedTitles = [
+    encodeURIComponent(titleEnglish),
+    encodeURIComponent(sanitized),
+  ];
+
+  const imageExtensions = ["webp", "jpg", "jpeg", "avif", "png", "gif"];
+  const imagePaths = encodedTitles.flatMap((encoded) =>
+    imageExtensions.map((ext) => `Resources/Images/${encoded}.${ext}`)
+  );
+
+  for (const path of imagePaths) {
+    try {
+      const res = await fetch(path, { method: "HEAD", cache: "no-cache" });
+      if (res.ok) return path;
+    } catch (e) {
+      console.warn("Error checking image for", path, e);
+    }
+  }
+  return null;
 }
 
 // Generate a rating div for each story

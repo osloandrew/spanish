@@ -122,6 +122,61 @@ button:disabled i {
   margin-right: 5px;
 }
 
+.cefr-value {
+  border-radius: 4px;
+  color: #4f4f4f; /* Default text color */
+  font-family: "Noto Sans", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  padding: 3px 7px;
+  text-align: center;
+  text-transform: uppercase;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.cefr-value.a1,
+.sticky-cefr-label.a1 {
+  background-color: #cfe5c0; /* Soft olive green for A1 (new grass) */
+  color: #2a4d14; /* Dark forest green for high contrast */
+}
+
+.cefr-value.a2,
+.sticky-cefr-label.a2 {
+  background-color: #b3d8a3; /* Bright meadow green for A2 (spring leaves) */
+  color: #2f4f17; /* Deep moss green for high contrast */
+}
+
+.cefr-value.b1,
+.sticky-cefr-label.b1 {
+  background-color: #f7e3b0; /* Gentle wheat yellow for B1 (warm sunlight) */
+  color: #5c4b11; /* Warm brown for legibility and contrast */
+}
+
+.cefr-value.b2,
+.sticky-cefr-label.b2 {
+  background-color: #f0d39a; /* Brighter golden yellow for B2 (ripe fields) */
+  color: #604b0e; /* Rich amber brown for sharp contrast */
+}
+
+.cefr-value.c1,
+.sticky-cefr-label.c1 {
+  background-color: #e9c3b4; /* Muted rose pink for C1 (wild roses) */
+  color: #5a2d25; /* Deep reddish-brown for readability and aesthetic balance */
+}
+
+.cefr-value.c2,
+.sticky-cefr-label.c2 {
+  background-color: #e0af92; /* Bright terracotta orange for C2 (sunlit clay) */
+  color: #5a2e18; /* Burnt sienna for clear contrast */
+}
+
+.cefr-value.cefr-unknown,
+.sticky-cefr-label.cefr-unknown {
+  background-color: #e0e0e0; /* Gray for unknown levels */
+  color: #444444; /* Dark charcoal gray for readability */
+}
+
 .clear-btn {
   align-items: center;
   background-color: white;
@@ -1301,6 +1356,27 @@ ul {
   margin: 0px;
 }
 
+.sticky-cefr-label {
+  align-items: center; /* Center vertically */
+  border: 1px solid #ddd; /* Lighter gray for a subtler border */
+  border-radius: 4px;
+  box-sizing: border-box; /* Includes padding and border in the width calculation */
+  color: #4f4f4f;
+  display: flex; /* Add Flexbox */
+  flex: 1; /* Allows the children to take up equal and maximum space */
+  font-family: "Noto Sans", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  justify-content: center; /* Center horizontally */
+  max-width: 100%; /* Ensures they don't exceed the parent container */
+  min-width: 25%;
+  padding: 3px 7px;
+  text-align: center;
+  text-transform: uppercase;
+  user-select: none;
+  white-space: nowrap;
+}
+
 .sticky-title-container {
   display: flex;
   flex-direction: column;
@@ -1389,32 +1465,29 @@ ul {
 }
 
 .stories-detail-container {
-  display: flex; /* Use flexbox layout */
-  flex-direction: row; /* Align items in a row */
-  align-items: center; /* Align vertically in the center */
-  margin-left: 10px;
+  align-items: center; /* Align CEFR and genre vertically */
+  display: flex;
+  gap: 10px; /* Add spacing between genre and CEFR */
 }
 
 .stories-genre {
-  align-self: flex-start; /* Align the label to the left */
-  background-color: #f0f0f0; /* Green for 'A1, A2' */
-  padding: 3px 7px; /* Smaller padding */
-  font-size: 12px; /* Smaller font size */
-  color: #4f4f4f;
-  font-weight: bold;
+  align-self: flex-start;
+  background-color: #f0f0f0;
   border-radius: 4px;
+  color: #4f4f4f;
+  padding: 3px 7px;
+  font-family: "Noto Sans", sans-serif;
+  font-size: 12px;
+  font-weight: bold;
+  min-width: 17.5px;
   text-align: center;
   text-transform: uppercase;
-  font-family: "Noto Sans", sans-serif;
-  white-space: nowrap; /* Prevent text wrapping */
-  margin-bottom: 5px; /* Space between the label and the word */
-  margin-right: 5px; /* Add some space between genre and CEFR label */
-  min-width: 17.5px;
-  user-select: none; /* Prevent text selection */
+  user-select: none;
+  white-space: nowrap;
 }
 
 .stories-genre i {
-  color: #333; /* Dark icon color for visibility */
+  color: #333;
 }
 
 .stories-list-item {
@@ -2058,6 +2131,10 @@ ul {
     gap: 10px !important; /* Adds space between the Norwegian and English sentences */
   }
 
+  .sticky-cefr-label {
+    height: 25px !important;
+  }
+
   .sticky-title-container {
     gap: 5px; /* Adjust to desired spacing */
   }
@@ -2071,10 +2148,6 @@ ul {
   .stories-back-btn {
     margin-left: 10px;
     margin-right: 10px;
-  }
-
-  .stories-detail-container {
-    margin-top: 0px !important;
   }
 
   .stories-english-btn {
