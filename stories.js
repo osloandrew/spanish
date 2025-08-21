@@ -292,7 +292,7 @@ async function displayStory(titleSpanish) {
   const imageHTML = imageFileURL
     ? `<img src="${imageFileURL}" alt="${selectedStory.titleEnglish}" class="story-image">`
     : "";
-  let contentHTML = imageHTML + `<div class="stories-sentences-container">`;
+  let contentHTML = imageHTML;
   // Function to finalize and display the story content, with or without audio
   const finalizeContent = (includeAudio = false) => {
     if (includeAudio) {
