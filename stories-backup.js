@@ -237,18 +237,19 @@ async function displayStory(titleSpanish) {
     : "";
   const audio = new Audio(audioFileURL);
 
-  const stickyTitleHTML = `
-  <div class="sticky-title-container">
-    <h2 class="sticky-title-japanese">${selectedStory.titleSpanish}</h2>
+  const titleHTML = `
+  <div class="stories-title-container">
+    <h2>${selectedStory.titleSpanish}</h2>
     ${
       selectedStory.titleSpanish !== selectedStory.titleEnglish
-        ? `<p class="sticky-title-english">${selectedStory.titleEnglish}</p>`
+        ? `<p class="stories-subtitle">${selectedStory.titleEnglish}</p>`
         : ""
     }
   </div>
 `;
-  let contentHTML =
-    stickyTitleHTML + `<div class="stories-sentences-container">`;
+  // Generate content with sentences and optionally include the audio player
+  let contentHTML = `<div class="stories-sentences-container">`;
+  contentHTML = titleHTML + contentHTML;
 
   // Function to finalize and display the story content, with or without audio
   const finalizeContent = (includeAudio = false) => {
@@ -256,6 +257,7 @@ async function displayStory(titleSpanish) {
       contentHTML = audioHTML + contentHTML;
     }
 
+    // Loop to create sentence display
     for (let i = 0; i < spanishSentences.length; i++) {
       const spanishSentence = spanishSentences[i].trim();
       const englishSentence = englishSentences[i]
@@ -263,11 +265,19 @@ async function displayStory(titleSpanish) {
         : "";
 
       contentHTML += `
-    <div class="couplet">
-      <div class="japanese-sentence">${spanishSentence}</div>
-      <div class="english-sentence">${englishSentence}</div>
-    </div>
-  `;
+                <div class="sentence-container">
+                    <div class="stories-sentence-box-norwegian">
+                        <div class="sentence-content">
+                            <p class="sentence">${spanishSentence}</p>
+                        </div>
+                    </div>
+                    <div class="stories-sentence-box-english">
+                        <div class="sentence-content">
+                            <p class="sentence">${englishSentence}</p>
+                        </div>
+                    </div>
+                </div>
+            `;
     }
 
     contentHTML += `</div>`;
@@ -345,24 +355,38 @@ async function displayStory(titleSpanish) {
 
 // Function to toggle the visibility of English sentences and update Spanish box styles
 function toggleEnglishSentences() {
-  const englishEls = document.querySelectorAll(".english-sentence");
+  const englishSentenceDivs = document.querySelectorAll(
+    ".stories-sentence-box-english"
+  );
+  const spanishSentenceDivs = document.querySelectorAll(
+    ".stories-sentence-box-norwegian"
+  );
   const englishBtn = document.querySelector(".stories-english-btn");
-  if (!englishBtn) return;
-
   const desktopText = englishBtn.querySelector(".desktop-text");
   const mobileText = englishBtn.querySelector(".mobile-text");
-  const isCurrentlyHidden =
-    desktopText && desktopText.textContent === "Show English";
+  const isCurrentlyHidden = desktopText.textContent === "Show English";
 
-  englishEls.forEach((el) => {
-    el.style.display = isCurrentlyHidden ? "" : "none";
+  englishSentenceDivs.forEach((div, index) => {
+    if (isCurrentlyHidden) {
+      div.style.display = "block"; // Show the English div
+      spanishSentenceDivs[index].style.borderRadius = ""; // Revert to default border-radius from CSS
+      spanishSentenceDivs[index].style.boxShadow = ""; // Revert box-shadow to default
+    } else {
+      div.style.display = "none"; // Hide the English div
+      spanishSentenceDivs[index].style.borderRadius = "12px"; // Add border-radius to Spanish div
+      spanishSentenceDivs[index].style.boxShadow =
+        "0 4px 10px rgba(0, 0, 0, 0.1)"; // Add shadow to Spanish div
+    }
   });
 
-  if (desktopText)
-    desktopText.textContent = isCurrentlyHidden
-      ? "Hide English"
-      : "Show English";
-  if (mobileText) mobileText.textContent = "ENG";
+  // Toggle the button text for both mobile and desktop
+  if (isCurrentlyHidden) {
+    desktopText.textContent = "Hide English";
+    mobileText.textContent = "ENG";
+  } else {
+    desktopText.textContent = "Show English";
+    mobileText.textContent = "ENG";
+  }
 }
 
 function handleGenreChange() {

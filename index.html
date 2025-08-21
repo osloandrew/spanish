@@ -93,6 +93,11 @@
       <p id="site-subtitle">Search in Spanish or English</p>
     </header>
 
+    <div id="sticky-header" class="hidden">
+      <button id="back-button">← Back to Stories</button>
+      <button id="toggle-english-btn" class="toggle-btn">Show English</button>
+    </div>
+
     <main>
       <!-- Search container with full-width background -->
       <section id="search-container">
@@ -512,7 +517,9 @@
           </p>
         </div>
       </div>
-
+      <section id="story-viewer" style="display: none">
+        <div id="story-content"></div>
+      </section>
       <section id="results-container"></section>
     </main>
 

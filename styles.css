@@ -231,6 +231,11 @@ li {
   margin: 10px 0 10px 0;
 }
 
+.distractor-muted {
+  opacity: 0.4;
+  pointer-events: none;
+}
+
 .english,
 .etymology,
 .pronunciation {
@@ -239,9 +244,9 @@ li {
   font-weight: 500;
 }
 
-.distractor-muted {
-  opacity: 0.4;
-  pointer-events: none;
+.english-sentence {
+  color: gray; /* Set a different color for English text */
+  font-family: "Noto Serif", serif; /* Adjust to the appropriate English font */
 }
 
 .error-message {
@@ -698,6 +703,11 @@ input[type="text"]:not(:placeholder-shown) + label {
   color: #2e2e2e;
   font-size: 12px;
   top: -10px;
+}
+
+.japanese-sentence {
+  color: black; /* Set a color for Japanese text */
+  font-family: "Noto Sans JP", sans-serif; /* Adjust to the appropriate English font */
 }
 
 label {
@@ -1291,6 +1301,35 @@ ul {
   margin: 0px;
 }
 
+.sticky-title-container {
+  display: flex;
+  flex-direction: column;
+  gap: 7.5px; /* Adjust to desired spacing */
+  margin-bottom: 0.75em !important;
+  margin-left: auto;
+  margin-right: auto;
+  text-align: center; /* Center the text inside */
+  white-space: normal; /* Allow text wrapping */
+  word-break: break-word; /* Break long words if necessary */
+}
+
+.sticky-title-japanese {
+  font-size: 1.5em;
+  font-family: "Noto Sans JP", sans; /* Adjust to the appropriate English font */
+  font-weight: 400;
+  margin: 0 auto;
+}
+
+.sticky-title-english {
+  color: #666;
+  font-family: "Noto Sans", sans;
+  font-size: 1em;
+  letter-spacing: 0.75px;
+  line-height: 1.2; /* Adjust line height */
+  margin: 0 auto;
+  text-transform: uppercase;
+}
+
 .stories-back-btn {
   color: #2e2e2e;
   margin-left: 20px;
@@ -1548,6 +1587,38 @@ ul {
   display: flex;
   flex-direction: column;
   row-gap: 2.5px;
+}
+
+/* Style for the story content */
+#story-content {
+  background: #fff; /* Same white background as story list items */
+  border: 1px solid #ddd; /* Light border for separation */
+  border-radius: 12px;
+  box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
+  font-family: "Noto Serif", serif;
+  margin: 1em 0;
+  padding: 1em 5em 0 5em;
+}
+
+#story-content > div {
+  margin-bottom: 20px; /* Margin for each sentence couplet */
+}
+
+.story-image {
+  border-radius: 10px; /* Rounds the corners for a soft photograph effect */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15); /* Adjusted vertical spread and blur */
+  display: block; /* Makes the image behave like a block element */
+  margin: 0 auto; /* Centers the image horizontally */
+  margin-bottom: 3em;
+  max-height: 250px;
+  max-width: 100%; /* Ensures the image is responsive */
+}
+
+/* Story list and story content */
+#story-list,
+#story-viewer {
+  max-width: 800px; /* Limit the width */
+  margin: 0 auto; /* Center align */
 }
 
 .spinner {
@@ -1987,6 +2058,16 @@ ul {
     gap: 10px !important; /* Adds space between the Norwegian and English sentences */
   }
 
+  .sticky-title-container {
+    gap: 5px; /* Adjust to desired spacing */
+  }
+  .sticky-title-japanese {
+    font-size: 1.3em;
+  }
+  .sticky-title-english {
+    font-size: 0.8em;
+  }
+
   .stories-back-btn {
     margin-left: 10px;
     margin-right: 10px;
@@ -2052,6 +2133,17 @@ ul {
 
   .stories-title-container {
     row-gap: 0px;
+  }
+
+  #story-content {
+    margin: 0.75em 0;
+    padding: 1em 1em 0em 1em;
+  }
+  #story-content > div {
+    margin-bottom: 15px; /* Margin for each sentence couplet */
+  }
+  .story-image {
+    margin-bottom: 1.25em;
   }
 
   .type-filter,
