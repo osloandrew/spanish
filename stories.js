@@ -178,6 +178,15 @@ async function displayStoryList(filteredStories = storyResults) {
 
   // Join the generated HTML for each story and insert into results container
   document.getElementById("results-container").innerHTML = htmlString;
+  const listEl = document.getElementById("results-container");
+  const storyViewer = document.getElementById("story-viewer");
+  const storyContent = document.getElementById("story-content");
+  const stickyHeader = document.getElementById("sticky-header");
+
+  if (listEl) listEl.style.display = "block"; // show the list
+  if (storyViewer) storyViewer.style.display = "none";
+  if (storyContent) storyContent.innerHTML = ""; // clear old story body
+  if (stickyHeader) stickyHeader.classList.add("hidden"); // hide header for now
   hideSpinner(); // Hide spinner after story list is rendered
 }
 
@@ -275,7 +284,19 @@ async function displayStory(titleSpanish) {
     // Append the rating div for this story
     contentHTML += createRatingDiv(selectedStory.titleSpanish);
 
-    document.getElementById("results-container").innerHTML = contentHTML;
+    const storyViewer = document.getElementById("story-viewer");
+    const storyContent = document.getElementById("story-content");
+    const listEl = document.getElementById("results-container");
+
+    if (storyContent) {
+      storyContent.innerHTML = contentHTML; // render story body into the reader pane
+    }
+    if (storyViewer) {
+      storyViewer.style.display = "block"; // show the reader pane
+    }
+    if (listEl) {
+      listEl.style.display = "none"; // hide the list while reading
+    }
     hideSpinner(); // Hide spinner after story content is displayed
   };
 
