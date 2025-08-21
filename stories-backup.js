@@ -102,6 +102,21 @@ function parseStoryCSVData(data) {
   });
 }
 
+// Helper function to determine CEFR class
+function getCefrClass(cefrLevel) {
+  if (!cefrLevel) return "cefr-unknown"; // Fallback for missing CEFR levels
+  const level = cefrLevel.toUpperCase();
+  if (["A1"].includes(level)) return "a1";
+  if (["A2"].includes(level)) return "a2";
+  if (["B1"].includes(level)) return "b1";
+  if (["B2"].includes(level)) return "b2";
+  if (["C"].includes(level)) return "c1";
+  if (["C1"].includes(level)) return "c1";
+  if (["C2"].includes(level)) return "c2";
+
+  return "cefr-unknown"; // Default
+}
+
 async function displayStoryList(filteredStories = storyResults) {
   showSpinner(); // Show spinner before rendering story list
   restoreSearchContainerInner();
@@ -168,7 +183,7 @@ async function displayStoryList(filteredStories = storyResults) {
                     </div>
                     <div class="stories-detail-container">
                         <div class="stories-genre">${genreIcon}</div>  <!-- Genre icon -->
-                        <div class="game-cefr-label ${cefrClass}">${
+                        <div class="cefr-value ${cefrClass}">${
       story.CEFR
     }</div>  <!-- CEFR label -->
                     </div>
@@ -222,7 +237,7 @@ async function displayStory(titleSpanish) {
                 <div class="stories-rightward-div">
                     <div class="stories-detail-container" style="margin-left: 0px; margin-top: 5px;">
                             <div class="stories-genre">${genreIcon}</div>  <!-- Genre icon -->
-                            <div class="game-cefr-label ${cefrClass}">${selectedStory.CEFR}</div>  <!-- CEFR label -->
+                            <div class="sticky-cefr-label ${cefrClass}">${selectedStory.CEFR}</div>  <!-- CEFR label -->
                     </div>
                     <div class="stories-english-btn" onclick="toggleEnglishSentences()">
                         <span class="desktop-text">Hide English</span>

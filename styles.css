@@ -1356,6 +1356,7 @@ ul {
   margin: 0px;
 }
 
+/* Ensure sticky header CEFR label matches list page */
 .sticky-cefr-label {
   align-items: center; /* Center vertically */
   border: 1px solid #ddd; /* Lighter gray for a subtler border */
@@ -1375,6 +1376,72 @@ ul {
   text-transform: uppercase;
   user-select: none;
   white-space: nowrap;
+}
+
+/* Flex container for genre and CEFR */
+.sticky-detail-container {
+  display: flex;
+  flex-direction: column; /* Stack rows vertically */
+  gap: 5px; /* Space between rows */
+}
+
+/* Ensure sticky header genre matches list page */
+.sticky-genre {
+  align-items: center; /* Center vertically */
+  align-self: flex-start;
+  background-color: #f0f0f0; /* Light background for genre badge */
+  border: 1px solid #ddd; /* Lighter gray for a subtler border */
+  border-radius: 4px;
+  box-sizing: border-box; /* Includes padding and border in the width calculation */
+  color: #4f4f4f;
+  display: flex; /* Add Flexbox */
+  flex: 1; /* Allows the children to take up equal and maximum space */
+  font-family: "Noto Sans", sans-serif;
+  font-size: 12px !important;
+  font-weight: bold;
+  height: 30px;
+  justify-content: center; /* Center horizontally */
+  text-align: center;
+  text-transform: uppercase;
+  max-width: 100%; /* Ensures they don't exceed the parent container */
+  min-width: 25%;
+  padding: 3px 7px;
+  user-select: none;
+  white-space: nowrap;
+}
+
+.sticky-genre i {
+  color: #333; /* Icon color */
+}
+
+#sticky-header {
+  align-items: center;
+  background-color: white;
+  border-top: 1px solid #ccc; /* Subtle gray border at the top */
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  color: black;
+  display: flex;
+  gap: 1.5em;
+  position: sticky;
+  justify-content: space-between;
+  min-height: 60px; /* Ensure enough height for wrapping content */
+  overflow: hidden; /* Prevent content from overflowing */
+  padding: 0.5em 1.5em;
+  top: 0;
+  z-index: 1000; /* Ensure it stays on top */
+}
+
+.sticky-header-content {
+  align-items: center;
+  display: flex;
+  justify-content: center; /* Center titles horizontally */
+  position: relative;
+  width: 100%; /* Allow flex to distribute space evenly */
+}
+
+.sticky-row {
+  display: flex;
+  gap: 5px; /* Space between genre and CEFR */
 }
 
 .sticky-title-container {
@@ -2130,11 +2197,17 @@ ul {
   .sentence-content {
     gap: 10px !important; /* Adds space between the Norwegian and English sentences */
   }
-
   .sticky-cefr-label {
     height: 25px !important;
   }
-
+  .sticky-genre {
+    height: 25px;
+  }
+  #sticky-header {
+    border: none;
+    padding: 0.25em 0.5em;
+    gap: 0.5em;
+  }
   .sticky-title-container {
     gap: 5px; /* Adjust to desired spacing */
   }
@@ -2144,7 +2217,6 @@ ul {
   .sticky-title-english {
     font-size: 0.8em;
   }
-
   .stories-back-btn {
     margin-left: 10px;
     margin-right: 10px;
