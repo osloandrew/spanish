@@ -114,7 +114,7 @@ function filterResultsByPOS(results, selectedPOS) {
     if (selectedPOS === "noun") {
       return (
         r.gender &&
-        ["masculine", "feminine"].some((genderVal) =>
+        ["noun", "masculine", "feminine"].some((genderVal) =>
           r.gender.toLowerCase().includes(genderVal)
         )
       );
@@ -142,7 +142,7 @@ function formatGender(gender) {
   const g = gender.toLowerCase().trim();
 
   const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
-  const esNounMarkers = ["masculine", "feminine", "m", "f", "m/f"];
+  const esNounMarkers = ["noun", "masculine", "feminine"];
 
   if (norNounMarkers.some((m) => g.startsWith(m))) {
     return "noun - " + gender;
@@ -159,7 +159,7 @@ function formatGender(gender) {
   const g = gender.toLowerCase().trim();
 
   const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
-  const esNounMarkers = ["masculine", "feminine", "m", "f", "m/f"];
+  const esNounMarkers = ["noun", "masculine", "feminine"];
 
   if (norNounMarkers.some((m) => g.startsWith(m))) {
     return "noun - " + gender;
@@ -647,7 +647,7 @@ async function search(queryOverride = null) {
         matchesQuery &&
         (!selectedPOS ||
           (selectedPOS === "noun" &&
-            ["masculine", "feminine"].some((gender) =>
+            ["noun", "masculine", "feminine"].some((gender) =>
               r.gender.toLowerCase().includes(gender)
             )) ||
           r.gender.toLowerCase().includes(selectedPOS)) &&
@@ -694,7 +694,7 @@ async function search(queryOverride = null) {
           matchesInexact &&
           (!selectedPOS ||
             (selectedPOS === "noun" &&
-              ["masculine", "feminine"].some((gender) =>
+              ["noun", "masculine", "feminine"].some((gender) =>
                 r.gender.toLowerCase().includes(gender)
               )) ||
             r.gender.toLowerCase().includes(selectedPOS)) &&
@@ -922,7 +922,7 @@ function checkForSentences(word, pos) {
       // Handle POS matching for nouns and other parts of speech
       const posMatch =
         (pos === "noun" &&
-          ["masculine", "feminine"].some((gender) =>
+          ["noun", "masculine", "feminine"].some((gender) =>
             result.gender.toLowerCase().includes(gender)
           )) ||
         result.gender.toLowerCase().includes(pos.toLowerCase());
@@ -1323,6 +1323,7 @@ function displaySearchResults(results, query = "") {
       "ei",
       "en-et",
       "en-ei-et",
+      "noun",
       "masculine",
       "feminine",
       "m",
@@ -1889,7 +1890,7 @@ function highlightQuery(sentence, query) {
     result.ord.toLowerCase().includes(query)
   );
   const pos = matchingWordEntry
-    ? ["masculine", "feminine"].some((gender) =>
+    ? ["noun", "masculine", "feminine"].some((gender) =>
         matchingWordEntry.gender.toLowerCase().includes(gender)
       )
       ? "noun"
@@ -2022,7 +2023,7 @@ function renderWordDefinition(word, selectedPOS = "") {
     // Check for noun gender match when selectedPOS is 'noun'
     const posMatch =
       selectedPOS === "noun"
-        ? ["masculine", "feminine"].some((gender) =>
+        ? ["noun", "masculine", "feminine"].some((gender) =>
             r.gender.toLowerCase().includes(gender)
           )
         : selectedPOS
