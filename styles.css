@@ -133,6 +133,7 @@ button:disabled i {
   text-transform: uppercase;
   user-select: none;
   white-space: nowrap;
+  width: 18px;
 }
 
 .cefr-value.a1,
@@ -410,15 +411,22 @@ footer .copyright {
   user-select: none; /* Prevent text selection */
 }
 
-.game-cefr-label.easy {
+.game-cefr-label.easy,
+.game-cefr-label.a1,
+.game-cefr-label.a2 {
   background-color: #c7e3b6; /* Green for 'A1, A2' */
 }
 
-.game-cefr-label.medium {
+.game-cefr-label.medium,
+.game-cefr-label.b1,
+.game-cefr-label.b2 {
   background-color: #f2d96b; /* Yellow for 'B1, B2' */
 }
 
-.game-cefr-label.hard {
+.game-cefr-label.hard,
+.game-cefr-label.c,
+.game-cefr-label.c1,
+.game-cefr-label.c2 {
   background-color: #e9a895; /* Red for 'C' */
 }
 
@@ -1555,11 +1563,11 @@ ul {
   font-family: "Noto Sans", sans-serif;
   font-size: 12px;
   font-weight: bold;
-  min-width: 17.5px;
   text-align: center;
   text-transform: uppercase;
   user-select: none;
   white-space: nowrap;
+  width: 18px;
 }
 
 .stories-genre i {
