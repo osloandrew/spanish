@@ -779,7 +779,7 @@ input[type="text"]:not(:placeholder-shown) + label {
 
 .japanese-sentence {
   color: black; /* Set a color for Japanese text */
-  font-family: "Noto Sans JP", sans-serif; /* Adjust to the appropriate English font */
+  font-family: "Noto Serif", serif; /* Adjust to the appropriate English font */
 }
 
 label {
