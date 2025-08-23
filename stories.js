@@ -161,7 +161,8 @@ async function displayStoryList(filteredStories = storyResults) {
     const cefrMatch = selectedCEFR
       ? story.CEFR && story.CEFR.trim().toUpperCase() === selectedCEFR
       : true;
-    return genreMatch && cefrMatch;
+    const hasSpanish = story.spanish && story.spanish.trim() !== "";
+    return genreMatch && cefrMatch && hasSpanish;
   });
 
   // Shuffle the filtered stories using Fisher-Yates algorithm
