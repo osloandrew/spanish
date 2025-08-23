@@ -1211,17 +1211,19 @@ function handleCEFRChange() {
 function makeDefinitionClickable(defText) {
   if (!defText) return "";
 
-  // Normalize multi-line definitions: capitalize each line, add period if missing
+  // Normalize: trim, lowercase first alpha, remove trailing sentence-ending punctuation
   defText = defText
     .split(/\r?\n+/)
     .map((line) => {
       line = line.trim();
       if (!line) return "";
+      // lowercase the first alphabetic char after any opening punctuation
       line = line.replace(
-        /^([(\s"«“¡¿]*)?([a-záéíóúüñçàèìòùâêîôûäëïöüåæøœ])/iu,
-        (m, pre = "", ch) => pre + ch.toUpperCase()
+        /^([(\s"«“¡¿]*)?([A-ZÁÉÍÓÚÜÑÇÀÈÌÒÙÂÊÎÔÛÄËÏÖÜÅÆØŒ])/u,
+        (m, pre = "", ch) => pre + ch.toLowerCase()
       );
-      if (!/[.!?…]$/.test(line)) line += ".";
+      // strip trailing . ! ? …
+      line = line.replace(/\s*[.!?…]\s*$/u, "");
       return line;
     })
     .filter(Boolean)
@@ -1294,8 +1296,6 @@ function makeDefinitionClickable(defText) {
   if (defText.includes(";")) {
     const items = defText
       .split(";")
-      .map((item) => item.trim())
-      .filter(Boolean)
       .map((item) =>
         item
           .split(/\r?\n+/)
@@ -1303,15 +1303,16 @@ function makeDefinitionClickable(defText) {
             s = s.trim();
             if (!s) return "";
             s = s.replace(
-              /^([(\s"«“¡¿]*)?([a-záéíóúüñçàèìòùâêîôûäëïöüåæøœ])/iu,
-              (m, pre = "", ch) => pre + ch.toUpperCase()
+              /^([(\s"«“¡¿]*)?([A-ZÁÉÍÓÚÜÑÇÀÈÌÒÙÂÊÎÔÛÄËÏÖÜÅÆØŒ])/u,
+              (m, pre = "", ch) => pre + ch.toLowerCase()
             );
-            if (!/[.!?…]$/.test(s)) s += ".";
+            s = s.replace(/\s*[.!?…]\s*$/u, "");
             return s;
           })
           .filter(Boolean)
           .join(" ")
-      );
+      )
+      .filter(Boolean);
 
     return (
       `<ul class="definition-list">` +
