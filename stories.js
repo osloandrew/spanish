@@ -44,62 +44,57 @@ const STORY_CACHE_TIME_KEY = "storyDataTimestampEs";
 const CACHE_EXPIRY_HOURS = 1; // Set cache expiry time
 
 async function fetchAndLoadStoryData() {
-  showSpinner(); // Show spinner before loading starts
+  showSpinner();
   try {
-    const cachedData = localStorage.getItem(STORY_CACHE_KEY);
+    const cachedData = localStorage.getItem(STORY_CACHE_KEY); // now stores JSON, not CSV
     const cachedTimestamp = localStorage.getItem(STORY_CACHE_TIME_KEY);
-
-    // Check if cache is expired
-    const now = new Date().getTime();
+    const now = Date.now();
     const cacheAgeHours = cachedTimestamp
-      ? (now - cachedTimestamp) / (1000 * 60 * 60)
+      ? (now - cachedTimestamp) / 3_600_000
       : Infinity;
 
-    if (cachedData && cacheAgeHours < CACHE_EXPIRY_HOURS) {
-      console.log("Loading stories from cache.");
-      parseStoryCSVData(cachedData);
-      hideSpinner(); // End early since we don't need to fetch new data
+    // Fast path: parsed JSON cache is fresh → assign and return immediately
+    if (
+      cachedData &&
+      cacheAgeHours < CACHE_EXPIRY_HOURS &&
+      cachedData.trim().startsWith("[")
+    ) {
+      storyResults = JSON.parse(cachedData);
+      hideSpinner();
       return;
     }
 
-    // Fetch the latest data from the network
+    // Slow path once per expiry window: fetch CSV, parse once, save parsed JSON
     const response = await fetch("spanishStories.csv");
     if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    const csvText = await response.text();
 
-    const data = await response.text();
+    // Parse CSV synchronously and assign in one shot
+    const parsed = Papa.parse(csvText, {
+      header: true,
+      skipEmptyLines: true,
+    }).data;
+    storyResults = parsed.map((entry) => ({
+      ...entry,
+      titleSpanish: (entry.titleSpanish || "").trim(),
+    }));
 
-    // Store CSV text and timestamp in cache
-    localStorage.setItem(STORY_CACHE_KEY, data);
-    localStorage.setItem(STORY_CACHE_TIME_KEY, now);
-    parseStoryCSVData(data);
+    // Store parsed JSON + timestamp
+    localStorage.setItem(STORY_CACHE_KEY, JSON.stringify(storyResults));
+    localStorage.setItem(STORY_CACHE_TIME_KEY, String(now));
   } catch (error) {
-    console.error("Error fetching or parsing stories CSV file:", error);
+    console.error("Error loading stories:", error);
   } finally {
-    hideSpinner(); // Hide spinner after data loading completes
+    hideSpinner();
   }
 }
-
 // Parse the CSV data for stories
 function parseStoryCSVData(data) {
-  Papa.parse(data, {
-    header: true,
-    skipEmptyLines: true,
-    chunkSize: 1024, // Parse in chunks to improve performance
-    chunk: function (results, parser) {
-      storyResults.push(
-        ...results.data.map((entry) => {
-          entry.titleSpanish = (entry.titleSpanish || "").trim();
-          return entry;
-        })
-      );
-    },
-    complete: function () {
-      console.log("Parsed and cleaned story data:", storyResults);
-    },
-    error: function (error) {
-      console.error("Error parsing story CSV:", error);
-    },
-  });
+  const parsed = Papa.parse(data, { header: true, skipEmptyLines: true }).data;
+  storyResults = parsed.map((entry) => ({
+    ...entry,
+    titleSpanish: (entry.titleSpanish || "").trim(),
+  }));
 }
 
 // Helper function to determine CEFR class
