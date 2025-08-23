@@ -140,7 +140,6 @@ function filterResultsByCEFR(results, selectedCEFR) {
 function formatGender(gender) {
   if (!gender) return "";
   const g = gender.toLowerCase().trim();
-
   const esNounMarkers = ["noun", "masculine", "feminine"];
   const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
 
@@ -157,9 +156,10 @@ function formatGender(gender) {
 function formatGender(gender) {
   if (!gender) return "";
   const g = gender.toLowerCase().trim();
-
   const esNounMarkers = ["noun", "masculine", "feminine"];
   const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
+
+  if (g === "noun") return "noun";
 
   if (esNounMarkers.some((m) => g === m)) {
     // Spanish CSV uses masculine/feminine for nouns
