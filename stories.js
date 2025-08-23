@@ -20,6 +20,7 @@ const genreIcons = {
   health: '<i class="fas fa-heartbeat"></i>', // Health genre icon
   history: '<i class="fas fa-landmark"></i>', // History genre icon
   horror: '<i class="fas fa-ghost"></i>', // Horror genre icon
+  language: '<i class="fas fa-language"></i>', // Language genre icon
   monologue: '<i class="fas fa-microphone-alt"></i>', // Monologue genre icon
   music: '<i class="fas fa-music"></i>', // Music genre icon
   mystery: '<i class="fas fa-search"></i>', // Mystery genre icon
@@ -27,7 +28,7 @@ const genreIcons = {
   philosophy: '<i class="fas fa-brain"></i>', // Philosophy genre icon
   poetry: '<i class="fas fa-feather-alt"></i>', // Poetry genre icon
   politics: '<i class="fas fa-balance-scale"></i>', // Politics genre icon
-  psychology: '<i class="fas fa-brain"></i>', // Psychology genre icon
+  psychology: '<i class="fas fa-user-md"></i>', // Psychology genre icon
   religion: '<i class="fas fa-praying-hands"></i>', // Religion genre icon
   romance: '<i class="fas fa-heart"></i>', // Romance genre icon
   science: '<i class="fas fa-flask"></i>', // Science genre icon
@@ -39,37 +40,22 @@ const genreIcons = {
   travel: '<i class="fas fa-plane"></i>', // Travel genre icon
 };
 
+const CSV_URL = "spanishStories.csv";
 const STORY_CACHE_KEY = "storyDataEs";
 const STORY_CACHE_TIME_KEY = "storyDataTimestampEs";
-const CACHE_EXPIRY_HOURS = 1; // Set cache expiry time
 
 async function fetchAndLoadStoryData() {
   showSpinner();
   try {
-    const cachedData = localStorage.getItem(STORY_CACHE_KEY); // now stores JSON, not CSV
-    const cachedTimestamp = localStorage.getItem(STORY_CACHE_TIME_KEY);
-    const now = Date.now();
-    const cacheAgeHours = cachedTimestamp
-      ? (now - cachedTimestamp) / 3_600_000
-      : Infinity;
-
-    // Fast path: parsed JSON cache is fresh → assign and return immediately
-    if (
-      cachedData &&
-      cacheAgeHours < CACHE_EXPIRY_HOURS &&
-      cachedData.trim().startsWith("[")
-    ) {
-      storyResults = JSON.parse(cachedData);
-      hideSpinner();
-      return;
-    }
-
-    // Slow path once per expiry window: fetch CSV, parse once, save parsed JSON
-    const response = await fetch("spanishStories.csv");
-    if (!response.ok) throw new Error(`HTTP error! Status: ${response.status}`);
+    // 1) Always bypass caches: unique param + no-store
+    const bust = Date.now(); // guarantees a new URL each request
+    const response = await fetch(`${CSV_URL}?bust=${bust}`, {
+      cache: "no-store",
+    });
+    if (!response.ok) throw new Error(`HTTP ${response.status}`);
     const csvText = await response.text();
 
-    // Parse CSV synchronously and assign in one shot
+    // 2) Parse fresh CSV
     const parsed = Papa.parse(csvText, {
       header: true,
       skipEmptyLines: true,
@@ -79,11 +65,22 @@ async function fetchAndLoadStoryData() {
       titleSpanish: (entry.titleSpanish || "").trim(),
     }));
 
-    // Store parsed JSON + timestamp
+    // 3) Optional: store for offline fallback (not used on next run)
     localStorage.setItem(STORY_CACHE_KEY, JSON.stringify(storyResults));
-    localStorage.setItem(STORY_CACHE_TIME_KEY, String(now));
-  } catch (error) {
-    console.error("Error loading stories:", error);
+    localStorage.setItem(STORY_CACHE_TIME_KEY, String(Date.now()));
+
+    // 4) Render
+    displayStoryList(storyResults);
+  } catch (err) {
+    console.error("Live fetch failed, falling back to cache:", err);
+    const cached = localStorage.getItem(STORY_CACHE_KEY);
+    if (cached) {
+      storyResults = JSON.parse(cached);
+      displayStoryList(storyResults);
+    } else {
+      // handle empty state gracefully
+      displayStoryList([]);
+    }
   } finally {
     hideSpinner();
   }
