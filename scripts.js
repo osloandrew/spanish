@@ -1506,7 +1506,7 @@ function displaySearchResults(results, query = "") {
                     ? `<p class="${multipleResultsDefinitionText}">${
                         defaultResult
                           ? makeDefinitionClickable(result.definisjon)
-                          : normalizeDefinitionText(result.definisjon)
+                          : result.definisjon // 👈 multiple results just show raw definisjon
                       }</p>`
                     : ""
                 }
