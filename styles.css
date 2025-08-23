@@ -201,7 +201,7 @@ button:disabled i {
 
 .clickable-definition-word {
   cursor: pointer;
-  color: #8c3b2e;
+  color: #3c88d4;
   text-decoration: underline;
   text-decoration-thickness: 1px;
   text-underline-offset: 4px;
@@ -701,7 +701,7 @@ h1 {
 }
 
 h2 {
-  color: #2e2e2e;
+  color: #1c68b5;
   font-size: 30px;
   font-weight: bold;
   margin: -5px 0 -5px 0;
@@ -1464,7 +1464,7 @@ ul {
 .sticky-title-container {
   display: flex;
   flex-direction: column;
-  gap: 7.5px; /* Adjust to desired spacing */
+  gap: 5px; /* Adjust to desired spacing */
   margin-bottom: 0.75em !important;
   margin-left: auto;
   margin-right: auto;
@@ -1474,16 +1474,20 @@ ul {
 }
 
 .sticky-title-japanese {
+  color: #3c3c3c;
   font-size: 1.5em;
-  font-family: "Noto Sans JP", sans; /* Adjust to the appropriate English font */
+  font-family: "Noto Serif", serif; /* Adjust to the appropriate English font */
   font-weight: 400;
+  letter-spacing: 0.5px;
   margin: 0 auto;
+  text-transform: uppercase;
 }
 
 .sticky-title-english {
   color: #666;
   font-family: "Noto Sans", sans;
   font-size: 1em;
+  font-weight: 400;
   letter-spacing: 0.75px;
   line-height: 1.2; /* Adjust line height */
   margin: 0 auto;
@@ -1766,7 +1770,7 @@ ul {
   box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2), 0 1px 2px rgba(0, 0, 0, 0.15); /* Adjusted vertical spread and blur */
   display: block; /* Makes the image behave like a block element */
   margin: 0 auto; /* Centers the image horizontally */
-  margin-bottom: 3em;
+  margin-bottom: 2em;
   max-height: 250px;
   max-width: 100%; /* Ensures the image is responsive */
 }
