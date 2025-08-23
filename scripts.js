@@ -1211,6 +1211,22 @@ function handleCEFRChange() {
 function makeDefinitionClickable(defText) {
   if (!defText) return "";
 
+  // Normalize multi-line definitions: capitalize each line, add period if missing
+  defText = defText
+    .split(/\r?\n+/)
+    .map((line) => {
+      line = line.trim();
+      if (!line) return "";
+      line = line.replace(
+        /^([(\s"«“¡¿]*)?([a-záéíóúüñçàèìòùâêîôûäëïöüåæøœ])/iu,
+        (m, pre = "", ch) => pre + ch.toUpperCase()
+      );
+      if (!/[.!?…]$/.test(line)) line += ".";
+      return line;
+    })
+    .filter(Boolean)
+    .join(" ");
+
   function wrapToken(token) {
     // Håndter sammensatte ord med parentes, som (språk)gruppe eller språk(gruppe)
     const complexParenMatch = token.match(
@@ -1279,7 +1295,24 @@ function makeDefinitionClickable(defText) {
     const items = defText
       .split(";")
       .map((item) => item.trim())
-      .filter(Boolean);
+      .filter(Boolean)
+      .map((item) =>
+        item
+          .split(/\r?\n+/)
+          .map((s) => {
+            s = s.trim();
+            if (!s) return "";
+            s = s.replace(
+              /^([(\s"«“¡¿]*)?([a-záéíóúüñçàèìòùâêîôûäëïöüåæøœ])/iu,
+              (m, pre = "", ch) => pre + ch.toUpperCase()
+            );
+            if (!/[.!?…]$/.test(s)) s += ".";
+            return s;
+          })
+          .filter(Boolean)
+          .join(" ")
+      );
+
     return (
       `<ul class="definition-list">` +
       items
