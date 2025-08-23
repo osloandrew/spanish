@@ -68,18 +68,13 @@ async function fetchAndLoadStoryData() {
     // 3) Optional: store for offline fallback (not used on next run)
     localStorage.setItem(STORY_CACHE_KEY, JSON.stringify(storyResults));
     localStorage.setItem(STORY_CACHE_TIME_KEY, String(Date.now()));
-
-    // 4) Render
-    displayStoryList(storyResults);
   } catch (err) {
     console.error("Live fetch failed, falling back to cache:", err);
     const cached = localStorage.getItem(STORY_CACHE_KEY);
     if (cached) {
       storyResults = JSON.parse(cached);
-      displayStoryList(storyResults);
     } else {
-      // handle empty state gracefully
-      displayStoryList([]);
+      storyResults = [];
     }
   } finally {
     hideSpinner();
