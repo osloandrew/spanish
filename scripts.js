@@ -141,14 +141,14 @@ function formatGender(gender) {
   if (!gender) return "";
   const g = gender.toLowerCase().trim();
 
-  const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
   const esNounMarkers = ["noun", "masculine", "feminine"];
+  const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
 
-  if (norNounMarkers.some((m) => g.startsWith(m))) {
-    return "noun - " + gender;
-  }
   if (esNounMarkers.some((m) => g === m)) {
     // Spanish CSV uses masculine/feminine for nouns
+    return "noun - " + gender;
+  }
+  if (norNounMarkers.some((m) => g.startsWith(m))) {
     return "noun - " + gender;
   }
   return gender;
@@ -158,14 +158,14 @@ function formatGender(gender) {
   if (!gender) return "";
   const g = gender.toLowerCase().trim();
 
-  const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
   const esNounMarkers = ["noun", "masculine", "feminine"];
+  const norNounMarkers = ["en", "et", "ei", "en-et", "en-ei-et"];
 
-  if (norNounMarkers.some((m) => g.startsWith(m))) {
-    return "noun - " + gender;
-  }
   if (esNounMarkers.some((m) => g === m)) {
     // Spanish CSV uses masculine/feminine for nouns
+    return "noun - " + gender;
+  }
+  if (norNounMarkers.some((m) => g.startsWith(m))) {
     return "noun - " + gender;
   }
   return gender;
@@ -211,7 +211,6 @@ async function fetchAndLoadDictionaryData() {
   }
 }
 
-// Parse the CSV data using PapaParse
 // Parse the CSV data using PapaParse and normalize to canonical keys
 function parseCSVData(data) {
   Papa.parse(data, {
@@ -451,26 +450,53 @@ function generateInexactMatches(query) {
 
   // Handle common suffixes like 'ing', 'ed', etc.
   const suffixes = [
-    "a",
-    "e",
-    "ed",
-    "en",
-    "ende",
-    "ene",
-    "er",
-    "es",
-    "et",
-    "i",
-    "ing",
-    "ly",
-    "men",
-    "n",
-    "ne",
-    "r",
+    // plurals
     "s",
-    "t",
-    "te",
-  ]; // Alphabetized
+    "es",
+    // adverbs
+    "mente",
+    // adjective gender/number
+    "o",
+    "a",
+    "os",
+    "as",
+    // common diminutives
+    "ito",
+    "ita",
+    "itos",
+    "itas",
+    // participles and gerunds
+    "ado",
+    "ada",
+    "ados",
+    "adas",
+    "ido",
+    "ida",
+    "idos",
+    "idas",
+    "ando",
+    "iendo",
+    // very common present/preterite endings (short list for recall)
+    "o",
+    "as",
+    "a",
+    "amos",
+    "an",
+    "es",
+    "e",
+    "emos",
+    "en",
+    "í",
+    "iste",
+    "ió",
+    "imos",
+    "ieron",
+    // infinitive recovery helper
+    "r",
+    "ar",
+    "er",
+    "ir",
+  ];
   suffixes.forEach((suffix) => {
     if (query.endsWith(suffix)) {
       variations.push(query.slice(0, -suffix.length));
@@ -1412,6 +1438,25 @@ function displaySearchResults(results, query = "") {
       .replace(/\r?\n|\r/g, ""); // Escapes single quotes, double quotes, and removes newlines
     const hasSentencesPlaceholder = `<button class="sentence-btn english-toggle-btn" style="display: none;" onclick="event.stopPropagation(); toggleEnglishTranslations('${normalizedWord}')">Show English</button>`;
 
+    function normalizeDefinitionText(def) {
+      return def
+        .split(/\r?\n+/)
+        .map((line) => {
+          line = line.trim();
+          if (!line) return "";
+          // lowercase the first alphabetic char
+          line = line.replace(
+            /^([(\s"«“¡¿]*)?([A-ZÁÉÍÓÚÜÑÇÀÈÌÒÙÂÊÎÔÛÄËÏÖÜÅÆØŒ])/u,
+            (m, pre = "", ch) => pre + ch.toLowerCase()
+          );
+          // strip trailing . ! ? …
+          line = line.replace(/\s*[.!?…]\s*$/u, "");
+          return line;
+        })
+        .filter(Boolean)
+        .join(" ");
+    }
+
     htmlString += `
 <div 
   class="definition ${multipleResultsDefinition}" 
@@ -1461,7 +1506,7 @@ function displaySearchResults(results, query = "") {
                     ? `<p class="${multipleResultsDefinitionText}">${
                         defaultResult
                           ? makeDefinitionClickable(result.definisjon)
-                          : result.definisjon
+                          : normalizeDefinitionText(result.definisjon)
                       }</p>`
                     : ""
                 }
@@ -1632,7 +1677,7 @@ function generateWordVariationsForSentences(word, pos) {
   }
 
   // Reflexive pronouns to handle reflexive verbs with variations (e.g., "seg", "deg", "meg", "oss", etc.)
-  const reflexivePronouns = ["seg", "deg", "meg", "oss", "dere"];
+  const reflexivePronouns = ["me", "te", "se", "nos", "os"];
 
   // If it's a single word
   if (wordParts.length === 1) {
