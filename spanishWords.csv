@@ -196,6 +196,8 @@ nutrition,B1,feminine,alimentación,,La buena alimentación es importante para l
 feed,A2,verb,alimentar,,Necesitamos alimentar al perro tres veces al día.,We need to feed the dog three times a day.,Dar alimento o nutrir.
 "food, nourishment",B1,masculine,alimento,,Una dieta sana incluye todo tipo de alimentos.,A healthy diet includes all kinds of foods.,Sustancia que sirve de alimento a los seres vivos.
 "dress, flavor",C,verb,aliñar,,Vamos a aliñar la ensalada con aceite de oliva virgen extra.,Let’s dress the salad with extra virgin olive oil.,"Aderezar, condimentar."
+aligned,B2,adjective,alineado,,Los planetas no están perfectamente alineados.,The planets are not perfectly aligned.,Que está en línea recta o colocado de forma ordenada con respecto a algo.
+align,B2,verb,alinear,,Necesitamos alinear los objetivos del proyecto con el presupuesto.,We need to align the project’s goals with the budget.,Poner en línea recta o hacer coincidir con una referencia.
 dressing,B2,masculine,aliño,,El aliño le da un sabor especial a la ensalada.,The dressing gives the salad a special flavor.,Condimento líquido o mezcla que se añade a la comida.
 smooth,C,verb,alisar,,El escultor logró alisar la superficie de la piedra hasta que brilló con un acabado perfecto.,The sculptor managed to smooth the surface of the stone until it shone with a perfect finish.,Hacer que una superficie se vuelva lisa y sin irregularidades.
 over there,A1,adverb,allá,,Allá está la casa de mi abuela.,Over there is my grandmother’s house.,Indica un lugar que está lejos del hablante.
@@ -355,7 +357,10 @@ heart attack,B2,masculine,ataque al corazón,,El paciente sufrió un ataque al c
 tie,A2,verb,atar,,Voy a atar los zapatos bien fuertes.,I am going to tie my shoes tightly.,Unir algo con una cuerda o lazo.
 task,C,verb,atarear,,El exceso de trabajo logró atarearlo durante toda la semana.,The excessive workload kept him busy all week.,Ocuparse en exceso de tareas.
 attention,A2,feminine,atención,,Presta atención a la profesora.,Pay attention to the teacher.,Concentración o interés que se presta a algo.
+attentive,B1,adjective,atento,,El camarero fue muy atento con nosotros.,The waiter was very attentive with us.,Que presta atención y muestra interés o cuidado hacia alguien o algo.
 attest,C,verb,atestiguar,,El testigo puede atestiguar lo que ocurrió esa noche.,The witness can attest to what happened that night.,Dar testimonio.
+athlete,A2,noun,atleta,,El atleta corre todos los días en el estadio.,The athlete runs every day in the stadium.,"Persona que practica un deporte, especialmente en competiciones."
+athletic,B1,adjective,atlético,,Mi hermano es muy atlético y va al gimnasio todos los días.,My brother is very athletic and goes to the gym every day.,"Que tiene cualidades físicas relacionadas con la fuerza, la resistencia o el deporte."
 atmosphere,B2,feminine,atmósfera,,La atmósfera del restaurante era tranquila y elegante.,The restaurant’s atmosphere was calm and elegant.,Capa de gases que rodea la Tierra o un planeta.
 torment,C,verb,atormentar ,,"La culpa parecía atormentarle día y noche, sin darle tregua.","The guilt seemed to torment him day and night, without giving him peace.",Causar tormento o sufrimiento.
 attraction,B2,feminine,atracción,,La atracción que sentía por el arte moderno aumentó tras visitar el museo.,The attraction I felt for modern art increased after visiting the museum.,Cualidad de atraer la atención o el interés.
@@ -419,6 +424,7 @@ under,A1,preposition,bajo,,El gato duerme bajo la mesa.,The cat sleeps under the
 "low, short",A1,adjective,bajo,,Mi hermano es más bajo que yo.,My brother is shorter than me.,Que tiene poca altura o estatura.
 scale,B1,feminine,balanza,,Pesé la maleta en la balanza del aeropuerto.,I weighed the suitcase on the airport scale.,Instrumento para pesar objetos mediante contrapeso.
 ball,A2,masculine,balón,,El niño juega con el balón en el patio.,The child plays with the ball in the yard.,Pelota grande usada en varios deportes.
+basketball,A2,masculine,baloncesto,,El baloncesto es muy popular entre los jóvenes.,Basketball is very popular among young people.,Deporte en el que dos equipos intentan introducir una pelota en la canasta del contrario.
 banana,A1,feminine,banana,LA,La banana está en la mesa.,The banana is on the table.,Fruto alargado y amarillo que se come crudo.
 bathe,A1,verb,bañar,,Voy a bañar al perro.,I’m going to bathe the dog.,Meter a una persona o cosa en agua para lavarla o refrescarla.
 bench,B2,feminine,banca,,La banca del parque está recién pintada.,The park bench is freshly painted.,Conjunto de bancos o sistema financiero de un país.
@@ -448,6 +454,7 @@ baby,A1,masculine,bebé,,El bebé duerme en su cuna.,The baby is sleeping in his
 drink,A1,verb,beber,,Quiero beber agua.,I want to drink water.,Ingerir un líquido.
 drink,A1,feminine,bebida,,"Quiero una bebida fría, por favor.","I would like a cold drink, please.",Líquido que se toma.
 little baby,B2,masculine,bebito,,El bebito duerme profundamente en su cuna.,The little baby is sleeping soundly in his crib.,Niño de muy corta edad.
+baseball,B1,masculine,béisbol,,En Estados Unidos el béisbol es muy importante.,"In the United States, baseball is very important.",Deporte en el que se golpea una pelota con un bate para anotar carreras.
 "belicose, warlike",C,adjective,bélico,,"El discurso tenía un tono claramente bélico, propio de un contexto prebélico.","The speech had a clearly warlike tone, typical of a pre-war context.",Relacionado con la guerra.
 beauty,B1,feminine,belleza ,,La belleza del paisaje me dejó sin palabras.,The beauty of the landscape left me speechless.,Cualidad de lo que es hermoso.
 beautiful,B1,adjective,bello,,La música clásica tiene un sonido realmente bello.,Classical music has a truly beautiful sound.,Que resulta hermoso o agradable a la vista.
@@ -495,6 +502,7 @@ container,A2,masculine,bote,,Hay un bote de tomate en la mesa.,There’s a can o
 bottle,A2,feminine,botella,,Necesito una botella de agua.,I need a bottle of water.,Recipiente de vidrio o plástico con cuello estrecho para líquidos.
 gill,C,feminine,branquia,,El pez mostraba sus branquias abiertas mientras luchaba por obtener oxígeno.,The fish showed its gills open while struggling to get oxygen.,Órgano respiratorio de los peces y de algunos anfibios.
 arm,A1,masculine,brazo,,Me duele el brazo.,My arm hurts.,"Cada una de las extremidades superiores del cuerpo humano, desde el hombro hasta la mano."
+gap,B2,feminine,brecha,,Existe una gran brecha entre ricos y pobres.,There is a big gap between rich and poor.,"Abertura o separación entre dos cosas, o diferencia notable entre personas o grupos."
 brief,B1,adjective,breve,,Te envío un mensaje breve.,I’m sending you a brief message.,De corta duración o extensión.
 brilliant,B1,adjective,brillante,,El cielo está brillante esta noche.,The sky is bright tonight.,Que refleja mucha luz o resalta por su intensidad.
 shine,B1,verb,brillar,,El sol empieza a brillar por la mañana.,The sun begins to shine in the morning.,Despedir luz propia o reflejada.
@@ -672,6 +680,7 @@ ceremony,B1,feminine,ceremonia,,La ceremonia fue muy emocionante para todos.,The
 ceremonial,C,adjective,ceremonial,,Se celebró un acto ceremonial en el palacio.,A ceremonial event was held at the palace.,Relacionado con las ceremonias.
 ceremonially,C,adverb,ceremonialmente,,La pareja caminó ceremonialmente hacia el altar.,The couple walked ceremonially toward the altar.,De manera solemne o ritual.
 lock,B1,feminine,cerradura,,La cerradura está rota.,The lock is broken.,Mecanismo que se coloca en una puerta para cerrarla con llave.
+competition,C,masculine,certamen,,El escritor ganó un certamen literario muy prestigioso.,The writer won a very prestigious literary competition.,"Competición, generalmente cultural, artística o deportiva."
 certainty,B2,feminine,certeza,,Tenemos la certeza de que llegará a tiempo.,We have the certainty that he will arrive on time.,Seguridad total sobre la verdad de algo.
 certification,B2,feminine,certificación ,,Recibió una certificación oficial al terminar el curso.,She received official certification upon completing the course.,"Documento oficial que confirma una habilidad, conocimiento o condición."
 beer,B2,adjective,cervecero,,Visitamos una feria cervecera en Alemania.,We visited a beer fair in Germany.,Relacionado con la fabricación o consumo de cerveza.
@@ -891,6 +900,7 @@ consensus,C,masculine,consenso,,Llegaron a un consenso tras largas negociaciones
 consent,B2,masculine,consentimiento,,El consentimiento es esencial en cualquier relación.,Consent is essential in any relationship.,Aceptación o autorización para realizar algo.
 conservation,B2,feminine,conservación,,La conservación del medio ambiente es fundamental.,The conservation of the environment is essential.,Acción de mantener algo en buen estado.
 conservative,B2,adjective,conservador,,Mi abuelo tiene ideas muy conservadoras en política.,My grandfather has very conservative ideas in politics.,Que defiende las tradiciones y prefiere cambios lentos.
+"conserve, preserve",B1,verb,conservar,,Debemos conservar el agua para el futuro.,We must conserve water for the future.,Mantener algo en buen estado o conservar sus características con el paso del tiempo.
 consider,B1,verb,considerar,,Vamos a considerar todas las opciones antes de decidir.,Let’s consider all the options before deciding.,Pensar detenidamente en algo.
 "with him, with her",B2,pronoun,consigo,,Se llevó los documentos consigo.,He took the documents with him.,Forma pronominal que indica compañía con uno mismo.
 consistent,B2,adjective,consistente,,Necesitamos un enfoque más consistente en el proyecto.,We need a more consistent approach in the project.,Que mantiene firmeza o coherencia.
@@ -1000,6 +1010,8 @@ qualified,B2,adjective,cualificado,,Buscan a una persona cualificada para el pue
 qualify,C,verb,cualificar,,"Para ejercer como traductor oficial, es necesario cualificar mediante un examen estatal.","To work as an official translator, it is necessary to qualify through a state exam.",Dar la preparación necesaria para ser apto.
 "any, anyone",B2,masculine,cualquiera,,"Puedes preguntar a cualquiera, seguro te ayudarán.","You can ask anyone, they'll surely help you.",Cualquier persona o cosa sin especificar.
 when,A1,conjunction,cuando,,¿Cuándo es tu examen?,When is your exam?,Introduce el momento en que ocurre algo.
+"as much as, as many as",B1,pronoun,cuanto,,Tienes tanto dinero cuanto necesitas para viajar.,You have as much money as you need to travel.,Pronombre que introduce una cantidad indeterminada.
+"how much, how many",A2,pronoun,cuánto,,¿Cuánto cuesta esta camiseta?,How much does this T-shirt cost?,Pronombre interrogativo o exclamativo que expresa cantidad.
 "room, quarter",A1,masculine,cuarto,,Mi cuarto es pequeño.,My room is small.,Habitación de una casa o piso.
 fourth,A1,adjective,cuarto,,Mi casa está en el cuarto piso.,My home is on the fourth floor.,Que ocupa la posición número cuatro en una serie.
 four,A1,numeral,cuatro,,Tengo cuatro libros.,I have four books.,Número equivalente a tres más uno.
@@ -1483,6 +1495,7 @@ train,A2,verb,entrenar ,,Me gusta entrenar en el gimnasio tres veces por semana.
 interview,B1,feminine,entrevista,,Tuve una entrevista de trabajo esta mañana.,I had a job interview this morning.,Encuentro en el que se hacen preguntas a alguien.
 interview,B2,verb,entrevistar,,Decidieron entrevistar a los cinco candidatos más cualificados.,They decided to interview the five most qualified candidates.,Realizar preguntas a una persona para obtener información.
 send,A2,verb,enviar,,Voy a enviar una carta a mis abuelos.,I’m going to send a letter to my grandparents.,Mandar algo a otra persona.
+wrapper,C,masculine,envoltorio,,Tiró el envoltorio del caramelo a la papelera.,He threw the candy wrapper into the trash can.,Papel u otro material con el que se cubre o protege un objeto.
 wrap,B1,verb,envolver,,Voy a envolver el regalo con papel bonito.,I’m going to wrap the gift with nice paper.,Cubrir con papel u otro material una cosa.
 "time, era",B2,feminine,época,,Vivieron en la época medieval durante su proyecto de historia.,They lived in the medieval era during their history project.,Periodo de tiempo en la historia.
 "equitable, fair",B2,adjective,equitativo,,Buscamos una solución más equitativa.,We’re looking for a more equitable solution.,Que reparte de manera justa e igualitaria.
@@ -1513,6 +1526,7 @@ slave,B1,masculine,esclavo,,El esclavo trabajaba muchas horas sin descanso.,The 
 broom,B1,feminine,escoba,,Barrí la cocina con una escoba nueva.,I swept the kitchen with a new broom.,Utensilio para barrer el suelo.
 choose,B1,verb,escoger,,"Tardé un rato en escoger el regalo, pero creo que le va a gustar.","It took me a while to choose the gift, but I think they’re going to like it.",Elegir entre varias opciones.
 chosen,B2,adjective,escogido,,El candidato escogido tenía la experiencia más relevante para el puesto.,The chosen candidate had the most relevant experience for the position.,Seleccionado entre varios por considerarse el mejor o más adecuado.
+hide,A2,verb,esconder,,El niño se esconde detrás de la puerta.,The boy hides behind the door.,Poner algo o a alguien en un lugar donde no pueda ser visto.
 "neckline, cleavage",B2,masculine,escote,,Llevaba un vestido con un escote elegante.,She was wearing a dress with an elegant neckline.,Parte delantera del vestido que deja ver el pecho.
 write,A2,verb,escribir,,Voy a escribir una postal desde la playa.,I’m going to write a postcard from the beach.,Representar palabras mediante letras.
 written,B1,adjective,escrito,,El trabajo ya está escrito.,The work is already written.,Que está escrito con palabras.
@@ -1845,6 +1859,7 @@ founder,B2,masculine,fundador ,,El fundador de la empresa sigue involucrado en l
 fundamental,B2,adjective,fundamental,,La reflexión sobre los derechos humanos es fundamental en la educación.,Reflection on human rights is fundamental in education.,Que es esencial o básico.
 foundation,B2,masculine,fundamento ,,El fundamento de su teoría reside en estudios filológicos.,The foundation of his theory lies in philological studies.,Principio o base sobre la que se apoya algo.
 found,B2,verb,fundar ,,Decidieron fundar una asociación para promover la lectura.,They decided to found an association to promote reading.,Crear o establecer una institución o entidad.
+"soccer, football",A1,masculine,fútbol,,El fútbol es mi deporte favorito.,Soccer is my favorite sport.,Deporte en el que dos equipos intentan introducir un balón en la portería contraria.
 future,A2,masculine,futuro,,En el futuro quiero vivir en otro país.,"In the future, I want to live in another country.",Tiempo que está por venir.
 "glasses, eyeglasses",A1,feminine,gafas,SP,Necesito mis gafas para leer.,I need my glasses to read.,Objeto óptico formado por dos lentes unidas que se colocan delante de los ojos para mejorar la visión.
 cookie,A1,feminine,galleta,,La galleta es muy dulce.,The cookie is very sweet.,"Producto alimenticio pequeño, dulce o salado, hecho con harina y horneado."
@@ -1857,6 +1872,7 @@ guarantee,B2,verb,garantizar,,La empresa debe garantizar la seguridad de sus emp
 chickpea,A2,masculine,garbanzo,,El cocido lleva garbanzo.,The stew has chickpeas.,Legumbre redonda y pequeña usada en guisos.
 throat,A2,feminine,garganta,,Me duele la garganta al tragar.,My throat hurts when I swallow.,Conducto interno del cuerpo que comunica la boca con el estómago y los pulmones.
 gas,B1,masculine,gas,,El gas se escapaba de la cocina y olía fuerte.,Gas was leaking from the kitchen and smelled strongly.,Sustancia que se encuentra en estado gaseoso.
+fizzy,B1,adjective,gaseoso,,Me gusta el agua con gas porque es gaseosa.,I like sparkling water because it’s fizzy.,Que está en forma de gas o que contiene gas.
 gasoline,A2,feminine,gasolina,,Necesito gasolina para el coche.,I need gas for the car.,Combustible líquido derivado del petróleo.
 spend,A2,verb,gastar,,Voy a gastar poco dinero en las vacaciones.,I’m going to spend little money on the holidays.,Emplear dinero o recursos en algo.
 expense,B1,masculine,gasto,,Este mes el gasto en electricidad fue más alto de lo normal.,"This month, the electricity expense was higher than usual.",Cantidad de dinero gastada en algo.
@@ -1888,6 +1904,7 @@ manage,B2,verb,gestionar,,Voy a gestionar los permisos.,I’m going to manage th
 gesture,B1,masculine,gesto,,Me hizo un gesto con la mano para que me acercara a la puerta.,They motioned with their hand for me to come closer to the door.,"Movimiento del rostro, las manos u otra parte del cuerpo que expresa una intención, sentimiento o idea."
 gigantic,B1,adjective,gigante,,El rascacielos es una estructura realmente gigante.,The skyscraper is a truly gigantic structure.,De tamaño extraordinariamente grande.
 "turn, revolve",A2,verb,girar ,,Tienes que girar a la izquierda en la próxima calle.,You have to turn left at the next street.,Dar vueltas o cambiar de dirección.
+gland,C,feminine,glándula,,La glándula produce hormonas importantes para el cuerpo.,The gland produces important hormones for the body.,Órgano del cuerpo que produce y segrega sustancias.
 global,B2,adjective,global,,El consenso global sobre el cambio climático exige acciones inmediatas.,Global consensus on climate change demands immediate action.,Que afecta al mundo entero.
 globalization,B2,feminine,globalización,,La globalización ha cambiado la forma en que consumimos y producimos.,Globalization has changed how we consume and produce.,Proceso por el cual los países se interrelacionan a nivel mundial.
 globalize,C,verb,globalizar,,Las grandes corporaciones buscan globalizar sus operaciones para maximizar beneficios.,Large corporations seek to globalize their operations to maximize profits.,Extenderse o hacerse mundial algo.
@@ -1895,6 +1912,7 @@ globe,A2,masculine,globo,,El globo subió al cielo muy rápido.,The balloon rose
 governor,B1,masculine,gobernador,,El gobernador anunció nuevas medidas económicas.,The governor announced new economic measures.,Persona que dirige una provincia o región.
 govern,B2,verb,gobernar,,Los ciudadanos eligen a su alcalde para que gobierne durante cuatro años.,Citizens elect their mayor to govern for four years.,Dirigir o ejercer autoridad sobre un pueblo o territorio.
 government,B1,masculine,gobierno,,El gobierno propone una reforma educativa.,The government is proposing an educational reform.,Conjunto de autoridades que dirigen un país o territorio.
+golf,B1,masculine,golf,,El golf requiere mucha concentración y paciencia.,Golf requires a lot of concentration and patience.,Deporte en el que se golpea una bola con palos para introducirla en hoyos en el suelo.
 "fat, overweight",A2,adjective,gordo,,Ese gato está muy gordo porque come mucho.,That cat is very fat because it eats a lot.,Que tiene exceso de peso.
 "thank you, favor",A2,feminine,gracia,,Muchas gracias por tu ayuda.,Thank you very much for your help.,Cualidad que hace reír o resulta graciosa.
 "degree, grade",B1,masculine,grado,,Para obtener este puesto necesitas un buen grado universitario.,"To get this position, you need a good university degree.",Nivel o medida de intensidad o avance en algo.
@@ -2053,6 +2071,7 @@ imitate,B2,verb,imitar ,,Le gusta imitar las extravagancias de los presentadores
 shocking,B2,adjective,impactante,,Las imágenes del accidente fueron impactantes.,The images of the accident were shocking.,Que causa un fuerte efecto o impresión.
 impact,B2,verb,impactar,,La subida de tipos puede impactar en el mercado inmobiliario.,The rise in interest rates can impact the real estate market.,Chocar contra algo o causar un fuerte efecto o impresión.
 impact,B2,masculine,impacto,,El impacto del cambio climático ya es visible en muchas regiones.,The impact of climate change is already visible in many regions.,Efecto fuerte que produce algo sobre alguien o algo.
+prevent,B2,verb,impedir,,Las nuevas leyes intentan impedir la corrupción.,The new laws try to prevent corruption.,Impedir que algo ocurra o que alguien haga lo que quiere.
 implicitly,C,adverb,implícitamente,,"Aceptó la propuesta, aunque implícitamente expresó sus dudas.","He accepted the proposal, though he implicitly expressed his doubts.",De manera implícita o no expresada directamente.
 implicit,B2,adjective,implícito,,El mensaje tenía un tono implícito de advertencia.,The message had an implicit tone of warning.,Que está incluido de manera no explícita.
 impose,B2,verb,imponer,,El gobierno decidió imponer nuevas reglas de seguridad.,The government decided to impose new safety rules.,Obligar a alguien a hacer algo o a aceptar una norma.
@@ -2211,6 +2230,7 @@ involved,B2,adjective,involucrado,,Estuvo muy involucrado en la organización de
 involve,B2,verb,involucrar,,Vamos a involucrar a más personas en el proyecto.,We’re going to involve more people in the project.,Incluir o hacer formar parte de un todo.
 involuntarily,B2,adverb,involuntariamente,,Actuó involuntariamente.,He acted involuntarily.,De manera no intencionada ni consciente.
 go,A1,verb,ir,,Vamos a ir al cine.,We’re going to the cinema.,Desplazarse de un lugar a otro.
+irony,B2,feminine,ironía,,Su comentario estaba lleno de ironía.,His comment was full of irony.,"Forma de expresión en la que se dice lo contrario de lo que realmente se piensa, con intención crítica o humorística."
 island,A1,feminine,isla,,La isla es pequeña y bonita.,The island is small and pretty.,Porción de tierra rodeada de agua.
 Italian,A1,masculine,italiano,,Mi profesor es italiano.,My teacher is Italian.,Lengua propia de Italia o persona natural de ese país.
 wild boar,C,masculine,jabalí,,El jabalí cruzó el camino de forma inesperada.,The wild boar crossed the road unexpectedly.,"Mamífero salvaje parecido al cerdo, con colmillos."
@@ -2266,7 +2286,9 @@ lash,C,masculine,latigazo,,Recibió un fuerte latigazo al caer de la moto.,He go
 whip,B2,masculine,látigo,,El domador llevaba un látigo para controlar a los animales.,The trainer carried a whip to control the animals.,Instrumento de cuero usado para azotar.
 whip,C,verb,latiguear,,El jinete comenzó a latiguear al caballo para que corriera más rápido.,The rider began whipping the horse to make it run faster.,Dar golpes con el látigo.
 beat,B2,verb,latir,,Su corazón comenzó a latir con fuerza tras la noticia.,His heart began to beat strongly after the news.,Moverse rítmicamente el corazón al bombear sangre.
+washing machine,A2,feminine,lavadora,,La lavadora está en la cocina.,The washing machine is in the kitchen.,Electrodoméstico que sirve para lavar la ropa automáticamente.
 wash,A1,verb,lavar,,Voy a lavar los platos.,I’m going to wash the dishes.,Quitar la suciedad de una cosa con agua u otro producto.
+dishwasher,A2,masculine,lavavajillas,,El lavavajillas está lleno de platos.,The dishwasher is full of dishes.,Electrodoméstico que lava platos y utensilios de cocina de manera automática.
 "ribbon, tie",B2,masculine,lazo,,Ató el regalo con un lazo azul.,He tied the gift with a blue ribbon.,"Cuerda, cinta o unión que ata o simboliza un vínculo."
 "to him, to her",A2,pronoun,le,,Le compré un regalo para su cumpleaños.,I bought him a gift for his birthday.,Pronombre de complemento indirecto de tercera persona.
 loyalty,B2,feminine,lealtad,,Su lealtad a la empresa se demostró cuando rechazó una oferta mejor para terminar el proyecto.,Their loyalty to the company was shown when they turned down a better offer in order to finish the project.,"Fidelidad y compromiso firmes con una persona, causa o institución."
@@ -2568,6 +2590,7 @@ myth,B2,masculine,mito,,El mito del Minotauro es muy conocido.,The myth of the M
 backpack,A2,feminine,mochila,,Mi mochila está en la silla.,My backpack is on the chair.,Bolsa que se lleva en la espalda con correas.
 motion,B2,feminine,moción,,La moción para reformar la ley fue aprobada por mayoría.,The motion to reform the law was approved by a majority.,Propuesta presentada en una reunión.
 manners,B2,masculine,modales,,Los buenos modales reflejan respeto y consideración por los demás.,Good manners reflect respect and consideration for others.,Normas de comportamiento social.
+model,A2,masculine,modelo,,El modelo lleva ropa de verano en el desfile.,The model wears summer clothes in the fashion show.,"Persona que muestra o exhibe algo, o que sirve como ejemplo o patrón."
 moderation,B2,feminine,moderación ,,La moderación en el consumo de azúcar es aconsejable para mantener una buena salud.,Moderation in sugar consumption is advisable to maintain good health.,Actitud de moderar o no excederse.
 moderate,B2,adjective,moderado ,,Adoptaron una postura moderada ante las protestas sociales.,They adopted a moderate stance in response to the social protests.,Que se mantiene en un punto intermedio.
 moderate,C,verb,moderar ,,Decidió moderar su lenguaje tras recibir múltiples quejas por su tono agresivo.,He decided to moderate his language after receiving multiple complaints about his aggressive tone.,Disminuir la intensidad o rigor de algo.
@@ -2842,7 +2865,7 @@ forever,A2,adverb,para siempre,,Te querré para siempre.,I will love you forever
 umbrella,A1,masculine,paraguas ,,Llevo un paraguas porque llueve.,I carry an umbrella because it’s raining.,Objeto que protege de la lluvia y se abre con varillas.
 parallel,B2,adjective,paralelo,,Dibujó dos líneas en paralelo.,He drew two parallel lines.,Que está situado al lado de otro siguiendo la misma dirección.
 paralysis,B2,feminine,parálisis,,La parálisis le afectó una parte del cuerpo.,The paralysis affected one part of his body.,Pérdida de movimiento en una parte del cuerpo.
-paralyze,B2,verb,paralizar,,El miedo puede paralizar a una persona.,Fear can paralyze a person.,Impidir que algo funcione o se mueva.
+paralyze,B2,verb,paralizar,,El miedo puede paralizar a una persona.,Fear can paralyze a person.,Impedir que algo funcione o se mueva.
 stop,A1,verb,parar,,Necesito parar un momento.,I need to stop for a moment.,Detener el movimiento o la acción.
 partially,B2,adverb,parcialmente ,,"El equipo está parcialmente de acuerdo, pero aún quedan puntos por discutir.","The team is partially in agreement, but there are still points to discuss.",De manera incompleta.
 seem,B1,verb,parecer ,,Parece que hoy va a llover.,It seems like it’s going to rain today.,Tener aspecto o causar impresión de algo.
@@ -2892,6 +2915,7 @@ piece,A2,masculine,pedazo,,Quiero un pedazo de pastel.,I want a piece of cake.,P
 order,A2,masculine,pedido,,El pedido llegará a tu casa en tres días.,The order will arrive at your house in three days.,Encargo de algo que se quiere recibir.
 "order, ask for",A2,verb,pedir,,"¿Puedes pedirme una bebida, por favor?","Can you order me a drink, please?",Solicitar algo de manera formal o informal.
 paste,A2,verb,pegar,,Voy a pegar las fotos en el cuaderno.,I'm going to stick the photos in my notebook.,Unir una cosa a otra mediante contacto fuerte.
+fur,C,masculine,pelaje,,El pelaje del lobo es muy espeso en invierno.,The wolf’s fur is very thick in winter.,Conjunto de pelos que cubren el cuerpo de algunos animales.
 "movie, film",A1,feminine,película,,La película es muy divertida.,The movie is very entertaining.,Película cinematográfica que se proyecta en una sala o en pantalla.
 danger,B1,masculine,peligro,,Ese camino tiene mucho peligro por la noche.,That road is very dangerous at night.,Situación en la que existe riesgo de daño.
 dangerously,B2,adverb,peligrosamente,,Cruzó la calle peligrosamente sin mirar.,He crossed the street dangerously without looking.,De manera peligrosa.
@@ -2962,6 +2986,7 @@ request,B2,feminine,petición,,La petición fue aceptada por el ayuntamiento.,Th
 spicy,A2,adjective,picante,,La salsa está muy picante.,The sauce is very spicy.,Que produce sensación de calor en la boca.
 "chop, itch, sting",B2,verb,picar,,Me picó un mosquito mientras caminaba al atardecer.,A mosquito bit me while I was walking at sunset.,Hincar o causar dolor con un objeto puntiagudo.
 foot,A1,masculine,pie,,Me duele el pie.,My foot hurts.,Extremidad inferior del cuerpo humano que se utiliza para caminar.
+athlete's foot,C,masculine,pie de atleta,,El pie de atleta es una infección bastante común.,Athlete’s foot is a fairly common infection.,"Infección por hongos que aparece en los pies, especialmente entre los dedos."
 piety,C,feminine,piedad,,La piedad que mostró hacia el enemigo sorprendió a todos.,The mercy he showed towards the enemy surprised everyone.,Compasión o misericordia hacia el sufrimiento ajeno.
 stone,A1,feminine,piedra,,La piedra es gris.,The stone is gray.,Mineral duro que forma parte de la corteza terrestre.
 philosopher's stone,C,feminine,piedra filosofal,,La llamada piedra filosofal simboliza la búsqueda alquímica de transformación interior.,The so-called philosopher’s stone symbolizes the alchemical quest for inner transformation.,Sustancia mítica que supuestamente permitía obtener la inmortalidad.
@@ -3157,10 +3182,12 @@ property,B2,feminine,propiedad,,Compraron una propiedad en las afueras de Madrid
 intellectual property,B2,feminine,propiedad intelectual,,La propiedad intelectual protege las creaciones artísticas y científicas.,Intellectual property protects artistic and scientific creations.,Derechos legales sobre creaciones intelectuales.
 proprietary,B2,adjective,propietario,,Ese software tiene derechos propietarios.,That software has proprietary rights.,Que posee algo.
 "own, proper",B2,adjective,propio,,Cada comunidad tiene su propio modo de celebrar las fiestas.,Each community has its own way of celebrating parties.,Que pertenece a alguien.
+provide,B2,verb,proporcionar,,La organización quiere proporcionar ayuda a los refugiados.,The organization wants to provide aid to the refugees.,"Dar algo a alguien, especialmente de manera útil o necesaria."
 proposition,B2,feminine,proposición,,Presentó una proposición interesante en la reunión.,He presented an interesting proposition at the meeting.,Propuesta que se ofrece.
 "purpose, resolution",B2,masculine,propósito,,El propósito del taller es mejorar las habilidades comunicativas.,The purpose of the workshop is to improve communication skills.,Intención o finalidad.
 proposal,B2,feminine,propuesta,,Aceptaron la propuesta sin dudar.,They accepted the proposal without hesitation.,Idea que se presenta para ser aceptada.
 "prosper, thrive",B2,verb,prosperar,,"Gracias a su esfuerzo, la empresa prosperó en un mercado competido.","Thanks to his effort, the company thrived in a competitive market.",Salir adelante económicamente o socialmente.
+protect,B1,verb,proteger,,Es importante proteger la naturaleza.,It is important to protect nature.,Defender a alguien o algo frente a un peligro o daño.
 protein,B2,feminine,proteína,,Incluir proteínas en la dieta es fundamental para el crecimiento.,Including proteins in the diet is essential for growth.,Sustancia nutritiva presente en los alimentos.
 protest,B1,feminine,protesta,,Hubo una protesta frente al ayuntamiento.,There was a protest in front of the town hall.,Manifestación pública de desacuerdo.
 protest,B1,verb,protestar,,Los estudiantes decidieron protestar por los cambios.,The students decided to protest the changes.,Expresar desacuerdo mediante palabras o actos.
@@ -3498,6 +3525,7 @@ satisfaction,B2,feminine,satisfacción,,El éxito del proyecto le dio mucha sati
 satisfactory,B2,adjective,satisfactorio,,"Los resultados fueron satisfactorios, aunque aún mejorables.","The results were satisfactory, although they could still be improved.",Que cumple las expectativas y produce satisfacción.
 sauna,B1,feminine,sauna,,Vamos a relajarnos en la sauna.,We’re going to relax in the sauna.,Baño de vapor caliente para relajar el cuerpo.
 reflexive marker,A1,pronoun,se,,Se despierta temprano todos los días.,She wakes up early every day.,Pronombre que indica acción reflejada o pasiva.
+dryer,A2,feminine,secadora,,La secadora no funciona hoy.,The dryer is not working today.,Electrodoméstico que sirve para secar la ropa.
 dry,A2,verb,secar,,Debes secar los platos después de lavarlos.,You must dry the dishes after washing them.,Quitar la humedad de una cosa.
 section,B1,feminine,sección,,La sección de deportes está al final del pasillo.,The sports section is at the end of the hallway.,Parte en que se divide un todo.
 dry,A2,adjective,seco,,El verano en el sur es muy seco.,The summer in the south is very dry.,Que carece de humedad.
@@ -3756,6 +3784,7 @@ early,A1,adjective,temprano,,Me levanté temprano hoy.,I got up early today.,Que
 "tendency, trend",B2,feminine,tendencia ,,La tendencia actual apunta hacia productos ecológicos.,The current trend points towards ecological products.,Inclinación o moda que se sigue.
 have,A1,verb,tener,,Tengo dos hermanos.,I have two brothers.,Poseer o estar en relación con algo.
 sneaker,A2,masculine,tenis,,Mis tenis están sucios.,My sneakers are dirty.,Deporte practicado con raqueta y pelota sobre una pista.
+tennis,A2,masculine,tenis,,El tenis es un deporte muy divertido.,Tennis is a very fun sport.,Deporte que se juega golpeando una pelota con raquetas a través de una red.
 tension,B2,feminine,tensión,,La tensión entre los dos países es evidente.,The tension between the two countries is evident.,Estado de nerviosismo o tensión.
 theory,B2,feminine,teoría ,,Su investigación sobre la teoría cuántica fue premiada.,His research on quantum theory was awarded.,Conjunto de principios que explican un fenómeno.
 therapist,B2,noun,terapeuta,,La terapeuta me ayudó mucho con la ansiedad.,The therapist helped me a lot with my anxiety.,Persona dedicada a la terapia.
@@ -3981,6 +4010,7 @@ vertical,B2,adjective,vertical,,La escalera debe colocarse en posición vertical
 dress,A2,masculine,vestido ,,Me gusta tu vestido nuevo.,I like your new dress.,Prenda que cubre el cuerpo desde los hombros hasta las piernas.
 "wear, dress",A2,verb,vestir,,Voy a vestir ropa cómoda hoy.,I’m going to wear comfortable clothes today.,Ponerse ropa.
 "time, instance",A1,feminine,vez,,Esta es la primera vez que vengo aquí.,This is the first time I’ve come here.,Cada ocasión en que sucede algo.
+route,B1,feminine,vía,,La vía más rápida para llegar al centro es el tren.,The fastest route to get to the center is the train.,Camino o trayecto por el que se puede transitar.
 travel,A2,verb,viajar,,Nos encanta viajar en verano.,We love traveling in summer.,Desplazarse de un lugar a otro por medios de transporte.
 voyage,A2,masculine,viaje,,Nuestro viaje a Italia fue inolvidable.,Our trip to Italy was unforgettable.,Recorrido de un lugar a otro.
 traveler,A2,masculine,viajero,,El viajero toma muchas fotos.,The traveler takes many photos.,Persona que viaja.
@@ -4042,6 +4072,7 @@ I,A1,pronoun,yo,,Yo tengo un perro.,I have a dog.,Pronombre personal de primera 
 yogurt,A1,masculine,yogur,,Tomo yogur después de comer.,I have yogurt after eating.,Producto lácteo fermentado de sabor ácido.
 carrot,A2,feminine,zanahoria,,La zanahoria es buena para los ojos.,Carrots are good for your eyes.,"Raíz comestible de color naranja alargada, utilizada en la alimentación."
 "sap, undermine",C,verb,zapar ,,"La corrupción institucional no solo frena el progreso económico, sino que poco a poco logra zapar los pilares democráticos de un país.",Institutional corruption not only hinders economic progress but gradually saps the democratic foundations of a country.,Quitar tierra de la superficie con una herramienta.
+sneaker,B1,feminine,zapatilla,,Compré unas zapatillas nuevas para correr.,I bought new sneakers for running.,"Calzado ligero y cómodo, a menudo deportivo o de estar en casa."
 shoe,A1,masculine,zapato,,Este zapato no me queda bien.,This shoe doesn’t fit me well.,Calzado que cubre el pie y suele tener suela dura.
 zoo,A2,masculine,zoológico,,El zoológico tiene muchos animales exóticos.,The zoo has many exotic animals.,Lugar donde se mantienen y muestran animales para el público.
 juice,A1,masculine,zumo,SP,Bebo zumo de naranja por la mañana.,I drink orange juice in the morning.,Líquido obtenido al exprimir frutas u hortalizas.
