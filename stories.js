@@ -145,6 +145,13 @@ async function displayStoryList(filteredStories = storyResults) {
     .value.toLowerCase()
     .trim();
 
+  // NEW: read search text (support either id if your HTML differs)
+  const searchInput =
+    document.getElementById("search-bar") ||
+    document.getElementById("stories-search") ||
+    document.getElementById("global-search");
+  const searchText = (searchInput?.value || "").toLowerCase().trim();
+
   // Filter stories based on selected CEFR and genre
   let filtered = filteredStories.filter((story) => {
     const genreMatch = selectedGenre
@@ -154,7 +161,15 @@ async function displayStoryList(filteredStories = storyResults) {
       ? story.CEFR && story.CEFR.trim().toUpperCase() === selectedCEFR
       : true;
     const hasSpanish = story.spanish && story.spanish.trim() !== "";
-    return genreMatch && cefrMatch && hasSpanish;
+    // NEW: title search across ES + EN titles, like JP
+    const matchesSearch =
+      !searchText ||
+      (story.titleSpanish &&
+        story.titleSpanish.toLowerCase().includes(searchText)) ||
+      (story.titleEnglish &&
+        story.titleEnglish.toLowerCase().includes(searchText));
+
+    return genreMatch && cefrMatch && hasSpanish && matchesSearch;
   });
 
   // Shuffle the filtered stories using Fisher-Yates algorithm
@@ -463,9 +478,34 @@ function storiesBackBtn() {
     if (toggles) toggles.remove();
   }
 
-  document.getElementById("type-select").value = "stories";
-  handleTypeChange("stories");
+  // 1) Capture current CEFR/Genre BEFORE changing the UI
+  const cefrElBefore = document.getElementById("cefr-select");
+  const genreElBefore = document.getElementById("genre-select");
+  const savedCEFR = cefrElBefore ? cefrElBefore.value : "";
+  const savedGenre = genreElBefore ? genreElBefore.value : "";
+
+  // 2) Clear ONLY the search box (mirror JP)
+  const searchEl =
+    document.getElementById("search-bar") ||
+    document.getElementById("stories-search") ||
+    document.getElementById("global-search");
+  if (searchEl) searchEl.value = "";
+
+  // 3) If you must switch the type tab, do it now (this may rebuild the filters)
+  const typeSel = document.getElementById("type-select");
+  if (typeSel) typeSel.value = "stories";
+  if (typeof handleTypeChange === "function") handleTypeChange("stories");
+
+  // 4) Re-grab the (possibly re-rendered) selects and restore values
+  const cefrElAfter = document.getElementById("cefr-select");
+  const genreElAfter = document.getElementById("genre-select");
+  if (cefrElAfter) cefrElAfter.value = savedCEFR;
+  if (genreElAfter) genreElAfter.value = savedGenre;
+
+  // 5) Render the list using the restored dropdowns
   displayStoryList();
+
+  // 6) Exit reading mode
   document.documentElement.classList.remove("reading");
 }
 
@@ -542,10 +582,43 @@ async function hasImageByEnglishTitle(titleEnglish) {
   return null;
 }
 
+function isStoriesTabActive() {
+  const typeSelect = document.getElementById("type-select");
+  return typeSelect && typeSelect.value === "stories";
+}
+
 // Initialization on page load
 window.addEventListener("DOMContentLoaded", async () => {
   // Load the story data and wait for it to complete
   await fetchAndLoadStoryData();
   // Now that the data is loaded, check the URL and display based on the URL parameters
   loadStateFromURL();
+
+  // After data is loaded, wire up live filtering like JP:
+  const searchEl =
+    document.getElementById("search-bar") ||
+    document.getElementById("stories-search") ||
+    document.getElementById("global-search");
+  if (searchEl) {
+    searchEl.addEventListener("input", () => {
+      if (isStoriesTabActive()) {
+        displayStoryList();
+      }
+    });
+  }
+  if (cefrEl) {
+    cefrEl.addEventListener("change", () => {
+      if (isStoriesTabActive()) {
+        displayStoryList();
+      }
+    });
+  }
+
+  if (genreEl) {
+    genreEl.addEventListener("change", () => {
+      if (isStoriesTabActive()) {
+        displayStoryList();
+      }
+    });
+  }
 });
