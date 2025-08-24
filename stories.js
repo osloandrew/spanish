@@ -378,8 +378,8 @@ async function displayStory(titleSpanish) {
   // Process story text into sentences
   const standardizedSpanish = selectedStory.spanish.replace(/[“”«»]/g, '"');
   const standardizedEnglish = selectedStory.english.replace(/[“”«»]/g, '"');
-  const sentenceRegex = /(?:(["]?.+?[.!?…]["]?)(?=\s|$)|(?:\.\.\."))/g;
-
+  const sentenceRegex =
+    /(?:(["]?.+?(?<!\bMr)(?<!\bMrs)(?<!\bMs)(?<!\bDr)(?<!\bProf)(?<!\bJr)(?<!\bSr)(?<!\bSt)(?<!\bMt)[.!?…]["]?)(?=\s|$)|(?:\.\.\."))/g;
   let spanishSentences = standardizedSpanish.match(sentenceRegex) || [
     standardizedSpanish,
   ];
