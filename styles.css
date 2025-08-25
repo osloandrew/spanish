@@ -305,6 +305,12 @@ li {
   font-family: "Noto Serif", serif; /* Adjust to the appropriate English font */
 }
 
+.english-title {
+  color: #666;
+  font-family: "Noto Sans", sans-serif; /* English-specific font */
+  font-size: 12.5px;
+}
+
 .error-message {
   align-content: center;
   background-color: #ffffff;
@@ -780,6 +786,17 @@ input[type="text"]:not(:placeholder-shown) + label {
 .japanese-sentence {
   color: black; /* Set a color for Japanese text */
   font-family: "Noto Serif", serif; /* Adjust to the appropriate English font */
+}
+
+.japanese-title {
+  color: #333;
+  display: -webkit-box; /* Creates a block-level flex container */
+  font-family: "Noto Sans JP", sans-serif; /* Japanese-specific font */
+  font-size: 16px;
+  overflow: hidden; /* Hides the overflowing text */
+  text-overflow: ellipsis; /* Adds ellipses when text overflows */
+  -webkit-box-orient: vertical; /* Specifies vertical stacking of lines */
+  -webkit-line-clamp: 1; /* Limits the text to 1 line */
 }
 
 label {
@@ -1494,6 +1511,13 @@ ul {
   text-transform: uppercase;
 }
 
+#stories {
+  align-items: start; /* Ensures consistent alignment */
+  column-gap: 15px;
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+}
+
 .stories-back-btn {
   color: #2e2e2e;
   margin-left: 20px;
@@ -1578,23 +1602,28 @@ ul {
   color: #333;
 }
 
+.stories-list {
+  padding-inline-start: 0px;
+}
+
 .stories-list-item {
   background-color: #ffffff;
   border-radius: 12px;
   box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  margin-bottom: 10px;
+  margin: 0 0 15px 0;
   display: flex;
   justify-content: space-between; /* Space between title/genre and CEFR */
   align-items: center; /* Vertically center the items */
   cursor: pointer;
-  padding: 15px;
+  padding: 7.5px 15px;
   min-height: 60px;
   transition: background-color 0.2s ease, border-color 0.2s ease,
     transform 0.2s ease; /* Subtle transitions */
 }
 
 .stories-list-item:hover {
-  background-color: #f5f5f5; /* Optional: Change background color on hover */
+  box-shadow: 0 6px 15px rgba(0, 0, 0, 0.15); /* Lighter shadow for hover */
+  transform: scale(1.01);
 }
 
 .stories-list-item p {
@@ -2237,6 +2266,10 @@ ul {
   }
   .sticky-title-english {
     font-size: 0.8em;
+  }
+  #stories {
+    display: grid;
+    grid-template-columns: 1fr;
   }
   .stories-back-btn {
     margin-left: 10px;

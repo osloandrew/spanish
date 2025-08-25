@@ -178,50 +178,77 @@ async function displayStoryList(filteredStories = storyResults) {
     [filtered[i], filtered[j]] = [filtered[j], filtered[i]];
   }
 
-  // Generate HTML for the filtered, shuffled stories
-  let htmlString = ""; // Start with an empty string, as we don't need the header anymore.
-
-  for (const story of filtered) {
-    const cefrClass = getCefrClass(story.CEFR); // Determine the CEFR class for styling
-    const genreIcon = genreIcons[story.genre.toLowerCase()] || ""; // Get the appropriate genre icon
-
-    htmlString += `
-                <div class="stories-list-item" data-title="${
-                  story.titleSpanish
-                }" onclick="displayStory('${story.titleSpanish.replace(
-      /'/g,
-      "\\'"
-    )}')">
-                    <div class="stories-content">
-                        <h2>${story.titleSpanish}</h2>
-                        ${
-                          story.titleSpanish !== story.titleEnglish
-                            ? `<p class="stories-subtitle">${story.titleEnglish}</p>`
-                            : ""
-                        }
-                    </div>
-                    <div class="stories-detail-container">
-                        <div class="stories-genre">${genreIcon}</div>  <!-- Genre icon -->
-                        <div class="cefr-value ${cefrClass}">${
-      story.CEFR
-    }</div>  <!-- CEFR label -->
-                    </div>
-                </div>
-            `;
+  // ▶ NEW: populate <ul id="stories"> with <li> items (JP mirror)
+  const container = document.getElementById("results-container");
+  let storyList = document.getElementById("stories");
+  if (!storyList) {
+    storyList = document.createElement("ul");
+    storyList.id = "stories";
+    storyList.className = "stories-list";
+    container.appendChild(storyList);
   }
+  storyList.innerHTML = ""; // clear old list items
 
-  // Join the generated HTML for each story and insert into results container
-  document.getElementById("results-container").innerHTML = htmlString;
-  const listEl = document.getElementById("results-container");
+  filtered.forEach((story) => {
+    const li = document.createElement("li");
+    li.className = "stories-list-item"; // reuse your existing styling class
+    li.style.display = "flex";
+    li.style.justifyContent = "space-between";
+    li.style.alignItems = "center";
+
+    // left: titles (ES over EN if different)
+    const titleContainer = document.createElement("div");
+    titleContainer.classList.add("title-container");
+
+    const es = document.createElement("div");
+    es.classList.add("japanese-title"); // reuse existing class name to avoid CSS churn
+    es.textContent = story.titleSpanish;
+
+    titleContainer.appendChild(es);
+
+    if (story.titleSpanish !== story.titleEnglish) {
+      const en = document.createElement("div");
+      en.classList.add("english-title", "stories-subtitle");
+      en.textContent = story.titleEnglish || "";
+      titleContainer.appendChild(en);
+    }
+
+    // right: genre icon + CEFR
+    const detail = document.createElement("div");
+    detail.classList.add("stories-detail-container");
+
+    const genreDiv = document.createElement("div");
+    genreDiv.classList.add("stories-genre");
+    genreDiv.innerHTML =
+      (story.genre && genreIcons[story.genre.toLowerCase()]) || "";
+
+    const cefrDiv = document.createElement("div");
+    cefrDiv.classList.add("cefr-value", getCefrClass(story.CEFR));
+    cefrDiv.textContent = story.CEFR || "N/A";
+
+    detail.appendChild(genreDiv);
+    detail.appendChild(cefrDiv);
+
+    li.appendChild(titleContainer);
+    li.appendChild(detail);
+
+    // click → open reader (unchanged behavior)
+    li.addEventListener("click", () => displayStory(story.titleSpanish));
+
+    storyList.appendChild(li);
+  });
+
+  // show list / hide reader (unchanged behavior)
   const storyViewer = document.getElementById("story-viewer");
   const storyContent = document.getElementById("story-content");
   const stickyHeader = document.getElementById("sticky-header");
 
-  if (listEl) listEl.style.display = "block"; // show the list
+  container.style.display = "block";
   if (storyViewer) storyViewer.style.display = "none";
-  if (storyContent) storyContent.innerHTML = ""; // clear old story body
-  if (stickyHeader) stickyHeader.classList.add("hidden"); // hide header for now
-  hideSpinner(); // Hide spinner after story list is rendered
+  if (storyContent) storyContent.innerHTML = "";
+  if (stickyHeader) stickyHeader.classList.add("hidden");
+
+  hideSpinner();
 }
 
 async function displayStory(titleSpanish) {
