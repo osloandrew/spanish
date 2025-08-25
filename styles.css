@@ -1758,7 +1758,7 @@ ul {
   box-shadow: rgba(0, 0, 0, 0.1) 0px 4px 10px;
   font-family: "Noto Serif", serif;
   margin: 1em 0;
-  padding: 1em 5em 0 5em;
+  padding: 1em 5em 1em 5em;
 }
 
 #story-content > div {
@@ -2303,7 +2303,7 @@ ul {
 
   #story-content {
     margin: 0.75em 0;
-    padding: 1em 1em 0em 1em;
+    padding: 1em 1em 1em 1em;
   }
   #story-content > div {
     margin-bottom: 15px; /* Margin for each sentence couplet */
