@@ -252,6 +252,8 @@ async function displayStoryList(filteredStories = storyResults) {
 }
 
 async function displayStory(titleSpanish) {
+  document.documentElement.classList.add("reading");
+
   showSpinner(); // Show spinner at the start of story loading
   const searchContainer = document.getElementById("search-container");
   const searchContainerInner = document.getElementById(
@@ -267,7 +269,6 @@ async function displayStory(titleSpanish) {
   }
 
   document.title = selectedStory.titleSpanish + " - Spanish Dictionary";
-  document.documentElement.classList.add("reading");
 
   updateURL(null, "story", null, titleSpanish); // Update URL with story parameter
 

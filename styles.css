@@ -789,14 +789,17 @@ input[type="text"]:not(:placeholder-shown) + label {
 }
 
 .japanese-title {
-  color: #333;
+  color: #3c3c3c;
   display: -webkit-box; /* Creates a block-level flex container */
-  font-family: "Noto Sans JP", sans-serif; /* Japanese-specific font */
-  font-size: 16px;
+  font-family: "Noto Serif", serif; /* Japanese-specific font */
+  font-weight: 350;
+  font-size: 14px;
   overflow: hidden; /* Hides the overflowing text */
   text-overflow: ellipsis; /* Adds ellipses when text overflows */
+  text-transform: uppercase;
+  letter-spacing: 0.4px;
   -webkit-box-orient: vertical; /* Specifies vertical stacking of lines */
-  -webkit-line-clamp: 1; /* Limits the text to 1 line */
+  -webkit-line-clamp: 2; /* Limits the text to 1 line */
 }
 
 label {
@@ -1579,7 +1582,8 @@ ul {
 .stories-detail-container {
   align-items: center; /* Align CEFR and genre vertically */
   display: flex;
-  gap: 10px; /* Add spacing between genre and CEFR */
+  gap: 5px; /* Add spacing between genre and CEFR */
+  margin-left: 10px;
 }
 
 .stories-genre {
@@ -1615,7 +1619,7 @@ ul {
   justify-content: space-between; /* Space between title/genre and CEFR */
   align-items: center; /* Vertically center the items */
   cursor: pointer;
-  padding: 7.5px 15px;
+  padding: 7.5px 12.5px;
   min-height: 60px;
   transition: background-color 0.2s ease, border-color 0.2s ease,
     transform 0.2s ease; /* Subtle transitions */
@@ -1744,11 +1748,15 @@ ul {
 }
 
 .stories-subtitle {
-  font-family: "Noto Sans", sans-serif;
-  font-size: 14px !important;
-  font-weight: 400;
-  color: #5a1a1a !important;
+  font-family: "Noto Sans", sans;
+  font-size: 12px !important;
+  font-weight: 350;
+  color: #666 !important;
+  letter-spacing: 0.25px;
   margin: 0 !important;
+  text-transform: uppercase;
+  -webkit-box-orient: vertical; /* Specifies vertical stacking of lines */
+  -webkit-line-clamp: 1; /* Limits the text to 1 line */
 }
 
 .stories-story-header {
