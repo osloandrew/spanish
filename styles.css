@@ -309,6 +309,8 @@ li {
   color: #666;
   font-family: "Noto Sans", sans-serif; /* English-specific font */
   font-size: 12.5px;
+  -webkit-box-orient: vertical; /* Specifies vertical stacking of lines */
+  -webkit-line-clamp: 1; /* Limits the text to 1 line */
 }
 
 .error-message {
@@ -1748,9 +1750,11 @@ ul {
 }
 
 .stories-subtitle {
+  display: -webkit-box; /* Creates a block-level flex container */
   font-family: "Noto Sans", sans;
   font-size: 12px !important;
   font-weight: 350;
+  overflow: hidden; /* Hides the overflowing text */
   color: #666 !important;
   letter-spacing: 0.25px;
   margin: 0 !important;
