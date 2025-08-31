@@ -926,22 +926,22 @@ li {
 .linkedin-btn {
   align-items: center;
   background-color: white;
-  border: 1px solid #8c3b2e;
+  border: 1px solid #0a66c2;
   border-radius: 4px;
-  color: #8c3b2e;
+  color: #0a66c2;
   cursor: pointer;
   display: inline-flex;
   font-family: "Noto Sans", sans-serif;
   font-size: 13px;
+  height: 30px; /* Match height to the BuyMeACoffee image */
   padding: 2px 15px;
   text-decoration: none;
-  height: 30px; /* Match height to the BuyMeACoffee image */
   transition: background-color 0.2s ease, color 0.2s ease;
 }
 
 .linkedin-btn:hover {
   background-color: #f0f0f0;
-  color: #8c3b2e;
+  color: #0a66c2;
 }
 
 .linkedin-icon {
