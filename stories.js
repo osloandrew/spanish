@@ -4,7 +4,6 @@ let storyResults = []; // Global variable to store the stories
 const genreIcons = {
   action: '<i class="fas fa-bolt"></i>', // Action genre icon
   adventure: '<i class="fas fa-compass"></i>', // Adventure genre icon
-  art: '<i class="fas fa-paint-brush"></i>', // Art genre icon
   biography: '<i class="fas fa-user"></i>', // Biography genre icon
   business: '<i class="fas fa-briefcase"></i>', // Business genre icon
   children: '<i class="fas fa-child"></i>', // Children’s genre icon
