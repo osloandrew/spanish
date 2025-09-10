@@ -351,7 +351,7 @@ async function displayStory(titleSpanish) {
     speedBtn.className = engBtn.className;
     speedBtn.textContent = "1.0×";
     // Small vertical spacing without touching your CSS
-    speedBtn.style.marginBottom = "5px";
+    speedBtn.style.marginBottom = "px";
 
     // Insert above the English button
     rc.insertBefore(speedBtn, engBtn);
@@ -401,7 +401,8 @@ async function displayStory(titleSpanish) {
       if (b) b.textContent = isEnglishVisible ? "Hide English" : "Show English";
     });
 
-  // DIAG 2: robust <audio> creation with <source> elements (mobile-safe)
+  // DIAG 2: force a visible audio control even if the real file is missing
+  // REAL AUDIO: sanitize title and set src; fallback mp3 if m4a fails
   {
     const slot = document.getElementById("sticky-audio-slot");
     if (slot) {
@@ -411,58 +412,22 @@ async function displayStory(titleSpanish) {
         .trim()
         .replace(/\s+/g, " ");
       const enc = encodeURIComponent(rawTitle);
-
       const player = document.createElement("audio");
       player.controls = true;
       player.className = "stories-audio-player";
       player.preload = "metadata";
-      player.setAttribute("playsinline", ""); // iOS consistency
-
-      // Offer MP3 first (widest support), then M4A (AAC)
-      const s1 = document.createElement("source");
-      s1.src = `Resources/Audio/${enc}.mp3`;
-      s1.type = "audio/mpeg";
-
-      const s2 = document.createElement("source");
-      s2.src = `Resources/Audio/${enc}.m4a`;
-      s2.type = "audio/mp4"; // correct MIME for m4a on iOS
-
-      player.appendChild(s1);
-      player.appendChild(s2);
-
+      player.src = `Resources/Audio/${enc}.m4a`;
+      player.onerror = () => {
+        // try mp3, then give up quietly
+        if (player.src.endsWith(".m4a")) {
+          player.onerror = () =>
+            console.warn("[AUDIO]", "mp3 also missing for:", rawTitle);
+          player.src = `Resources/Audio/${enc}.mp3`;
+        }
+      };
       slot.innerHTML = "";
       slot.appendChild(player);
-
-      // Important on iOS when sources are added programmatically
-      try {
-        player.load();
-      } catch {}
-
-      // Apply speed only after metadata is ready (prevents iOS flakiness)
-      player.addEventListener("loadedmetadata", () => {
-        try {
-          player.playbackRate =
-            typeof currentSpeed === "number" ? currentSpeed : 1.0;
-          player.preservesPitch = true;
-          player.mozPreservesPitch = true;
-          player.webkitPreservesPitch = true;
-        } catch {}
-      });
-
-      // Optional diagnostics to see the lifecycle on iOS
-      [
-        "error",
-        "loadedmetadata",
-        "canplay",
-        "canplaythrough",
-        "stalled",
-        "suspend",
-        "waiting",
-      ].forEach((ev) =>
-        player.addEventListener(ev, () => console.log("[AUDIO]", ev, rawTitle))
-      );
-
-      console.log("[AUDIO] sources mounted for:", rawTitle);
+      console.log("[AUDIO] trying:", player.src);
     }
   }
 
