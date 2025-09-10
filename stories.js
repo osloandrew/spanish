@@ -351,7 +351,7 @@ async function displayStory(titleSpanish) {
     speedBtn.className = engBtn.className;
     speedBtn.textContent = "1.0×";
     // Small vertical spacing without touching your CSS
-    speedBtn.style.marginBottom = "8px";
+    speedBtn.style.marginBottom = "5px";
 
     // Insert above the English button
     rc.insertBefore(speedBtn, engBtn);
@@ -407,28 +407,33 @@ async function displayStory(titleSpanish) {
     const slot = document.getElementById("sticky-audio-slot");
     if (slot) {
       // Build a sanitized filename: strip trailing '?', trim, collapse spaces
+      const player = document.createElement("audio");
+      player.controls = true;
+      player.className = "stories-audio-player";
+      player.preload = "metadata";
+      player.setAttribute("playsinline", ""); // harmless on audio, helps iOS consistency
+
       const rawTitle = (selectedStory.titleEnglish || "")
         .replace(/\?+$/, "")
         .trim()
         .replace(/\s+/g, " ");
       const enc = encodeURIComponent(rawTitle);
-      const player = document.createElement("audio");
-      player.controls = true;
-      player.className = "stories-audio-player";
-      player.preload = "metadata";
-      player.src = `Resources/Audio/${enc}.m4a`;
-      player.onerror = () => {
-        // try mp3, then give up quietly
-        if (player.src.endsWith(".m4a")) {
-          player.onerror = () =>
-            console.warn("[AUDIO]", "mp3 also missing for:", rawTitle);
-          player.src = `Resources/Audio/${enc}.mp3`;
-        }
-      };
+
+      // Offer MP3 first, then M4A
+      const s1 = document.createElement("source");
+      s1.src = `Resources/Audio/${enc}.mp3`;
+      s1.type = "audio/mpeg";
+
+      const s2 = document.createElement("source");
+      s2.src = `Resources/Audio/${enc}.m4a`;
+      s2.type = "audio/mp4"; // iOS expects this for .m4a
+
+      player.appendChild(s1);
+      player.appendChild(s2);
+
       slot.innerHTML = "";
       slot.appendChild(player);
-      console.log("[AUDIO] trying:", player.src);
-
+      console.log("[AUDIO] trying sources for:", rawTitle);
       // Re-apply the current speed (if any) to the new audio element
       const speedBtn = document.getElementById("speed-btn");
       if (speedBtn && typeof speedBtn._applyRate === "function") {
