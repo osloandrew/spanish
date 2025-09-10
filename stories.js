@@ -462,12 +462,6 @@ async function displayStory(titleSpanish) {
         player.addEventListener(ev, () => console.log("[AUDIO]", ev, rawTitle))
       );
 
-      // If your speed button exists already, sync its label/aria to current speed
-      const speedBtn = document.getElementById("speed-btn");
-      if (speedBtn && typeof speedBtn._applyRate === "function") {
-        speedBtn._applyRate();
-      }
-
       console.log("[AUDIO] sources mounted for:", rawTitle);
     }
   }
