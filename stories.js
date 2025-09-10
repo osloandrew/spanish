@@ -1,4 +1,5 @@
 let storyResults = []; // Global variable to store the stories
+let currentSpeed = 1.0; // default speed
 
 // Define an object mapping genres to Font Awesome icons
 const genreIcons = {
@@ -337,6 +338,60 @@ async function displayStory(titleSpanish) {
   `;
   }
 
+  // Insert a Speed button *above* the English toggle, with identical styling
+  (function addSpeedButton() {
+    const rc = document.getElementById("right-controls");
+    const engBtn = document.getElementById("toggle-english-btn");
+    if (!rc || !engBtn) return;
+
+    const speedBtn = document.createElement("button");
+    speedBtn.id = "speed-btn";
+    speedBtn.type = "button";
+    // Clone the *exact* classes from the English button for identical styling
+    speedBtn.className = engBtn.className;
+    speedBtn.textContent = "1.0×";
+    // Small vertical spacing without touching your CSS
+    speedBtn.style.marginBottom = "8px";
+
+    // Insert above the English button
+    rc.insertBefore(speedBtn, engBtn);
+
+    const rates = [0.7, 0.8, 0.9, 1];
+    let i = rates.indexOf(currentSpeed);
+    if (i === -1) i = 3; // default to 1.0×
+
+    function label(r) {
+      return "Speed: " + r.toFixed(1).replace(/\.0$/, "");
+    }
+    function applyRate(r) {
+      currentSpeed = r; // update global
+      const audio = document.querySelector("#sticky-audio-slot audio");
+      if (audio) {
+        audio.playbackRate = r;
+        audio.preservesPitch = true;
+        audio.mozPreservesPitch = true;
+        audio.webkitPreservesPitch = true;
+      }
+      speedBtn.textContent = label(r);
+      speedBtn.setAttribute("aria-label", `Playback speed ${r} times`);
+    }
+
+    speedBtn.addEventListener("click", () => {
+      i = (i + 1) % rates.length;
+      applyRate(rates[i]);
+    });
+
+    // initialize button + audio to current global speed
+    applyRate(rates[i]);
+
+    // Expose helpers so newly-created audio can reuse the current rate
+    speedBtn._getRate = () => rates[i];
+    speedBtn._applyRate = () => applyRate(rates[i]);
+
+    // Initialize
+    applyRate(rates[i]);
+  })();
+
   document
     .getElementById("toggle-english-btn")
     ?.addEventListener("click", () => {
@@ -373,6 +428,12 @@ async function displayStory(titleSpanish) {
       slot.innerHTML = "";
       slot.appendChild(player);
       console.log("[AUDIO] trying:", player.src);
+
+      // Re-apply the current speed (if any) to the new audio element
+      const speedBtn = document.getElementById("speed-btn");
+      if (speedBtn && typeof speedBtn._applyRate === "function") {
+        speedBtn._applyRate();
+      }
     }
   }
 
