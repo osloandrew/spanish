@@ -427,6 +427,7 @@ async function displayStory(titleSpanish) {
       };
       slot.innerHTML = "";
       slot.appendChild(player);
+      player.playbackRate = currentSpeed; // ensure it starts at the saved speed
       console.log("[AUDIO] trying:", player.src);
     }
   }
