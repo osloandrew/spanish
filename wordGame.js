@@ -1924,10 +1924,10 @@ function matchesInflectedForm(base, token, gender) {
   // --- 1. Exact match ---
   if (lowerToken === lowerBase) return true;
 
-  // --- 2. Skip prefix heuristics for short words (avoid "Ana" → "a") ---
+  // --- 2. Skip prefix heuristics for short words (avoid "a" → "al") ---
   if (lowerBase.length <= 2) return false;
 
-  // --- 3. Nouns (comprehensive Croatian declension logic) ---
+  // --- 3. Nouns (comprehensive Spanish gender/number patterns) ---
   if (
     gender.startsWith("masculine") ||
     gender.startsWith("feminine") ||
@@ -1936,353 +1936,228 @@ function matchesInflectedForm(base, token, gender) {
     const lemma = lowerBase;
     const token = lowerToken;
 
-    // feminine -a nouns (juha → juhu, žena → ženu, knjiga → knjigu)
+    // feminine -a nouns (casa → casas)
     if (lemma.endsWith("a") && gender.startsWith("feminine")) {
       const stem = lemma.slice(0, -1);
       const femEndings = [
-        "a", // N sg
-        "e", // G sg, N pl
-        "i", // D sg, L sg
-        "u", // A sg
-        "o", // V sg
-        "om", // I sg
-        "ama", // D/L/I pl
+        "a", // singular
+        "as", // plural
       ];
       if (femEndings.some((e) => token === stem + e)) return true;
     }
 
-    // feminine non-a nouns (noć → noći, stvar → stvarima)
-    if (!lemma.endsWith("a") && gender.startsWith("feminine")) {
-      const femAltEndings = ["", "i", "ju", "ima", "ima", "i", "ju"];
-      if (femAltEndings.some((e) => token === lemma + e)) return true;
-    }
-
-    // neuter -o nouns (selo → selu, sela)
-    if (lemma.endsWith("o") && gender.startsWith("neuter")) {
+    // masculine -o nouns (libro → libros)
+    if (lemma.endsWith("o") && gender.startsWith("masculine")) {
       const stem = lemma.slice(0, -1);
-      const neutEndings = ["o", "a", "u", "om", "ima", "u", "m"];
-      if (neutEndings.some((e) => token === stem + e)) return true;
-    }
-
-    // neuter -e nouns (more → mora, moru)
-    if (lemma.endsWith("e") && gender.startsWith("neuter")) {
-      const stem = lemma.slice(0, -1);
-      const neutEndings = ["e", "a", "u", "em", "ima", "u", "m"];
-      if (neutEndings.some((e) => token === stem + e)) return true;
-    }
-
-    // masculine consonant nouns (stol, student)
-    if (
-      gender.startsWith("masculine") ||
-      /[bcčćdđfghjklmnprsštvzž]$/.test(lemma)
-    ) {
-      const stem = lemma;
-      const mascEndings = [
-        "", // N sg
-        "a", // G sg, A sg animate
-        "u", // D/L sg
-        "om", // I sg
-        "e", // V sg
-        "i", // N pl
-        "ovi",
-        "evi", // N pl variants
-        "ima", // D/L/I pl
-        "e", // A pl
-        "a", // G pl
-      ];
+      const mascEndings = ["o", "os"];
       if (mascEndings.some((e) => token === stem + e)) return true;
     }
 
-    // fallback catch-all: if token is same stem + frequent endings
-    const genericEndings = [
-      "",
-      "a",
-      "e",
-      "i",
-      "o",
-      "u",
-      "om",
-      "em",
-      "ama",
-      "ima",
-      "ovi",
-      "evi",
-      "ju",
-    ];
+    // nouns ending in -e (calle → calles)
+    if (lemma.endsWith("e")) {
+      const stem = lemma.slice(0, -1);
+      const eEndings = ["e", "es"];
+      if (eEndings.some((e) => token === stem + e)) return true;
+    }
+
+    // consonant-ending nouns (papel → papeles, mujer → mujeres)
+    if (/[bcdfghjklmnñpqrstvwxyz]$/.test(lemma)) {
+      const mascConEndings = ["", "es"];
+      if (mascConEndings.some((e) => token === lemma + e)) return true;
+      // handle z → c change (luz → luces)
+      if (lemma.endsWith("z") && token === lemma.slice(0, -1) + "ces")
+        return true;
+    }
+
+    // fallback catch-all: common plural variants
+    const genericEndings = ["", "s", "es", "ces"];
     if (genericEndings.some((e) => token === lemma + e)) return true;
   }
 
   // --- 4. Adjectives ---
   if (gender.startsWith("adjective")) {
-    const adjStem = lowerBase.replace(/(an|en|on|in|ar|er|or)$/, "");
+    const adjStem = lowerBase.replace(/(o|a|e|os|as|es)$/, "");
     const adjEndings = [
       "",
-      "i",
-      "a",
       "o",
+      "a",
+      "os",
+      "as",
       "e",
-      "og",
-      "om",
-      "u",
-      "oj",
-      "ima",
-      "ri",
-      "ra",
-      "ro",
-      "rog",
-      "rom",
-      "ru",
+      "es",
+      "ísimo",
+      "ísima",
+      "ísimos",
+      "ísimas",
     ];
     if (adjEndings.some((ending) => lowerToken === adjStem + ending))
       return true;
   }
 
-  // --- 5. Verbs (comprehensive) ---
+  // --- 5. Verbs (comprehensive Spanish conjugation logic) ---
   if (gender.startsWith("verb")) {
     const verbEndings = [
-      "ti",
-      "ći",
-      "m",
-      "š",
-      "",
-      "mo",
-      "te",
-      "ju",
+      "ar",
+      "er",
+      "ir",
+      "ando",
+      "iendo",
+      "ado",
+      "ido",
+      "é",
+      "aste",
+      "ó",
+      "amos",
+      "aron",
+      "í",
+      "iste",
+      "ió",
+      "imos",
+      "ieron",
+      "aba",
+      "abas",
+      "aba",
+      "ábamos",
+      "aban",
+      "ía",
+      "ías",
+      "ía",
+      "íamos",
+      "ían",
+      "aré",
+      "arás",
+      "ará",
+      "aremos",
+      "arán",
+      "eré",
+      "erás",
+      "erá",
+      "eremos",
+      "erán",
+      "iré",
+      "irás",
+      "irá",
+      "iremos",
+      "irán",
+      "aría",
+      "arías",
+      "aríamos",
+      "arían",
+      "ería",
+      "erías",
+      "eríamos",
+      "erían",
+      "iría",
+      "irías",
+      "iríamos",
+      "irían",
       "e",
-      "la",
-      "li",
-      "lo",
-      "le",
-      "o",
-      "ao",
-      "ala",
-      "ali",
-      "ale",
+      "es",
+      "emos",
+      "éis",
+      "en",
+      "a",
+      "as",
+      "amos",
+      "áis",
+      "an",
     ];
 
-    // --- 5a. Handle -jeti verbs (voljeti, željeti, vidjeti) comprehensively ---
-    if (/jeti$/.test(lowerBase)) {
-      const jetiStem = lowerBase.replace(/jeti$/, "");
+    // --- 5a. Identify infinitive group ---
+    let baseStem = lowerBase.replace(/(ar|er|ir)$/, "");
 
-      // Two common stems: volj- / volj → volj + endings (used for voljeti: voliš, vole)
-      // and vowel-shifted stem: volj → vol(i) (used for volim)
-      const altStems = [
-        jetiStem.endsWith("je") ? jetiStem.slice(0, -2) + "i" : jetiStem + "i", // vowel change stem
-        jetiStem.replace(/je$/, ""), // plain je-drop stem
-        jetiStem, // raw stem
-      ];
+    // --- 5b. Simple conjugations ---
+    if (verbEndings.some((end) => lowerToken === baseStem + end)) return true;
 
-      // Extended verb endings: present, infinitive, participles
-      const jetiEndings = [
-        "m",
-        "š",
-        "",
-        "mo",
-        "te",
-        "ju", // present
-        "o",
-        "la",
-        "li",
-        "le",
-        "lo", // past
-        "ti",
-        "ći", // infinitive variants
-      ];
-
-      if (
-        altStems.some((stem) =>
-          jetiEndings.some((end) => lowerToken === stem + end)
-        )
-      )
-        return true;
-    }
-    // --- 5b. Base and simple stem ---
-    const baseStem = lowerBase.replace(/(ti|ći)$/, "");
-    if (verbEndings.some((ending) => lowerToken === baseStem + ending))
-      return true;
-
-    // --- 5c. Handle je → ije alternation (razumjeti → razumijem) ---
-    const altStem1 = baseStem.replace(/je$/, "ije");
-    if (verbEndings.some((ending) => lowerToken === altStem1 + ending))
-      return true;
-
-    // --- 5d. Handle -ovati / -evati verbs (putovati → putujem, kupovati → kupujem) ---
-    if (/(ovati|evati)$/.test(lowerBase)) {
-      const ovStem = lowerBase.replace(/(ovati|evati)$/, "uj");
-      const ovEndings = [
-        "em",
-        "eš",
-        "e",
-        "emo",
-        "ete",
-        "u",
-        "o",
-        "la",
-        "li",
-        "le",
-        "lo",
-      ];
-      if (ovEndings.some((e) => lowerToken === ovStem + e)) return true;
-    }
-
-    // --- 5d. Handle stem alternations for broad verb families ---
-    // Covers zvati→zovem, brijati→brijem, bojati→bojim, sjesti→sjednem, etc.
-
-    const altVerbPatterns = [
-      // zvati-type (a → o shift)
-      {
-        regex: /^(.*)vati$/,
-        replacements: ["$1ov"],
-        endings: [
-          "em",
-          "eš",
-          "e",
-          "emo",
-          "ete",
-          "u",
-          "o",
-          "la",
-          "li",
-          "le",
-          "lo",
-        ],
-      },
-
-      // -jati verbs that insert j before endings (brijati → brijem)
-      {
-        regex: /^(.*)jati$/,
-        replacements: ["$1j"],
-        endings: [
-          "em",
-          "eš",
-          "e",
-          "emo",
-          "ete",
-          "u",
-          "o",
-          "la",
-          "li",
-          "le",
-          "lo",
-        ],
-      },
-
-      // -jati verbs that shift to -jim pattern (bojati → bojim)
-      {
-        regex: /^(.*)jati$/,
-        replacements: ["$1"],
-        endings: [
-          "im",
-          "iš",
-          "i",
-          "imo",
-          "ite",
-          "e",
-          "io",
-          "ila",
-          "ili",
-          "ile",
-          "ilo",
-        ],
-      },
-
-      // sjesti, leći, ležati, etc. (insert je/jeđ)
-      {
-        regex: /^(.*)sti$/,
-        replacements: ["$1jed", "$1jeđ"],
-        endings: [
-          "nem",
-          "neš",
-          "ne",
-          "nemo",
-          "nete",
-          "nu",
-          "o",
-          "la",
-          "li",
-          "le",
-          "lo",
-        ],
-      },
+    // --- 5c. Stem-changing verbs (e→ie, o→ue, e→i) ---
+    const stemChanges = [
+      { from: "e", to: "ie" },
+      { from: "o", to: "ue" },
+      { from: "e", to: "i" },
     ];
-
-    for (const pattern of altVerbPatterns) {
-      const match = lowerBase.match(pattern.regex);
-      if (match) {
-        const stemBase = match[1];
-        for (const repl of pattern.replacements) {
-          const altStem = repl.replace(/\$1/g, stemBase);
-          if (pattern.endings.some((e) => lowerToken === altStem + e))
-            return true;
-        }
+    for (const { from, to } of stemChanges) {
+      const idx = baseStem.lastIndexOf(from);
+      if (idx !== -1) {
+        const changedStem =
+          baseStem.slice(0, idx) + to + baseStem.slice(idx + 1);
+        if (verbEndings.some((end) => lowerToken === changedStem + end))
+          return true;
       }
     }
 
-    // --- 5e. Handle irregular frequent verbs ---
+    // --- 5d. Orthographic changes (buscar → busqué, pagar → pagué, empezar → empecé) ---
+    const orthoPatterns = [
+      { regex: /car$/, repl: "qué" },
+      { regex: /gar$/, repl: "gué" },
+      { regex: /zar$/, repl: "cé" },
+    ];
+    for (const pat of orthoPatterns) {
+      if (pat.regex.test(lowerBase) && lowerToken.endsWith(pat.repl))
+        return true;
+    }
+
+    // --- 5e. Irregular verb families ---
     const irregularMap = {
-      biti: [
-        "sam",
-        "si",
-        "je",
-        "smo",
-        "ste",
-        "su",
-        "bio",
-        "bila",
-        "bilo",
-        "bili",
-        "bile",
+      ser: [
+        "soy",
+        "eres",
+        "es",
+        "somos",
+        "sois",
+        "son",
+        "fui",
+        "fuiste",
+        "fue",
+        "fuimos",
+        "fueron",
       ],
-      imati: [
-        "imam",
-        "imaš",
-        "ima",
-        "imamo",
-        "imate",
-        "imaju",
-        "imao",
-        "imala",
+      estar: [
+        "estoy",
+        "estás",
+        "está",
+        "estamos",
+        "están",
+        "estuve",
+        "estuvo",
+        "estuvieron",
       ],
-      moći: ["mogu", "možeš", "može", "možemo", "možete", "mogu"],
-      htjeti: [
-        "hoću",
-        "hoćeš",
-        "hoće",
-        "hoćemo",
-        "hoćete",
-        "će",
-        "ću",
-        "ćeš",
-        "će",
-        "ćemo",
-        "ćete",
+      ir: ["voy", "vas", "va", "vamos", "vais", "van", "fui", "fue", "fueron"],
+      tener: [
+        "tengo",
+        "tienes",
+        "tiene",
+        "tenemos",
+        "tienen",
+        "tuve",
+        "tuvimos",
       ],
-      ići: ["idem", "ideš", "ide", "idemo", "idete", "idu", "išao", "išla"],
-      reći: ["rekao", "rekla", "rekli", "rečeš", "kaže", "kažem"],
+      venir: ["vengo", "vienes", "viene", "venimos", "vienen"],
+      poder: ["puedo", "puedes", "puede", "podemos", "pueden", "pude", "podía"],
+      hacer: ["hago", "haces", "hace", "hacemos", "hacen", "hizo", "hecho"],
+      decir: ["digo", "dices", "dice", "decimos", "dicen", "dije", "dicho"],
+      poner: ["pongo", "pones", "pone", "pusimos", "puso", "puesto"],
+      saber: ["sé", "sabes", "sabe", "supimos", "supe", "sabía"],
+      querer: ["quiero", "quieres", "quiere", "queremos", "quieren", "quise"],
+      ver: ["veo", "ves", "ve", "vemos", "ven", "vio", "visto"],
+      dar: ["doy", "das", "da", "damos", "dan", "di", "dio", "dado"],
+      oír: ["oigo", "oyes", "oye", "oímos", "oyen", "oí", "oía", "oído"],
     };
     if (irregularMap[lowerBase] && irregularMap[lowerBase].includes(lowerToken))
       return true;
 
-    // --- 5e-bis. Handle -sati / -zati / -tati verbs (pisati→piše, plesati→pleše, gaziti→gazi etc.) ---
-    if (/(sati|zati|tati)$/.test(lowerBase)) {
-      // drop the final 'ati' and add 'še' or 'ze' depending on the stem
-      const sStem = lowerBase.replace(/sati$/, "š");
-      const zStem = lowerBase.replace(/zati$/, "ž");
-      const tStem = lowerBase.replace(/tati$/, "t");
-      const presentEndings = ["em", "eš", "e", "emo", "ete", "u"];
-
-      if (
-        presentEndings.some(
-          (e) =>
-            lowerToken === sStem + e ||
-            lowerToken === zStem + e ||
-            lowerToken === tStem + e
-        )
+    // --- 5f. Reflexive forms (lavarse → me lavo, te lavas, se lava, etc.) ---
+    const reflPronouns = ["me ", "te ", "se ", "nos ", "os "];
+    if (
+      reflPronouns.some((p) => lowerToken.startsWith(p)) &&
+      matchesInflectedForm(
+        base,
+        lowerToken.replace(/^(me|te|se|nos|os)\s+/, ""),
+        "verb"
       )
-        return true;
-    }
+    )
+      return true;
 
-    // --- 5f. Fallback heuristic ---
+    // --- 5g. Fallback heuristic (shared stem prefix) ---
     if (lowerToken.startsWith(baseStem.slice(0, -1))) return true;
   }
 
@@ -2296,281 +2171,134 @@ function applyInflection(base, gender, targetTokenInSentence) {
   const token = targetTokenInSentence?.toLowerCase?.() || null;
 
   // -------------------- helpers --------------------
-  const endsWithCons = (s) => /[bcčćdđfghjklmnprsštvzž]$/.test(s);
+  const endsWithCons = (s) => /[bcdfghjklmnñpqrstvwxyz]$/.test(s);
   const strip = (s, re) => s.replace(re, "");
   const pick = (arr, i) => (i >= 0 && i < arr.length ? arr[i] : arr[0]);
 
-  // Detect features from a seen token (very approximate but systematic)
+  // -------------------- Spanish feature guessers --------------------
   function guessVerbFeatures(tok) {
     if (!tok) return null;
-    // present persons
-    if (/(amo|emo|imo)$/.test(tok))
+    // present indicative endings
+    if (/(amos|emos|imos)$/.test(tok))
       return { tense: "pres", person: 1, number: "pl" };
-    if (/(ate|ete|ite)$/.test(tok))
+    if (/(áis|éis|ís)$/.test(tok))
       return { tense: "pres", person: 2, number: "pl" };
-    if (/(aju|ju|u)$/.test(tok))
-      return { tense: "pres", person: 3, number: "pl" };
-    if (/(am|em|im)$/.test(tok))
-      return { tense: "pres", person: 1, number: "sg" };
-    if (/(aš|eš|iš)$/.test(tok))
-      return { tense: "pres", person: 2, number: "sg" };
-    if (/(a|e|i)$/.test(tok)) return { tense: "pres", person: 3, number: "sg" };
-    // l-participle (past)
-    if (/(ao|o)$/.test(tok))
-      return { tense: "past_l", gender: "m", number: "sg" };
-    if (/la$/.test(tok)) return { tense: "past_l", gender: "f", number: "sg" };
-    if (/lo$/.test(tok)) return { tense: "past_l", gender: "n", number: "sg" };
-    if (/li$/.test(tok)) return { tense: "past_l", gender: "m", number: "pl" };
-    if (/le$/.test(tok)) return { tense: "past_l", gender: "f", number: "pl" };
-    // bare infinitive
-    if (/(ti|ći)$/.test(tok)) return { tense: "inf" };
+    if (/(an|en)$/.test(tok)) return { tense: "pres", person: 3, number: "pl" };
+    if (/(o|oy)$/.test(tok)) return { tense: "pres", person: 1, number: "sg" };
+    if (/(as|es)$/.test(tok)) return { tense: "pres", person: 2, number: "sg" };
+    if (/(a|e)$/.test(tok)) return { tense: "pres", person: 3, number: "sg" };
+    // simple past
+    if (/(é|í)$/.test(tok)) return { tense: "past", person: 1, number: "sg" };
+    if (/(aste|iste)$/.test(tok))
+      return { tense: "past", person: 2, number: "sg" };
+    if (/(ó|ió)$/.test(tok)) return { tense: "past", person: 3, number: "sg" };
+    if (/(aron|ieron)$/.test(tok))
+      return { tense: "past", person: 3, number: "pl" };
+    // participle
+    if (/(ado|ido)$/.test(tok)) return { tense: "pp" };
+    // infinitive
+    if (/(ar|er|ir)$/.test(tok)) return { tense: "inf" };
     return null;
   }
+
   function guessNounFeatures(tok) {
     if (!tok) return null;
-    // frequent sg endings
-    if (/^.+a$/.test(tok))
-      return { number: "sg", kase: "acc_or_gen_or_nom_fem" }; // fem-a ambiguous
-    if (/^.+u$/.test(tok))
-      return { number: "sg", kase: "dat_loc_acc_fem_or_masc" };
-    if (/^.+om$/.test(tok)) return { number: "sg", kase: "inst_masc_neut" };
-    if (/^.+em$/.test(tok))
-      return { number: "sg", kase: "inst_neut_alt_or_dat" };
-    if (/^.+i$/.test(tok))
-      return { number: "sg", kase: "dat_loc_fem_or_nom_pl_masc" };
-    if (/^.+e$/.test(tok))
-      return { number: "sg", kase: "voc_sg_masc_or_nom_pl_fem" };
-    // frequent pl endings
-    if (/^.+i$/.test(tok)) return { number: "pl", kase: "nom_pl_masc" };
-    if (/^.+e$/.test(tok)) return { number: "pl", kase: "nom_acc_pl_fem_neut" };
-    if (/^.+a$/.test(tok)) return { number: "pl", kase: "gen_pl_masc_neut" };
-    if (/^.+ima$/.test(tok))
-      return { number: "pl", kase: "dat_loc_inst_pl_all" };
-    if (/^.+ama$/.test(tok))
-      return { number: "pl", kase: "dat_loc_inst_pl_fem_a" };
-    return null;
+    if (/s$/.test(tok)) return { number: "pl" };
+    return { number: "sg" };
   }
+
   function guessAdjFeatures(tok) {
     if (!tok) return null;
-    // hard adj patterns (short)
-    if (/i$/.test(tok)) return { gender: "m", kase: "nom", number: "sg" };
-    if (/a$/.test(tok)) return { gender: "f", kase: "nom", number: "sg" };
-    if (/o$/.test(tok)) return { gender: "n", kase: "nom", number: "sg" };
-    if (/e$/.test(tok))
-      return { gender: "f", kase: "acc_or_nom_pl", number: "sg" };
-    if (/og$/.test(tok)) return { gender: "m", kase: "gen", number: "sg" };
-    if (/om$/.test(tok))
-      return { gender: "m", kase: "dat_loc_inst", number: "sg" };
-    if (/oj$/.test(tok)) return { gender: "f", kase: "dat_loc", number: "sg" };
-    if (/ima$/.test(tok))
-      return { gender: "x", kase: "dat_loc_inst", number: "pl" };
-    if (/i$/.test(tok)) return { gender: "x", kase: "nom", number: "pl" };
+    if (/os$/.test(tok)) return { gender: "m", number: "pl" };
+    if (/as$/.test(tok)) return { gender: "f", number: "pl" };
+    if (/o$/.test(tok)) return { gender: "m", number: "sg" };
+    if (/a$/.test(tok)) return { gender: "f", number: "sg" };
+    if (/es$/.test(tok)) return { gender: "x", number: "pl" };
+    if (/e$/.test(tok)) return { gender: "x", number: "sg" };
     return null;
   }
 
   // -------------------- reflexives --------------------
-  if (lemma.endsWith(" se")) {
-    const v = lemma.replace(/\s+se$/, "");
+  if (lemma.endsWith("se")) {
+    const v = lemma.replace(/se$/, "");
     const features = guessVerbFeatures(token);
     const inf = inflectVerb(v, features);
     const seFirst = token && /^se\b/.test(token);
-    return seFirst ? `se ${inf}` : `${inf} se`;
+    return seFirst ? `se ${inf}` : `${inf}se`;
   }
 
   // ====================================================
   // ================ VERB INFLECTION ===================
   // ====================================================
   function classifyVerb(lem) {
-    if (/irati$/.test(lem)) return { cls: "IRATI", stem: lem.slice(0, -5) };
-    if (/ovati$/.test(lem)) return { cls: "OVATI", stem: lem.slice(0, -5) };
-    if (/evati$/.test(lem)) return { cls: "EVATI", stem: lem.slice(0, -5) };
-    if (/sati$/.test(lem)) return { cls: "SATI", stem: lem.slice(0, -4) };
-    if (/zati$/.test(lem)) return { cls: "ZATI", stem: lem.slice(0, -4) };
-    if (/tati$/.test(lem)) return { cls: "TATI", stem: lem.slice(0, -4) };
-    if (/jeti$/.test(lem)) return { cls: "JETI", stem: lem.slice(0, -4) }; // voljeti/vidjeti buckets handled later
-    if (/eti$/.test(lem)) return { cls: "ETI", stem: lem.slice(0, -3) };
-    if (/iti$/.test(lem)) return { cls: "ITI", stem: lem.slice(0, -3) };
-    if (/ati$/.test(lem)) return { cls: "ATI", stem: lem.slice(0, -3) };
-    if (/ći$/.test(lem)) return { cls: "CI", stem: lem.slice(0, -2) };
-    return { cls: "OTHER", stem: lem.replace(/(ti|ći)$/, "") };
+    if (/ar$/.test(lem)) return { cls: "AR", stem: lem.slice(0, -2) };
+    if (/er$/.test(lem)) return { cls: "ER", stem: lem.slice(0, -2) };
+    if (/ir$/.test(lem)) return { cls: "IR", stem: lem.slice(0, -2) };
+    return { cls: "OTHER", stem: lem.replace(/(ar|er|ir)$/, "") };
   }
 
   function buildPresent(lem) {
     const irregularPresent = {
-      biti: ["sam", "si", "je", "smo", "ste", "su"],
-      imati: ["imam", "imaš", "ima", "imamo", "imate", "imaju"],
-      moći: ["mogu", "možeš", "može", "možemo", "možete", "mogu"],
-      htjeti: ["hoću", "hoćeš", "hoće", "hoćemo", "hoćete", "hoće"],
-      ići: ["idem", "ideš", "ide", "idemo", "idete", "idu"],
-      reći: ["kažem", "kažeš", "kaže", "kažemo", "kažete", "kažu"],
-      doći: ["dođem", "dođeš", "dođe", "dođemo", "dođete", "dođu"],
-      poći: ["pođem", "pođeš", "pođe", "pođemo", "pođete", "pođu"],
-      ući: ["uđem", "uđeš", "uđe", "uđemo", "uđete", "uđu"],
-      vidjeti: ["vidim", "vidiš", "vidi", "vidimo", "vidite", "vide"],
-      željeti: ["želim", "želiš", "želi", "želimo", "želite", "žele"],
-      voljeti: ["volim", "voliš", "voli", "volimo", "volite", "vole"],
-      razumjeti: [
-        "razumijem",
-        "razumiješ",
-        "razumije",
-        "razumijemo",
-        "razumijete",
-        "razumiju",
-      ],
-      jesti: ["jedem", "jedeš", "jede", "jedemo", "jedete", "jedu"],
-      piti: ["pijem", "piješ", "pije", "pijemo", "pijete", "piju"],
-      znati: ["znam", "znaš", "zna", "znamo", "znate", "znaju"],
-      dati: ["dam", "daš", "da", "damo", "date", "daju"],
-      sjesti: [
-        "sjednem",
-        "sjedneš",
-        "sjedne",
-        "sjednemo",
-        "sjednete",
-        "sjednu",
-      ],
-      leći: ["legnem", "legneš", "legne", "legnemo", "legnete", "legnu"],
-      peći: ["pečem", "pečeš", "peče", "pečemo", "pečete", "peku"],
-      pisati: ["pišem", "pišeš", "piše", "pišemo", "pišete", "pišu"],
+      ser: ["soy", "eres", "es", "somos", "sois", "son"],
+      estar: ["estoy", "estás", "está", "estamos", "estáis", "están"],
+      ir: ["voy", "vas", "va", "vamos", "vais", "van"],
+      tener: ["tengo", "tienes", "tiene", "tenemos", "tenéis", "tienen"],
+      venir: ["vengo", "vienes", "viene", "venimos", "venís", "vienen"],
+      poder: ["puedo", "puedes", "puede", "podemos", "podéis", "pueden"],
+      hacer: ["hago", "haces", "hace", "hacemos", "hacéis", "hacen"],
+      decir: ["digo", "dices", "dice", "decimos", "decís", "dicen"],
+      poner: ["pongo", "pones", "pone", "ponemos", "ponéis", "ponen"],
+      saber: ["sé", "sabes", "sabe", "sabemos", "sabéis", "saben"],
+      querer: ["quiero", "quieres", "quiere", "queremos", "queréis", "quieren"],
+      ver: ["veo", "ves", "ve", "vemos", "veis", "ven"],
+      dar: ["doy", "das", "da", "damos", "dais", "dan"],
+      oír: ["oigo", "oyes", "oye", "oímos", "oís", "oyen"],
     };
-
-    // Return all 6 present forms (for internal feature mapping)
     if (irregularPresent[lem]) return irregularPresent[lem].slice();
 
     const { cls, stem } = classifyVerb(lem);
-
-    // IRATI: organizirati → organiziram
-    if (cls === "IRATI")
+    if (cls === "AR")
       return [
-        stem + "iram",
-        stem + "iraš",
-        stem + "ira",
-        stem + "iramo",
-        stem + "irate",
-        stem + "iraju",
-      ];
-
-    // OVATI/EVATI: putovati/kupovati → putujem/kupujem
-    if (cls === "OVATI" || cls === "EVATI") {
-      const s = stem + "uj";
-      return [s + "em", s + "eš", s + "e", s + "emo", s + "ete", s + "u"];
-    }
-
-    // SATI/ZATI/TATI: plesati→plešem, gaziti/zazati mix→gažem; tati→ćem (approx)
-    if (cls === "SATI") {
-      const s = stem.slice(0, -1) + "š"; // drop s + š
-      return [s + "em", s + "eš", s + "e", s + "emo", s + "ete", s + "u"];
-    }
-    if (cls === "ZATI") {
-      const s = stem.slice(0, -1) + "ž";
-      return [s + "em", s + "eš", s + "e", s + "emo", s + "ete", s + "u"];
-    }
-    if (cls === "TATI") {
-      const s = stem + "ć"; // rough
-      return [s + "em", s + "eš", s + "e", s + "emo", s + "ete", s + "u"];
-    }
-
-    // JETI family: split into voljeti/željeti/razumjeti type vs vidjeti type
-    if (cls === "JETI") {
-      if (/(volj|želj|razumj)/.test(stem)) {
-        const s = stem.replace(/je?$/, "ij");
-        return [s + "em", s + "eš", s + "e", s + "emo", s + "ete", s + "u"];
-      } else {
-        // vidjeti → vidim pattern
-        const s = stem.replace(/je?$/, "i");
-        return [s + "m", s + "š", s + "", s + "mo", s + "te", s + "e"];
-      }
-    }
-
-    // ETI: generalize to -em paradigm
-    if (cls === "ETI") {
-      return [
-        stem + "em",
-        stem + "eš",
-        stem + "e",
-        stem + "emo",
-        stem + "ete",
-        stem + "u",
-      ];
-    }
-
-    // ITI: -im paradigm
-    if (cls === "ITI") {
-      return [
-        stem + "im",
-        stem + "iš",
-        stem + "i",
-        stem + "imo",
-        stem + "ite",
-        stem + "e",
-      ];
-    }
-
-    // ATI: default -am
-    if (cls === "ATI") {
-      return [
-        stem + "am",
-        stem + "aš",
+        stem + "o",
+        stem + "as",
         stem + "a",
-        stem + "amo",
-        stem + "ate",
-        stem + "ju",
+        stem + "amos",
+        stem + "áis",
+        stem + "an",
       ];
-    }
-
-    // CI: approximate as -đem set
-    if (cls === "CI") {
-      const s = stem + "đ";
-      return [s + "em", s + "eš", s + "e", s + "emo", s + "ete", s + "u"];
-    }
-
-    // OTHER: fall back to -em
+    if (cls === "ER")
+      return [
+        stem + "o",
+        stem + "es",
+        stem + "e",
+        stem + "emos",
+        stem + "éis",
+        stem + "en",
+      ];
+    if (cls === "IR")
+      return [
+        stem + "o",
+        stem + "es",
+        stem + "e",
+        stem + "imos",
+        stem + "ís",
+        stem + "en",
+      ];
     return [
-      stem + "em",
-      stem + "eš",
+      stem + "o",
+      stem + "es",
       stem + "e",
-      stem + "emo",
-      stem + "ete",
-      stem + "u",
+      stem + "emos",
+      stem + "éis",
+      stem + "en",
     ];
   }
 
-  function buildLParticiple(lem, g = "m", n = "sg") {
-    // approximate past "l" participle from infinitive
-    const baseStem = lem.replace(/(ti|ći)$/, "");
-    // -ati: -ao/-la/-lo/-li/-le
-    if (/ati$/.test(lem))
-      return g === "m"
-        ? n === "sg"
-          ? baseStem + "ao"
-          : baseStem + "ali"
-        : g === "f"
-        ? n === "sg"
-          ? baseStem + "la"
-          : baseStem + "le"
-        : n === "sg"
-        ? baseStem + "lo"
-        : baseStem + "la"; // neuter pl rare; map to f-pl
-    // -jeti: vidjeti→vidio; voljeti→volio
-    if (/jeti$/.test(lem)) {
-      const s = baseStem + "o";
-      return g === "m"
-        ? n === "sg"
-          ? s
-          : baseStem + "li"
-        : g === "f"
-        ? n === "sg"
-          ? baseStem + "la"
-          : baseStem + "le"
-        : n === "sg"
-        ? baseStem + "lo"
-        : baseStem + "la";
-    }
-    // -iti/-eti/-ći/-ovati/-evati/-irati: default -o / -la / -lo / -li / -le
-    const m = n === "sg" ? baseStem + "o" : baseStem + "li";
-    const f = n === "sg" ? baseStem + "la" : baseStem + "le";
-    const neut = n === "sg" ? baseStem + "lo" : baseStem + "la";
-    return g === "m" ? m : g === "f" ? f : neut;
+  function buildParticiple(lem) {
+    const { cls, stem } = classifyVerb(lem);
+    if (cls === "AR") return stem + "ado";
+    if (cls === "ER" || cls === "IR") return stem + "ido";
+    return stem + "ado";
   }
 
   function inflectVerb(lem, feat) {
@@ -2579,99 +2307,37 @@ function applyInflection(base, gender, targetTokenInSentence) {
       const idx = feat.person - 1 + (feat.number === "pl" ? 3 : 0);
       return pick(present, idx);
     }
-    if (feat && feat.tense === "past_l") {
-      return buildLParticiple(lem, feat.gender || "m", feat.number || "sg");
-    }
+    if (feat && feat.tense === "pp") return buildParticiple(lem);
     if (feat && feat.tense === "inf") return lem;
     // default: 1sg present
     return present[0];
   }
 
   // ====================================================
-  // =============== NOUN DECLENSION ====================
+  // =============== NOUN INFLECTION ====================
   // ====================================================
   function nounForms(lem, g) {
-    // returns a small paradigm slice: sg {nom,gen,dat/loc,acc,inst,voc} + pl {nom,gen,dat/loc/inst,acc}
+    // returns a minimal number system for Spanish nouns
     const forms = { sg: {}, pl: {} };
-    if (g.startsWith("feminine") && lem.endsWith("a")) {
-      const s = lem.slice(0, -1);
-      forms.sg.nom = lem; // žena
-      forms.sg.gen = s + "e"; // žene
-      forms.sg.dat = s + "i"; // ženi
-      forms.sg.acc = s + "u"; // ženu
-      forms.sg.inst = s + "om"; // ženom
-      forms.sg.loc = s + "i"; // ženi
-      forms.sg.voc = s + "o"; // ženo
-      forms.pl.nom = s + "e"; // žene
-      forms.pl.acc = s + "e";
-      forms.pl.gen = s + "a"; // žena (gen pl)
-      forms.pl.dat = s + "ama"; // ženama
-      forms.pl.loc = s + "ama";
-      forms.pl.inst = s + "ama";
-      return forms;
-    }
-    if (g.startsWith("feminine")) {
-      // soft fem: noć/stvar
-      forms.sg.nom = lem;
-      forms.sg.gen = lem + "i";
-      forms.sg.dat = lem + "i";
-      forms.sg.acc = lem;
-      forms.sg.inst = lem + "ju";
-      forms.sg.loc = lem + "i";
-      forms.sg.voc = lem + "i";
-      forms.pl.nom = lem + "i";
-      forms.pl.acc = lem + "i";
-      forms.pl.gen = lem + "i"; // varies; placeholder
-      forms.pl.dat = lem + "ima";
-      forms.pl.loc = lem + "ima";
-      forms.pl.inst = lem + "ima";
-      return forms;
-    }
-    if (g.startsWith("masculine")) {
-      // consonant-ending default, animate/inanimate ambiguity: use -a gen, acc=gen for animate is not inferable here
-      forms.sg.nom = lem; // stol
-      forms.sg.gen = lem + "a"; // stola
-      forms.sg.dat = lem + "u"; // stolu
-      forms.sg.acc = lem; // inanimate default
-      forms.sg.inst = lem + "om"; // stolom
-      forms.sg.loc = lem + "u"; // stolu
-      forms.sg.voc = lem + "e"; // stole (approx)
-      // pl
-      const npl = endsWithCons(lem)
-        ? [lem + "ovi", lem + "evi", lem + "i"]
-        : [lem + "i"];
-      forms.pl.nom = npl[0];
-      forms.pl.acc = npl[0];
-      forms.pl.gen = lem + "a";
-      forms.pl.dat = lem + "ima";
-      forms.pl.loc = lem + "ima";
-      forms.pl.inst = lem + "ima";
-      return forms;
-    }
-    if (g.startsWith("neuter")) {
-      if (/(o|e)$/.test(lem)) {
-        const s = lem.slice(0, -1);
-        forms.sg.nom = lem; // selo/more
-        forms.sg.gen = s + "a"; // sela/mora
-        forms.sg.dat = s + "u"; // selu/moru
-        forms.sg.acc = lem; // =
-        forms.sg.inst = s + (lem.endsWith("o") ? "m" : "m"); // selom/morem
-        forms.sg.loc = s + "u";
-        forms.sg.voc = lem;
-        forms.pl.nom = s + "a"; // sela/mora
-        forms.pl.acc = s + "a";
-        forms.pl.gen = s + "a"; // variable; approximation
-        forms.pl.dat = s + "ima";
-        forms.pl.loc = s + "ima";
-        forms.pl.inst = s + "ima";
-        return forms;
+    if (/(a|o|e)$/.test(lem)) {
+      const s = lem;
+      forms.sg.nom = s;
+      if (/z$/.test(lem)) {
+        forms.pl.nom = lem.slice(0, -1) + "ces";
+      } else if (endsWithCons(lem)) {
+        forms.pl.nom = lem + "es";
+      } else {
+        forms.pl.nom = lem + "s";
       }
+      return forms;
     }
-    // fallback neutral
+    if (endsWithCons(lem)) {
+      forms.sg.nom = lem;
+      forms.pl.nom = lem + "es";
+      return forms;
+    }
     forms.sg.nom = lem;
-    forms.sg.acc = lem;
-    forms.pl.nom = lem;
-    forms.pl.acc = lem;
+    forms.pl.nom = lem + "s";
     return forms;
   }
 
@@ -2679,68 +2345,21 @@ function applyInflection(base, gender, targetTokenInSentence) {
   // ============== ADJECTIVE ENDINGS ===================
   // ====================================================
   function adjForms(lem) {
-    // Hard adjective pattern (velik)
-    // Return minimal but comprehensive grid for agreement
-    const stem = lem.replace(/(an|en|on)$/, "").replace(/(ik|ak|ek|ok)$/, "");
-    function hardAdjBase() {
-      // if it already ends with -an/-en/-on, keep it
-      if (/(an|en|on)$/.test(lem)) return lem.slice(0, -1); // → -a~-e~-o handled via endings
-      if (/(ski|ni|ji)$/.test(lem)) return lem; // invariant-ish stems
-      if (/(ik|ak|ek|ok)$/.test(lem)) return lem; // velik
-      return lem; // fallback
+    const base = lem.replace(/(o|a|e|os|as|es)$/, "");
+    const out = { sg: { m: {}, f: {} }, pl: { m: {}, f: {} } };
+
+    out.sg.m.nom = base + "o";
+    out.sg.f.nom = base + "a";
+    out.pl.m.nom = base + "os";
+    out.pl.f.nom = base + "as";
+
+    // adjectives ending in -e or consonant are invariable for gender
+    if (/(e|ista)$/.test(lem) || endsWithCons(lem)) {
+      out.sg.m.nom = base + "e";
+      out.sg.f.nom = base + "e";
+      out.pl.m.nom = base + "es";
+      out.pl.f.nom = base + "es";
     }
-    const b = hardAdjBase();
-    const out = { sg: { m: {}, f: {}, n: {} }, pl: { m: {}, f: {}, n: {} } };
-
-    // nominatives
-    out.sg.m.nom = /(ik|ak|ek|ok|an|en|on|ski|ni|ji)$/.test(b)
-      ? b.replace(/n?$/, "i")
-      : b + "i";
-    out.sg.f.nom = b.replace(/i?$/, "a");
-    out.sg.n.nom = b.replace(/i?$/, "o");
-
-    // accusatives (animacy ignored; keep mnemonic)
-    out.sg.m.acc = out.sg.m.nom;
-    out.sg.f.acc = out.sg.f.nom.replace(/a$/, "u");
-    out.sg.n.acc = out.sg.n.nom;
-
-    // genitives
-    out.sg.m.gen = b + "og";
-    out.sg.f.gen = b + "e";
-    out.sg.n.gen = b + "og";
-
-    // dat/loc
-    out.sg.m.dat = b + "om";
-    out.sg.f.dat = b + "oj";
-    out.sg.n.dat = b + "om";
-    out.sg.m.loc = out.sg.m.dat;
-    out.sg.f.loc = out.sg.f.dat;
-    out.sg.n.loc = out.sg.n.dat;
-
-    // instrumental
-    out.sg.m.inst = b + "im";
-    out.sg.f.inst = b + "om";
-    out.sg.n.inst = b + "im";
-
-    // plural (common)
-    out.pl.m.nom = b + "i";
-    out.pl.f.nom = b + "e";
-    out.pl.n.nom = b + "a";
-    out.pl.m.acc = out.pl.m.nom;
-    out.pl.f.acc = out.pl.f.nom;
-    out.pl.n.acc = out.pl.n.nom;
-    out.pl.m.gen = b + "ih";
-    out.pl.f.gen = b + "ih";
-    out.pl.n.gen = b + "ih";
-    out.pl.m.dat = b + "im";
-    out.pl.f.dat = b + "im";
-    out.pl.n.dat = b + "im";
-    out.pl.m.loc = out.pl.m.dat;
-    out.pl.f.loc = out.pl.f.dat;
-    out.pl.n.loc = out.pl.n.dat;
-    out.pl.m.inst = b + "im";
-    out.pl.f.inst = b + "im";
-    out.pl.n.inst = b + "im";
 
     return out;
   }
@@ -2748,7 +2367,6 @@ function applyInflection(base, gender, targetTokenInSentence) {
   // ====================================================
   // =============== MAIN DISPATCH ======================
   // ====================================================
-
   if (gender.startsWith("verb")) {
     const feat = guessVerbFeatures(token) || {
       tense: "pres",
@@ -2764,41 +2382,8 @@ function applyInflection(base, gender, targetTokenInSentence) {
     gender.startsWith("neuter")
   ) {
     const grid = nounForms(lemma, gender);
-    // choose by guessed case/number if token present
-    if (token) {
-      const nf = guessNounFeatures(token);
-      if (nf) {
-        // map guessed bucket to an actual slot
-        if (nf.number === "sg") {
-          if (nf.kase === "acc_or_gen_or_nom_fem")
-            return grid.sg.acc || grid.sg.gen || grid.sg.nom;
-          if (nf.kase === "dat_loc_acc_fem_or_masc")
-            return grid.sg.dat || grid.sg.loc || grid.sg.acc || lemma;
-          if (nf.kase === "inst_masc_neut") return grid.sg.inst || lemma;
-          if (nf.kase === "inst_neut_alt_or_dat")
-            return grid.sg.inst || grid.sg.dat || lemma;
-          if (nf.kase === "dat_loc_fem_or_nom_pl_masc")
-            return grid.sg.dat || grid.sg.loc || grid.pl.nom || lemma;
-          if (nf.kase === "voc_sg_masc_or_nom_pl_fem")
-            return grid.sg.voc || grid.pl.nom || lemma;
-        } else if (nf.number === "pl") {
-          if (nf.kase === "nom_pl_masc") return grid.pl.nom || lemma;
-          if (nf.kase === "nom_acc_pl_fem_neut")
-            return grid.pl.acc || grid.pl.nom || lemma;
-          if (nf.kase === "gen_pl_masc_neut") return grid.pl.gen || lemma;
-          if (
-            nf.kase === "dat_loc_inst_pl_all" ||
-            nf.kase === "dat_loc_inst_pl_fem_a"
-          )
-            return grid.pl.dat || grid.pl.loc || grid.pl.inst || lemma;
-        }
-      }
-    }
-    // defaults by gender
-    if (gender.startsWith("feminine") && lemma.endsWith("a"))
-      return grid.sg.acc;
-    if (gender.startsWith("masculine")) return grid.sg.gen;
-    if (gender.startsWith("neuter")) return grid.sg.nom;
+    const nf = token ? guessNounFeatures(token) : null;
+    if (nf && nf.number === "pl") return grid.pl.nom || lemma;
     return grid.sg.nom || lemma;
   }
 
@@ -2806,24 +2391,17 @@ function applyInflection(base, gender, targetTokenInSentence) {
     const grid = adjForms(lemma);
     const af = token ? guessAdjFeatures(token) : null;
     if (af) {
-      if (af.number === "sg") {
-        if (af.kase === "nom") return grid.sg[af.gender || "m"].nom;
-        if (af.kase === "gen")
-          return af.gender === "m" || af.gender === "n"
-            ? grid.sg.m.gen
-            : grid.sg.f.gen;
-        if (af.kase === "dat_loc")
-          return af.gender === "m" || af.gender === "n"
-            ? grid.sg.m.dat
-            : grid.sg.f.dat;
-        if (af.kase === "dat_loc_inst") return grid.sg.m.dat; // approx
-        if (af.kase === "acc_or_nom_pl") return grid.sg.f.nom; // fallback
+      if (af.number === "pl") {
+        return af.gender === "f"
+          ? grid.pl.f.nom
+          : grid.pl.m.nom || grid.pl.f.nom;
       } else {
-        if (af.kase === "nom") return grid.pl.m.nom; // generic pl-nom
-        if (af.kase === "dat_loc_inst") return grid.pl.m.dat;
+        return af.gender === "f"
+          ? grid.sg.f.nom
+          : grid.sg.m.nom || grid.sg.f.nom;
       }
     }
-    // default: nom sg masc
+    // default masculine singular
     return grid.sg.m.nom;
   }
 
