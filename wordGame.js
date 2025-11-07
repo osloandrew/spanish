@@ -2286,16 +2286,6 @@ function matchesInflectedForm(base, token, gender) {
     if (lowerToken.startsWith(baseStem.slice(0, -1))) return true;
   }
 
-  // --- 6. Expressions (including "se" verbs) ---
-  if (gender.startsWith("expression")) {
-    if (lowerBase.endsWith(" se")) {
-      const verbBase = lowerBase.replace(/\s+se$/, "");
-      if (token === "se") return true;
-      if (matchesInflectedForm(verbBase, token, "verb")) return true;
-    }
-    return lowerToken === lowerBase;
-  }
-
   return false;
 }
 
@@ -2837,11 +2827,6 @@ function applyInflection(base, gender, targetTokenInSentence) {
     return grid.sg.m.nom;
   }
 
-  if (gender.startsWith("expression")) {
-    // expressions without "se": keep as-is unless token suggests a verb core
-    return lemma;
-  }
-
   return lemma;
 }
 
@@ -2868,11 +2853,8 @@ function generateClozeDistractors(baseWord, clozedForm, CEFR, gender) {
     if (!g.startsWith(pos)) return false;
     if (noRandom.includes(r.ord.toLowerCase())) return false; // ← add this
     let ord = r.ord.split(",")[0].trim().toLowerCase();
-    if (r.gender.startsWith("expression") && r.ord.includes(" ")) {
-      ord = r.ord.trim().toLowerCase();
-    }
     if (!ord || ord === formattedBase) return false;
-    if (ord.includes(" ") && !gender.startsWith("expression")) return false;
+    if (ord.includes(" ")) return false;
     if (ord.length > 12) return false;
     if (
       r.gender &&
@@ -2952,54 +2934,6 @@ function generateClozeDistractors(baseWord, clozedForm, CEFR, gender) {
     strictDistractors = strictDistractors
       .concat(shuffleArray(extra))
       .slice(0, 3);
-  }
-
-  // --- Special handling for reflexive expressions ending in " se" ---
-  if (gender.startsWith("expression") && baseWord.endsWith(" se")) {
-    const reference = (
-      typeof correctTranslation === "string"
-        ? correctTranslation
-        : formattedClozed
-    )
-      .toLowerCase()
-      .trim();
-    const isPrefixSe = reference.startsWith("se ");
-
-    // 1️⃣ Pull distractors ONLY from other expressions ending in " se"
-    let reflexivePool = results
-      .filter(
-        (r) =>
-          r.gender?.toLowerCase().startsWith("expression") &&
-          r.ord.toLowerCase() !== baseWord &&
-          r.ord.toLowerCase().endsWith(" se") &&
-          r.CEFR === CEFR
-      )
-      .map((r) => r.ord.trim().toLowerCase());
-
-    // 2️⃣ If not enough, pad with any other "expression" from same CEFR
-    if (reflexivePool.length < 3) {
-      const fallbackPool = results
-        .filter(
-          (r) =>
-            r.gender?.toLowerCase().startsWith("expression") &&
-            r.ord.toLowerCase() !== baseWord &&
-            r.CEFR === CEFR
-        )
-        .map((r) => r.ord.trim().toLowerCase());
-      reflexivePool = reflexivePool.concat(fallbackPool);
-    }
-
-    // 3️⃣ Randomize and take 3 unique distractors
-    strictDistractors = shuffleArray(reflexivePool)
-      .filter((d) => d !== formattedClozed)
-      .slice(0, 3);
-
-    // 4️⃣ Align "se" position (prefix vs suffix)
-    strictDistractors = strictDistractors.map((d) => {
-      const clean = d.replace(/\bse\b/g, "").trim();
-      const reflexiveForm = isPrefixSe ? `se ${clean}` : `${clean} se`;
-      return reflexiveForm.trim();
-    });
   }
 
   return strictDistractors;
