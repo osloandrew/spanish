@@ -508,107 +508,68 @@ async function randomWord() {
   hideSpinner(); // Hide the spinner
 }
 
-// Comprehensive Spanish inexact-match generator
+// Function to generate potential inexact matches by removing plural endings, etc.
 function generateInexactMatches(query) {
-  const q = query.toLowerCase().trim();
-  const variations = new Set([q]);
+  const variations = [query.toLowerCase().trim()]; // Always include the base query
 
-  // --- 1. Inflectional suffixes (nouns, adjectives, verbs) ---
+  // Handle common suffixes like 'ing', 'ed', etc.
   const suffixes = [
-    // singular noun/adjective endings
+    // plurals
+    "s",
+    "es",
+    // adverbs
+    "mente",
+    // adjective gender/number
+    "o",
     "a",
-    "e",
-    "i",
+    "os",
+    "as",
+    // common diminutives
+    "ito",
+    "ita",
+    "itos",
+    "itas",
+    // participles and gerunds
+    "ado",
+    "ada",
+    "ados",
+    "adas",
+    "ido",
+    "ida",
+    "idos",
+    "idas",
+    "ando",
+    "iendo",
+    // very common present/preterite endings (short list for recall)
     "o",
-    "u",
-    "om",
-    "em",
-    "u",
-    "om",
-    "omu",
-    "oga",
-    "ega",
-    // plural endings
-    "ama",
-    "ima",
-    "ovima",
-    "evima",
-    "ovima",
-    "ima",
-    "ovi",
-    "evi",
-    "i",
+    "as",
+    "a",
+    "amos",
+    "an",
+    "es",
     "e",
-    // genitive/locative endings
-    "ih",
-    "ama",
-    "ima",
-    "ima",
-    "ima",
-    "ama",
-    "ima",
-    // verb person/tense endings
-    "m",
-    "š",
-    "mo",
-    "te",
-    "ju",
-    "ći",
-    "la",
-    "lo",
-    "li",
-    "le",
-    "o",
-    "ao",
-    "eo",
-    "io",
+    "emos",
+    "en",
+    "í",
+    "iste",
+    "ió",
+    "imos",
+    "ieron",
+    // infinitive recovery helper
+    "r",
+    "ar",
+    "er",
+    "ir",
   ];
-  suffixes.forEach((suf) => {
-    if (q.endsWith(suf) && q.length > suf.length + 2) {
-      variations.add(q.slice(0, -suf.length));
+  suffixes.forEach((suffix) => {
+    if (query.endsWith(suffix)) {
+      variations.push(query.slice(0, -suffix.length));
     }
   });
 
-  // --- 2. Derivational adjective alternations ---
-  // Map of frequent adjectival endings → stem alternations
-  const alternations = [
-    // --- Adjective/adverb alternations ---
-    { from: "nih", to: "an" }, // spolnih → spolan, glavnih → glavan
-    { from: "ni", to: "an" }, // spolni → spolan
-    { from: "ni", to: "en" }, // javni → javen
-    { from: "no", to: "an" }, // sustavno → sustavan, glasno → glasan
-    { from: "no", to: "en" }, // mirno → miren
-    { from: "no", to: "in" }, // tiho → tih / tišin- (approximates)
-    // --- Other derivational adjective endings ---
-    { from: "ski", to: "ak" }, // ljudski → ljudak
-    { from: "ski", to: "an" }, // morski → moran
-    { from: "ški", to: "aš" }, // bošnjački → bošnjak
-    { from: "čki", to: "ak" }, // dječački → dječak
-    { from: "asti", to: "ast" }, // robustni → robustan
-    // --- Verb stems ---
-    { from: "ati", to: "" }, // raditi → rad
-    { from: "jeti", to: "je" }, // htjeti → htje
-    { from: "ći", to: "" }, // ići → i
-    { from: "oga", to: "" }, // genitive adjectives (novoga → nov)
-  ];
-  alternations.forEach(({ from, to }) => {
-    if (q.endsWith(from) && q.length > from.length + 2) {
-      variations.add(q.slice(0, -from.length) + to);
-    }
-  });
-
-  // --- 3. Final vowel normalization (broad recall) ---
-  // Handles cases like "spoln" → "spolan", "glavn" → "glavan"
-  const withFinal = Array.from(variations);
-  withFinal.forEach((base) => {
-    if (base.endsWith("n")) variations.add(base + "an");
-    if (base.endsWith("r")) variations.add(base + "ar");
-    if (base.endsWith("v")) variations.add(base + "an");
-  });
-
-  // --- 4. Deduplication and return ---
-  return Array.from(variations);
+  return variations;
 }
+
 // Perform a search based on the input query and selected POS
 async function search(queryOverride = null) {
   const originalQuery =
@@ -1821,291 +1782,108 @@ function getCefrColor(cefrLevel) {
 }
 
 function generateWordVariationsForSentences(word, pos) {
-  // Purpose: cast a wide net for surface-form matching in Spanish example sentences.
-  // NOTE: This is NOT a full morphological engine—it's a high-coverage heuristic set.
+  const variations = [];
+  const base = word.toLowerCase().trim();
 
-  const v = new Set([word]); // always include lemma/base as given
-  const w = String(word || "").toLowerCase();
+  // Reflexive pronouns in Spanish
+  const reflexivePronouns = ["me", "te", "se", "nos", "os"];
 
-  // --- IRREGULAR EXCEPTIONS ---
-  // Hard-coded lists for the most common irregulars
-  const irregulars = {
-    biti: [
-      "sam",
-      "si",
-      "je",
-      "smo",
-      "ste",
-      "su",
-      "bio",
-      "bila",
-      "bilo",
-      "bili",
-      "bile",
-    ],
-    htjeti: [
-      "ću",
-      "ćeš",
-      "će",
-      "ćemo",
-      "ćete",
-      "će",
-      "htio",
-      "htjela",
-      "htjeli",
-    ],
-    moći: [
-      "mogu",
-      "možeš",
-      "može",
-      "možemo",
-      "možete",
-      "mogu",
-      "mogao",
-      "mogla",
-      "mogli",
-    ],
-    ići: [
-      "idem",
-      "ideš",
-      "ide",
-      "idemo",
-      "idete",
-      "idu",
-      "išao",
-      "išla",
-      "išli",
-    ],
-    doći: [
-      "dođem",
-      "dođeš",
-      "dođe",
-      "dođemo",
-      "dođete",
-      "dođu",
-      "došao",
-      "došla",
-      "došli",
-    ],
-    dati: ["dam", "daš", "da", "damo", "date", "daju", "dao", "dala", "dali"],
-    jesti: [
-      "jedem",
-      "jedeš",
-      "jede",
-      "jedemo",
-      "jedete",
-      "jedu",
-      "jeo",
-      "jela",
-      "jeli",
-    ],
-    vidjeti: [
-      "vidim",
-      "vidiš",
-      "vidi",
-      "vidimo",
-      "vidite",
-      "vide",
-      "vidio",
-      "vidjela",
-      "vidjeli",
-    ],
-    teći: [
-      "tečem",
-      "tečeš",
-      "teče",
-      "tečemo",
-      "tečete",
-      "teku",
-      "tekao",
-      "tekla",
-      "tekli",
-    ],
-    čovjek: ["ljudi"], // irregular plural
-    dijete: ["djeca", "djeteta", "djeci", "djecu"],
-    otac: ["očevi", "oca", "ocu", "ocem"],
-    majka: ["majke", "majci", "majkom"],
-  };
-
-  if (irregulars[w]) {
-    irregulars[w].forEach((f) => v.add(f));
-  }
-
-  // --- crude stems for Spanish (heuristic, not full morphology) ---
-  let verbStem = w;
-  let adjStem = w;
-  let nounStem = w;
-
-  // --- VERBS ---
-  // infinitive -ti → bare stem
-  if (verbStem.endsWith("ti")) {
-    verbStem = verbStem.replace(/ti$/, ""); // učiti → uči-
-  }
-  // catch a few irregular infinitives (just broaden recall, not perfect)
-  if (/ći$/.test(w)) {
-    // ići, doći, moći → strip -ći
-    verbStem = w.replace(/ći$/, "");
-  }
-  if (/jeti$/.test(w)) {
-    // htjeti → htje- (approximate)
-    verbStem = w.replace(/jeti$/, "je");
-  }
-
-  // --- ADJECTIVES ---
-  if (/(an|en|in)$/.test(adjStem)) {
-    // važan → važn, sretan → sretn, jedinstven → jedinstven
-    adjStem = adjStem.replace(/(an|en|in)$/, "n");
-  } else if (/(ak|ek|ik)$/.test(adjStem)) {
-    // težak → tešk-, lagan → lagan/lag-, velik → velik/velik-
-    adjStem = adjStem.replace(/(ak|ek|ik)$/, "k");
-  } else if (/d$/.test(adjStem)) {
-    // mlad → mlad- (don’t strip vowel)
-    adjStem = adjStem;
-  } else {
-    // regular endings: mali/mala/malo, dobar/dobra/dobro
-    adjStem = adjStem.replace(/(i|a|o|e)$/, "");
-  }
-
-  // --- NOUNS ---
-  // default: strip final vowel (žena → žen-, selo → sel-)
-  nounStem = w.replace(/(a|o|e|i)$/, "");
-
-  // special noun patterns
-  if (/ac$/.test(w)) {
-    // otac → očev-, mladić/vojnik handled elsewhere
-    nounStem = w.replace(/ac$/, "c");
-  }
-  if (/ik$/.test(w)) {
-    // vojnik → vojnici
-    nounStem = w.replace(/ik$/, "k");
-  }
-  if (/ost$/.test(w)) {
-    // mladost → mladost(i)
-    nounStem = w; // leave whole, since stem doesn’t shorten
-  }
-  if (/et$/.test(w)) {
-    // dijete → djece (irregular, approximate only)
-    nounStem = w.replace(/et$/, "ec");
-  }
-
-  if (pos === "noun") {
-    // Frequent noun endings across genders (sg/pl, common cases).
-    // This is purposely redundant across genders to maximize recall.
-    [
-      "a", // gen sg (žena → žene; selo → sela (also nom/acc pl neuter))
-      "e", // nom/acc pl fem; voc sg masc; acc sg fem
-      "i", // dat sg fem; nom pl masc
-      "u", // loc sg; acc sg masc/neut (many)
-      "o", // nom sg neuter (selo)
-      "om", // instr sg masc/neut
-      "em", // dat/loc sg masc (soft stems)
-      "ama", // dat/loc/instr pl fem
-      "ima", // dat/loc/instr pl masc/neut
-      "ovi", // nom pl masc (grad → gradovi)
-      "evima", // dat/loc/instr pl masc alt pattern
-      "ovima", // dat/loc/instr pl masc alt (gradovima)
-      "ih", // gen pl (many paradigms)
-    ].forEach((end) => v.add(nounStem + end));
-  } else if (pos === "adjective") {
-    // Core agreement + oblique + degrees.
-    // Key fix: include neuter sg "-o" (e.g., selo je malo).
-    [
-      "i", // masc pl (dobri)
-      "a", // fem sg (dobra)
-      "e", // fem pl (dobre)
-      "o", // neut sg (dobro)  ← critical fix for "malo"
-      "og", // gen/acc (anim) masc sg (dobrog)
-      "ega", // alt gen/acc masc sg (dobroga)
-      "om", // dat/loc masc/neut sg (dobrom)
-      "oj", // dat/loc fem sg (dobroj)
-      "im", // dat/loc/inst pl (dobrim)  ← adjectives take -im (not -ima)
-      "ih", // gen pl (dobrih)
-    ].forEach((end) => v.add(adjStem + end));
-
-    // Special case: adjectives ending in -an / -en / -in
-    // These often keep the whole "an/en/in" before endings.
-    if (/(an|en|in)$/.test(w)) {
-      ["a", "o", "i", "e", "og", "ega", "om", "oj", "im", "ih"].forEach(
-        (end) => {
-          v.add(w.replace(/(an|en|in)$/, "$1") + end);
-        }
+  // If it's a verb
+  if (pos === "verb") {
+    if (base.endsWith("ar")) {
+      const stem = base.slice(0, -2);
+      variations.push(
+        base, // infinitive
+        stem + "o", // yo hablo
+        stem + "as", // tú hablas
+        stem + "a", // él habla
+        stem + "amos", // nosotros hablamos
+        stem + "áis", // vosotros habláis
+        stem + "an" // ellos hablan
       );
+    } else if (base.endsWith("er")) {
+      const stem = base.slice(0, -2);
+      variations.push(
+        base,
+        stem + "o", // yo como
+        stem + "es", // tú comes
+        stem + "e", // él come
+        stem + "emos", // nosotros comemos
+        stem + "éis", // vosotros coméis
+        stem + "en" // ellos comen
+      );
+    } else if (base.endsWith("ir")) {
+      const stem = base.slice(0, -2);
+      variations.push(
+        base,
+        stem + "o", // yo vivo
+        stem + "es", // tú vives
+        stem + "e", // él vive
+        stem + "imos", // nosotros vivimos
+        stem + "ís", // vosotros vivís
+        stem + "en" // ellos viven
+      );
+    } else {
+      variations.push(base);
     }
-
-    // Comparative patterns (cover common alternations)
-    v.add(adjStem + "ji");
-    v.add(adjStem + "iji");
-    v.add(adjStem + "ši"); // e.g., lak → lakši (irregular class)
-
-    // Superlative = "naj-" + comparative
-    v.add("naj" + adjStem + "ji");
-    v.add("naj" + adjStem + "iji");
-    v.add("naj" + adjStem + "ši");
-  } else if (pos === "verb") {
-    // PRESENT: cover all three theme-vowel classes (-a-, -e-, -i-)
-    // 1sg
-    v.add(verbStem + "m"); // generic (if theme vowel already present)
-    v.add(verbStem + "am"); // radim/radam (cover -a- class)
-    v.add(verbStem + "em"); // pišem (-e- class)
-    v.add(verbStem + "im"); // učim (-i- class)
-    // 2sg
-    v.add(verbStem + "š");
-    v.add(verbStem + "aš");
-    v.add(verbStem + "eš");
-    v.add(verbStem + "iš");
-    // 3sg
-    v.add(verbStem); // some lemmatizers yield bare stem—keep it
-    v.add(verbStem + "a");
-    v.add(verbStem + "e");
-    v.add(verbStem + "i");
-    // 1pl
-    v.add(verbStem + "mo");
-    v.add(verbStem + "amo");
-    v.add(verbStem + "emo");
-    v.add(verbStem + "imo");
-    // 2pl
-    v.add(verbStem + "te");
-    v.add(verbStem + "ate");
-    v.add(verbStem + "ete");
-    v.add(verbStem + "ite");
-    // 3pl
-    v.add(verbStem + "u");
-    v.add(verbStem + "ju");
-    v.add(verbStem + "e");
-    v.add(verbStem + "aju");
-
-    // PAST (L-participle) — cover gender/number
-    v.add(verbStem + "o"); // masc sg (radio/jeo pattern varies by lemma, but -o helps matching)
-    v.add(verbStem + "la"); // fem sg
-    v.add(verbStem + "lo"); // neut sg
-    v.add(verbStem + "li"); // masc/mixed pl
-    v.add(verbStem + "le"); // fem pl
-    v.add(verbStem + "la"); // neut pl
-
-    // IMPERATIVE (common shapes)
-    v.add(verbStem + "j"); // dođi-type often surfaces as -j after palatalization
-    v.add(verbStem + "jte"); // pl
-    v.add(verbStem + "i"); // piši / uči
-    v.add(verbStem + "imo"); // pišimo
-    v.add(verbStem + "ite"); // pišite
-    v.add(verbStem + "aj"); // -ati class: radi → radi / (radi!) ~ rad(i)/rad(i)!; many -aj imperatives surface
-    v.add(verbStem + "ajte"); // -ajte
-
-    // FUTURE I (periphrastic) — keep separated with space
-    ["ću", "ćeš", "će", "ćemo", "ćete", "će"].forEach((aux) =>
-      v.add(w + " " + aux)
-    );
-
-    // CONDITIONAL (bih/bi/bismo/biste/bi)
-    ["bih", "bi", "bismo", "biste", "bi"].forEach((aux) =>
-      v.add(w + " " + aux)
-    );
-  } else {
-    // other POS: just return base
-    v.add(word);
   }
 
-  return Array.from(v);
+  // If it's a noun
+  else if (pos === "noun") {
+    if (base.endsWith("o")) {
+      // masculine pattern
+      variations.push(
+        base, // libro
+        base.slice(0, -1) + "os" // libros
+      );
+    } else if (base.endsWith("a")) {
+      // feminine pattern
+      variations.push(
+        base, // casa
+        base.slice(0, -1) + "as" // casas
+      );
+    } else if (base.endsWith("e")) {
+      // -e nouns: coche → coches
+      variations.push(base, base + "s");
+    } else {
+      // default pluralization with -es
+      variations.push(base, base + "es");
+    }
+  }
+
+  // If it's an adjective
+  else if (pos === "adjective") {
+    if (base.endsWith("o")) {
+      const stem = base.slice(0, -1);
+      variations.push(
+        stem + "o", // alto
+        stem + "a", // alta
+        stem + "os", // altos
+        stem + "as" // altas
+      );
+    } else if (base.endsWith("e") || base.endsWith("l") || base.endsWith("r")) {
+      // invariable in gender, just add plural
+      variations.push(base, base + "s", base + "es");
+    } else {
+      variations.push(base);
+    }
+  }
+
+  // Handle reflexive verbs (e.g. "lavarse")
+  if (base.endsWith("se") && pos === "verb") {
+    const infinitive = base.slice(0, -2); // "lavar"
+    reflexivePronouns.forEach((pronoun) => {
+      variations.push(infinitive + " " + pronoun);
+      variations.push(infinitive + pronoun); // joined form: lavarme, lavarte...
+    });
+  }
+
+  // Always include the base itself if missing
+  if (!variations.includes(base)) {
+    variations.push(base);
+  }
+
+  return [...new Set(variations)]; // dedupe
 }
 
 function renderSentenceMatchesFromCorpus(rows, query) {
