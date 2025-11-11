@@ -2414,7 +2414,7 @@ function generateClozeDistractors(baseWord, clozedForm, CEFR, gender) {
   const isUninflected = clozedForm.trim() === baseWord.trim(); // key fix
 
   // --- derive a dynamic ending pattern from the actual clozed form ---
-  const dynamicEnding = formattedClozed.match(/([a-zćčđšž]{1,4})$/i);
+  const dynamicEnding = formattedClozed.match(/([a-záéíóúüñ]{1,4})$/i);
   const dynamicEndingPattern = dynamicEnding
     ? new RegExp(dynamicEnding[1] + "$", "i")
     : null;
@@ -2456,7 +2456,7 @@ function generateClozeDistractors(baseWord, clozedForm, CEFR, gender) {
     .filter(
       (w) =>
         w !== formattedClozed &&
-        /^[a-zA-ZæøåÆØÅ]/.test(w) &&
+        /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]/.test(w) &&
         (isUninflected || endingPattern.test(w))
     );
 
@@ -2483,7 +2483,7 @@ function generateClozeDistractors(baseWord, clozedForm, CEFR, gender) {
       .filter(
         (w) =>
           w !== formattedClozed &&
-          /^[a-zA-ZæøåÆØÅ]/.test(w) &&
+          /^[a-zA-ZáéíóúüñÁÉÍÓÚÜÑ]/.test(w) &&
           (isUninflected || endingPattern.test(w))
       );
 

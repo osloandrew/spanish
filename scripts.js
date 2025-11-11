@@ -1970,7 +1970,7 @@ function highlightQuery(sentence, query) {
   );
 
   // Define a regex pattern that includes Spanish characters and dynamically inserts the query
-  const spanishLetters = "[\\wčćđšžČĆĐŠŽ]"; // Include Spanish letters in the pattern
+  const spanishLetters = "[\\wáéíóúüñÁÉÍÓÚÜÑ]"; // Include Spanish letters in the pattern
   const regex = new RegExp(
     `(${spanishLetters}*${query}${spanishLetters}*)`,
     "gi"
@@ -2051,7 +2051,7 @@ function renderSentencesHTML(sentenceResults, wordVariations) {
 
         if (matchedVariation) {
           // Use a regular expression to match the full word containing any of the variations
-          const spanishPattern = "[\\wčćđšžČĆĐŠŽ]"; // Pattern including Spanish letters
+          const spanishPattern = "[\\wáéíóúüñÁÉÍÓÚÜÑ]"; // Pattern including Spanish letters
           const regex = new RegExp(
             `(${spanishPattern}*${matchedVariation}${spanishPattern}*)`,
             "gi"
